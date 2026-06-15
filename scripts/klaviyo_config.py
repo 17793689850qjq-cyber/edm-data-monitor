@@ -24,7 +24,7 @@ REGIONS: list[RegionConfig] = [
     RegionConfig("CA", "CAD", 5.03, "YmMFzF"),
     RegionConfig("UK", "GBP", 9.31, "WXjPEV"),
     RegionConfig("FR", "EUR", 8.12, "SbKHJs"),
-    RegionConfig("DE", "EUR", 8.12, None),
+    RegionConfig("DE", "EUR", 8.12, "Y2sa8i"),
     RegionConfig("IT", "EUR", 8.12, "Th8NgK"),
     RegionConfig("EU", "EUR", 8.12, "UagBZw"),
     RegionConfig("ES", "EUR", 8.12, "X6FQfb"),

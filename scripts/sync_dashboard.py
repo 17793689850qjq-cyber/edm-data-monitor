@@ -25,6 +25,7 @@ from klaviyo_config import (
 from entity_cache import EntityCache
 from ranking import (
     build_flow_alerts,
+    build_flow_insights,
     build_site_playbook,
     rank_items,
     to_flow_why_item,
@@ -287,6 +288,7 @@ def sync_region(region: RegionConfig, seed_why: dict) -> dict:
 
     camp_agg = agg_metrics(camp_rows) if camp_rows else _empty_metrics()
     flow_agg = agg_metrics(flow_rows) if flow_rows else _empty_metrics()
+    flow_alerts = build_flow_alerts(flows, region.code, ccy)
 
     return {
         "region": region.code,
@@ -296,8 +298,16 @@ def sync_region(region: RegionConfig, seed_why: dict) -> dict:
         "campaignGmvCny": round(camp_agg["gmv"] * region.fx_to_cny, 0),
         "flowGmvCny": round(flow_agg["gmv"] * region.fx_to_cny, 0),
         "siteWhy": site_why,
-        "sitePlaybook": build_site_playbook(region.code, site_why, seed_block),
-        "flowAlerts": build_flow_alerts(flows, region.code, ccy),
+        "sitePlaybook": build_site_playbook(
+            region.code,
+            site_why,
+            seed_block,
+            ccy=ccy,
+            camp_avg=camp_agg,
+            flow_avg=flow_agg,
+        ),
+        "flowAlerts": flow_alerts,
+        "flowInsights": build_flow_insights(flows, region.code, ccy, site_why, flow_alerts),
     }
 
 
@@ -306,6 +316,8 @@ def build_dashboard() -> dict:
     site_why: dict = {}
     site_playbook: dict = {}
     flow_alerts: list[dict] = []
+    flow_insights: dict = {}
+    flow_index: list[dict] = []
     errors: list[str] = []
     seed_why = load_seed_why()
 
@@ -317,6 +329,9 @@ def build_dashboard() -> dict:
             site_why[region.code] = data["siteWhy"]
             site_playbook[region.code] = data["sitePlaybook"]
             flow_alerts.extend(data["flowAlerts"])
+            for item in data["flowInsights"]:
+                flow_insights[item["id"]] = item
+                flow_index.append(item)
             print(f"OK {region.code}", file=sys.stderr)
         except Exception as e:
             msg = f"{region.code}: {e}"
@@ -337,6 +352,7 @@ def build_dashboard() -> dict:
     d = delivered or 1
 
     flow_alerts.sort(key=lambda a: (a["priority"], a["region"]))
+    flow_index.sort(key=lambda x: (x["metrics"]["gmv"], x["metrics"]["recipients"]), reverse=True)
 
     return {
         "meta": {
@@ -364,6 +380,8 @@ def build_dashboard() -> dict:
         "rows": rows,
         "siteWhy": site_why,
         "sitePlaybook": site_playbook,
+        "flowInsights": flow_insights,
+        "flowIndex": flow_index,
         "successPlaybook": SUCCESS_PLAYBOOK,
         "failurePlaybook": FAILURE_PLAYBOOK,
         "flowAlerts": flow_alerts,

@@ -273,7 +273,7 @@ function renderOverviewTable() {
     .join("");
 }
 
-function renderEmailList(items, kind) {
+function renderEmailList(items, kind, region, type = "campaign") {
   if (!items?.length) return `<p class="hint">暂无数据</p>`;
   return items
     .map((item) => {
@@ -281,13 +281,22 @@ function renderEmailList(items, kind) {
       const metricsLine = m.recipients
         ? `<div class="email-metrics">发送 ${m.recipients.toLocaleString()} · 打开 ${pct(m.openRate)} · 点击 ${pct(m.clickRate, 2)} · GMV ${Math.round(m.gmv || 0).toLocaleString()}</div>`
         : "";
+      const title =
+        type === "flow" && region
+          ? `<div class="email-name">${flowLink(region, item.name, item.name)}</div>`
+          : `<div class="email-name">${escapeHtml(item.name)}</div>`;
+      const insightRow =
+        type === "flow" && region && getFlowInsight(region, item.name)
+          ? `<button type="button" class="insight-btn inline" data-flow-id="${escapeHtml(flowInsightId(region, item.name))}">查看完整洞察</button>`
+          : "";
       return `
       <div class="email-card ${kind}">
-        <div class="email-name">${escapeHtml(item.name)}</div>
+        ${title}
         <div class="email-subject">Subject：${escapeHtml(item.subject || "—")}</div>
         <div class="email-audience">受众：${escapeHtml(item.audience || "—")}</div>
         ${metricsLine}
         <ul class="email-reasons">${(item.reasons || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul>
+        ${insightRow}
       </div>`;
     })
     .join("");
@@ -299,6 +308,96 @@ function escapeHtml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function flowInsightId(region, name) {
+  return `${region}::${name}`;
+}
+
+function getFlowInsight(region, name) {
+  const map = DATA.flowInsights || {};
+  return map[flowInsightId(region, name)] || null;
+}
+
+function flowLink(region, name, label) {
+  const id = flowInsightId(region, name);
+  const has = (DATA.flowInsights || {})[id];
+  if (!has) return escapeHtml(label || name);
+  return `<button type="button" class="flow-link" data-flow-id="${escapeHtml(id)}">${escapeHtml(label || name)}</button>`;
+}
+
+function insightBtn(region, name) {
+  const id = flowInsightId(region, name);
+  if (!(DATA.flowInsights || {})[id]) return "—";
+  return `<button type="button" class="insight-btn" data-flow-id="${escapeHtml(id)}">查看</button>`;
+}
+
+function renderFlowTags(tags) {
+  const labels = { best: "优秀", improve: "待优化", alert: "待关注" };
+  if (!tags?.length) return '<span class="tag tag-neutral">常规</span>';
+  return tags.map((t) => `<span class="tag tag-${t}">${labels[t] || t}</span>`).join(" ");
+}
+
+function renderInsightDrawer(item) {
+  if (!item) return;
+  $("#insight-drawer-region").textContent = item.region;
+  $("#insight-drawer-title").textContent = item.name;
+  $("#insight-drawer-status").textContent = `${item.status.toUpperCase()} · ${item.summary} · 近 30 天`;
+  const m = item.metrics;
+  const alertBlock =
+    item.alerts?.length > 0
+      ? `<div class="drawer-section">
+        <h3>待关注</h3>
+        <ul class="drawer-list alert-list">${item.alerts
+          .map(
+            (a) => `<li><strong>${escapeHtml(a.priority)} · ${escapeHtml(a.category)}</strong><br>${escapeHtml(a.issue)}<br><em>${escapeHtml(a.action)}</em></li>`
+          )
+          .join("")}</ul>
+      </div>`
+      : "";
+  $("#insight-drawer-body").innerHTML = `
+    <div class="drawer-metrics">
+      <div><span>发送量</span><strong>${m.recipients.toLocaleString()}</strong></div>
+      <div><span>打开率</span><strong>${pct(m.openRate)}</strong></div>
+      <div><span>点击率</span><strong>${pct(m.clickRate, 2)}</strong></div>
+      <div><span>转化率</span><strong>${pct(m.convRate, 2)}</strong></div>
+      <div><span>GMV</span><strong>${escapeHtml(m.gmvLabel)}</strong></div>
+    </div>
+    <div class="drawer-section">
+      <h3>做得好的地方</h3>
+      <ul class="drawer-list good-list">${(item.strengths?.length ? item.strengths : ["暂无突出亮点"]).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+    </div>
+    <div class="drawer-section">
+      <h3>可以改进的地方</h3>
+      <ul class="drawer-list improve-list">${(item.improvements?.length ? item.improvements : ["暂无明确改进项"]).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+    </div>
+    ${alertBlock}`;
+}
+
+function openInsightDrawer(id) {
+  const item = (DATA.flowInsights || {})[id];
+  if (!item) return;
+  renderInsightDrawer(item);
+  $("#insight-drawer").classList.remove("hidden");
+  $("#insight-backdrop").classList.remove("hidden");
+  $("#insight-drawer").setAttribute("aria-hidden", "false");
+  document.body.classList.add("drawer-open");
+}
+
+function closeInsightDrawer() {
+  $("#insight-drawer").classList.add("hidden");
+  $("#insight-backdrop").classList.add("hidden");
+  $("#insight-drawer").setAttribute("aria-hidden", "true");
+  document.body.classList.remove("drawer-open");
+}
+
+function bindFlowInsightClicks(root) {
+  (root || document).querySelectorAll("[data-flow-id]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openInsightDrawer(el.getAttribute("data-flow-id"));
+    });
+  });
 }
 
 function renderSites() {
@@ -320,18 +419,18 @@ function renderSites() {
             <button type="button" class="sub-header">Campaign 最佳 / 待优化 <span class="chevron">›</span></button>
             <div class="sub-body">
               <p class="hint">最佳</p>
-              ${renderEmailList(why.campaignBest, "best")}
+              ${renderEmailList(why.campaignBest, "best", code, "campaign")}
               <p class="hint" style="margin-top:0.75rem">待优化</p>
-              ${renderEmailList(why.campaignWorst, "worst")}
+              ${renderEmailList(why.campaignWorst, "worst", code, "campaign")}
             </div>
           </div>
           <div class="sub-block open">
             <button type="button" class="sub-header">Flow 最佳 / 待优化 <span class="chevron">›</span></button>
             <div class="sub-body">
-              <p class="hint">最佳</p>
-              ${renderEmailList(why.flowBest, "best")}
+              <p class="hint">最佳 · 点击名称查看完整洞察</p>
+              ${renderEmailList(why.flowBest, "best", code, "flow")}
               <p class="hint" style="margin-top:0.75rem">待优化</p>
-              ${renderEmailList(why.flowWorst, "worst")}
+              ${renderEmailList(why.flowWorst, "worst", code, "flow")}
             </div>
           </div>
         </div>
@@ -349,6 +448,7 @@ function renderSites() {
   container.querySelectorAll(".sub-header").forEach((btn) => {
     btn.addEventListener("click", () => btn.closest(".sub-block").classList.toggle("open"));
   });
+  bindFlowInsightClicks(container);
 }
 
 function renderFlow() {
@@ -360,14 +460,119 @@ function renderFlow() {
           (a) => `<tr class="${alertTone(a.priority)}">
       <td>${a.priority}</td>
       <td>${a.region}</td>
-      <td>${escapeHtml(a.flow)}</td>
+      <td>${flowLink(a.region, a.flow, a.flow)}</td>
       <td>${a.category}</td>
       <td>${escapeHtml(a.issue)}</td>
       <td>${escapeHtml(a.action)}</td>
+      <td class="col-action">${insightBtn(a.region, a.flow)}</td>
     </tr>`
         )
         .join("")
-    : `<tr><td colspan="6" class="hint">暂无待关注项</td></tr>`;
+    : `<tr><td colspan="7" class="hint">暂无待关注项</td></tr>`;
+  bindFlowInsightClicks($("#flow-table"));
+}
+
+function renderFlowInsights() {
+  const regionFilter = $("#flow-insight-region").value;
+  const tagFilter = $("#flow-insight-tag").value;
+  let items = DATA.flowIndex || [];
+  if (regionFilter !== "ALL") items = items.filter((x) => x.region === regionFilter);
+  if (tagFilter !== "ALL") items = items.filter((x) => (x.tags || []).includes(tagFilter));
+
+  const tbody = $("#flow-insight-table tbody");
+  tbody.innerHTML = items.length
+    ? items
+        .map(
+          (item) => `<tr>
+        <td class="col-site">${item.region}</td>
+        <td>${flowLink(item.region, item.name, item.name)}</td>
+        <td>${escapeHtml(item.status)}</td>
+        <td class="col-num">${escapeHtml(item.metrics.gmvLabel)}</td>
+        <td class="col-num">${pct(item.metrics.openRate)}</td>
+        <td class="col-num">${pct(item.metrics.convRate, 2)}</td>
+        <td>${renderFlowTags(item.tags)}</td>
+        <td class="col-action">${insightBtn(item.region, item.name)}</td>
+      </tr>`
+        )
+        .join("")
+    : `<tr><td colspan="8" class="hint">暂无匹配的 Flow</td></tr>`;
+  bindFlowInsightClicks($("#flow-insight-table"));
+}
+
+function setupFlowInsightFilters() {
+  const select = $("#flow-insight-region");
+  const order = DATA.siteOrder || DATA.rows.map((r) => r.region);
+  select.innerHTML = `<option value="ALL">全部站点</option>${order.map((c) => `<option value="${c}">${c}</option>`).join("")}`;
+  select.addEventListener("change", renderFlowInsights);
+  $("#flow-insight-tag").addEventListener("change", renderFlowInsights);
+}
+
+function renderPlaybookEntry(item, regionCode) {
+  if (!item || typeof item === "string") {
+    return `<li class="playbook-legacy">${escapeHtml(String(item))}</li>`;
+  }
+  const verdictClass = item.verdict === "copy" ? "verdict-copy" : "verdict-avoid";
+  const verdictLabel = item.verdict === "copy" ? "可复制" : "待避免";
+  const m = item.metrics || {};
+  const meta =
+    item.type === "campaign" && item.subject && item.subject !== "—"
+      ? `<p class="playbook-meta">Subject：${escapeHtml(item.subject)}</p>`
+      : "";
+  const audience =
+    item.type === "campaign" && item.audience && item.audience !== "—"
+      ? `<p class="playbook-meta">受众：${escapeHtml(item.audience)}</p>`
+      : "";
+  const benchmark = item.benchmark || {};
+  const comparisons = (benchmark.comparisons || [])
+    .map((x) => `<li>${escapeHtml(x)}</li>`)
+    .join("");
+  const flowInsightBtn =
+    item.type === "flow" && getFlowInsight(regionCode, item.name)
+      ? `<button type="button" class="insight-btn inline" data-flow-id="${escapeHtml(flowInsightId(regionCode, item.name))}">查看 Flow 洞察</button>`
+      : "";
+  return `
+    <details class="playbook-entry ${verdictClass}">
+      <summary class="playbook-entry-summary">
+        <span class="playbook-type">${item.type === "campaign" ? "Campaign" : "Flow"}</span>
+        <span class="playbook-name">${item.type === "flow" ? flowLink(regionCode, item.name, item.name) : escapeHtml(item.name)}</span>
+        <span class="playbook-verdict">${verdictLabel}</span>
+      </summary>
+      <div class="playbook-entry-body">
+        <p class="playbook-source">${escapeHtml(item.dataSource || "Klaviyo 近30天 Placed Order")}</p>
+        ${meta}
+        ${audience}
+        <div class="playbook-metrics">
+          <div><span>发送量</span><strong>${(m.recipients || 0).toLocaleString()}</strong></div>
+          <div><span>打开率</span><strong>${pct(m.openRate || 0)}</strong></div>
+          <div><span>点击率</span><strong>${pct(m.clickRate || 0, 2)}</strong></div>
+          <div><span>转化率</span><strong>${pct(m.convRate || 0, 2)}</strong></div>
+          <div><span>GMV</span><strong>${escapeHtml(m.gmvLabel || String(m.gmv || 0))}</strong></div>
+        </div>
+        <h5 class="playbook-subhead">因果链</h5>
+        <ol class="logic-chain">${(item.logicChain || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ol>
+        ${
+          benchmark.summary
+            ? `<div class="playbook-benchmark">
+          <h5 class="playbook-subhead">站点对比</h5>
+          <p class="benchmark-summary">${escapeHtml(benchmark.summary)}</p>
+          ${comparisons ? `<ul class="benchmark-deltas">${comparisons}</ul>` : ""}
+        </div>`
+            : ""
+        }
+        <p class="playbook-action"><strong>下一步：</strong>${escapeHtml(item.action || "—")}</p>
+        ${flowInsightBtn}
+      </div>
+    </details>`;
+}
+
+function renderPlaybookSection(title, items, regionCode) {
+  if (!items?.length) {
+    return `<div class="playbook-section"><h4>${title}</h4><p class="hint">暂无足够数据</p></div>`;
+  }
+  const body = items
+    .map((item) => (typeof item === "string" ? renderPlaybookEntry(item, regionCode) : renderPlaybookEntry(item, regionCode)))
+    .join("");
+  return `<div class="playbook-section"><h4>${title}</h4><div class="playbook-entries">${body}</div></div>`;
 }
 
 function renderPlaybook() {
@@ -377,19 +582,18 @@ function renderPlaybook() {
     .map((code) => {
       const pb = playbooks[code];
       if (!pb) return "";
-      const list = (title, items) =>
-        `<div class="playbook-section"><h4>${title}</h4><ul>${(items || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>`;
       return `
       <div class="card playbook-card site-playbook">
         <h3>${code} · Playbook</h3>
         <p class="site-summary">${escapeHtml(pb.summary || "")}</p>
-        ${list("Campaign 可复制", pb.successCampaign)}
-        ${list("Campaign 待避免", pb.avoidCampaign)}
-        ${list("Flow 可复制", pb.successFlow)}
-        ${list("Flow 待避免", pb.avoidFlow)}
+        ${renderPlaybookSection("Campaign 可复制", pb.successCampaign, code)}
+        ${renderPlaybookSection("Campaign 待避免", pb.avoidCampaign, code)}
+        ${renderPlaybookSection("Flow 可复制", pb.successFlow, code)}
+        ${renderPlaybookSection("Flow 待避免", pb.avoidFlow, code)}
       </div>`;
     })
     .join("");
+  bindFlowInsightClicks($("#playbook-grid"));
 }
 
 function refreshOverview() {
@@ -403,6 +607,7 @@ function showSection(name) {
   $(`#view-${name}`).classList.remove("hidden");
   $("#metric-filter-wrap").classList.toggle("hidden", name !== "overview");
   if (name === "overview") refreshOverview();
+  if (name === "flow-insights") renderFlowInsights();
 }
 
 async function init() {
@@ -411,6 +616,7 @@ async function init() {
     metricView = $("#metric-view").value;
     $("#loading").classList.add("hidden");
     renderMeta();
+    setupFlowInsightFilters();
     renderSites();
     renderFlow();
     renderPlaybook();
@@ -420,6 +626,11 @@ async function init() {
     $("#metric-view").addEventListener("change", (e) => {
       metricView = e.target.value;
       refreshOverview();
+    });
+    $("#insight-drawer-close").addEventListener("click", closeInsightDrawer);
+    $("#insight-backdrop").addEventListener("click", closeInsightDrawer);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeInsightDrawer();
     });
   } catch (err) {
     $("#loading").classList.add("hidden");

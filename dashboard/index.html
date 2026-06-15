@@ -22,6 +22,7 @@
             <option value="overview">全球总览</option>
             <option value="sites">分站诊断</option>
             <option value="flow">Flow 待关注</option>
+            <option value="flow-insights">Flow 洞察</option>
             <option value="playbook">Playbook</option>
           </select>
         </label>
@@ -84,10 +85,10 @@
     </section>
 
     <section id="view-flow" class="view hidden">
-      <p class="hint">各站 Flow 待关注项（同序列内容已本地化，不做跨站指标对比）。</p>
+      <p class="hint">各站 Flow 待关注项。点击 Flow 名称或「洞察」可查看详细解读。</p>
       <div class="card">
         <div class="table-wrap">
-          <table id="flow-table">
+          <table id="flow-table" class="data-table flow-alert-table">
             <thead>
               <tr>
                 <th>优先级</th>
@@ -96,6 +97,47 @@
                 <th>类型</th>
                 <th>现象</th>
                 <th>建议</th>
+                <th class="col-action">洞察</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-flow-insights" class="view hidden">
+      <p class="hint">浏览各站全部 Flow，点击行查看做得好的地方与可改进项。</p>
+      <div class="insight-toolbar">
+        <label>
+          站点筛选
+          <select id="flow-insight-region">
+            <option value="ALL">全部站点</option>
+          </select>
+        </label>
+        <label>
+          标签筛选
+          <select id="flow-insight-tag">
+            <option value="ALL">全部</option>
+            <option value="best">表现优秀</option>
+            <option value="improve">有优化空间</option>
+            <option value="alert">有待关注</option>
+          </select>
+        </label>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table id="flow-insight-table" class="data-table">
+            <thead>
+              <tr>
+                <th class="col-site">站点</th>
+                <th>Flow 名称</th>
+                <th>状态</th>
+                <th class="col-num">GMV</th>
+                <th class="col-num">打开率</th>
+                <th class="col-num">转化率</th>
+                <th>标签</th>
+                <th class="col-action">洞察</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -113,5 +155,18 @@
       <p>数据每日由 GitHub Actions 从 Klaviyo API 同步 · 转化口径：Placed Order · 统计周期：近 30 天</p>
     </footer>
   </main>
+
+  <div id="insight-backdrop" class="insight-backdrop hidden" aria-hidden="true"></div>
+  <aside id="insight-drawer" class="insight-drawer hidden" aria-hidden="true" role="dialog" aria-labelledby="insight-drawer-title">
+    <div class="drawer-header">
+      <div>
+        <p class="drawer-eyebrow" id="insight-drawer-region"></p>
+        <h2 id="insight-drawer-title"></h2>
+        <p class="drawer-subtitle" id="insight-drawer-status"></p>
+      </div>
+      <button type="button" class="drawer-close" id="insight-drawer-close" aria-label="关闭">×</button>
+    </div>
+    <div class="drawer-body" id="insight-drawer-body"></div>
+  </aside>
 </body>
 </html>

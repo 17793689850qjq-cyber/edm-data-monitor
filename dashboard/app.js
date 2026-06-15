@@ -3,8 +3,13 @@
 let DATA = null;
 let pieChart = null;
 let barChart = null;
+let metricView = "combined";
 
 const $ = (sel) => document.querySelector(sel);
+
+function pct(x, digits = 1) {
+  return `${(x * 100).toFixed(digits)}%`;
+}
 
 function cny(n) {
   if (n >= 1e6) return `¥${(n / 1e6).toFixed(2)}M`;
@@ -12,8 +17,18 @@ function cny(n) {
   return `¥${Math.round(n)}`;
 }
 
-function pct(x, digits = 1) {
-  return `${(x * 100).toFixed(digits)}%`;
+function localGmv(n, currency) {
+  if (currency === "CLP" || currency === "JPY") {
+    if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M ${currency}`;
+    if (n >= 1e3) return `${Math.round(n / 1e3)}K ${currency}`;
+  }
+  if (n >= 1e6) return `${(n / 1e6).toFixed(2)}M ${currency}`;
+  if (n >= 1e3) return `${Math.round(n / 1e3)}K ${currency}`;
+  return `${Math.round(n)} ${currency}`;
+}
+
+function dualGmv(local, currency, cnyVal) {
+  return `${localGmv(local, currency)} / ${cny(cnyVal)}`;
 }
 
 function pickMetrics(row, view) {
@@ -24,13 +39,81 @@ function pickMetrics(row, view) {
   const delivered = c.delivered + f.delivered || 1;
   return {
     openRate: (c.openRate * c.delivered + f.openRate * f.delivered) / delivered,
-    convRate: (c.conversions + f.conversions) / delivered,
     clickRate: (c.clickRate * c.delivered + f.clickRate * f.delivered) / delivered,
+    convRate: (c.conversions + f.conversions) / delivered,
+    delivered,
   };
 }
 
-function rowTone(row, totalGmv) {
-  const share = row.totalGmvCny / totalGmv;
+function viewGmv(row, view) {
+  if (view === "campaign") {
+    return { local: row.campaign.gmv, cny: row.campaignGmvCny, campLocal: row.campaign.gmv, campCny: row.campaignGmvCny, flowLocal: 0, flowCny: 0 };
+  }
+  if (view === "flow") {
+    return { local: row.flow.gmv, cny: row.flowGmvCny, campLocal: 0, campCny: 0, flowLocal: row.flow.gmv, flowCny: row.flowGmvCny };
+  }
+  return {
+    local: row.campaign.gmv + row.flow.gmv,
+    cny: row.totalGmvCny,
+    campLocal: row.campaign.gmv,
+    campCny: row.campaignGmvCny,
+    flowLocal: row.flow.gmv,
+    flowCny: row.flowGmvCny,
+  };
+}
+
+function aggregateView(view) {
+  let delivered = 0;
+  let openW = 0;
+  let clickW = 0;
+  let conv = 0;
+  let gmvCny = 0;
+  let campaignCny = 0;
+  let flowCny = 0;
+
+  for (const row of DATA.rows) {
+    const c = row.campaign;
+    const f = row.flow;
+    if (view === "campaign" || view === "combined") {
+      delivered += c.delivered;
+      openW += c.openRate * c.delivered;
+      clickW += c.clickRate * c.delivered;
+      conv += c.conversions;
+      campaignCny += row.campaignGmvCny;
+    }
+    if (view === "flow" || view === "combined") {
+      delivered += f.delivered;
+      openW += f.openRate * f.delivered;
+      clickW += f.clickRate * f.delivered;
+      conv += f.conversions;
+      flowCny += row.flowGmvCny;
+    }
+  }
+
+  if (view === "campaign") {
+    gmvCny = campaignCny;
+  } else if (view === "flow") {
+    gmvCny = flowCny;
+  } else {
+    gmvCny = campaignCny + flowCny;
+  }
+
+  const d = delivered || 1;
+  const totalParts = campaignCny + flowCny || 1;
+  return {
+    gmvCny,
+    campaignCny,
+    flowCny,
+    campaignShare: view === "flow" ? 0 : campaignCny / totalParts,
+    flowShare: view === "campaign" ? 0 : flowCny / totalParts,
+    openRate: openW / d,
+    clickRate: clickW / d,
+    convRate: conv / d,
+  };
+}
+
+function rowTone(row, totalGmv, view) {
+  const share = viewGmv(row, view).cny / totalGmv;
   if (share >= 0.15) return "tone-top";
   return "";
 }
@@ -56,16 +139,17 @@ function renderMeta() {
 }
 
 function renderKpis() {
-  const g = DATA.totals.global;
-  const t = DATA.totals;
+  const agg = aggregateView(metricView);
+  const viewLabel = metricView === "combined" ? "合计" : metricView === "campaign" ? "Campaign" : "Flow";
   $("#kpi-grid").innerHTML = [
-    { label: "全球 GMV", value: cny(t.gmvCny), cls: "info" },
-    { label: "Campaign 占比", value: pct(t.campaignShare), cls: "" },
-    { label: "Flow 占比", value: pct(t.flowShare), cls: "success" },
-    { label: "打开率", value: pct(g.openRate), cls: "" },
-    { label: "点击率", value: pct(g.clickRate, 2), cls: "" },
-    { label: "转化率", value: pct(g.convRate, 2), cls: "" },
+    { label: `${viewLabel} GMV (CNY)`, value: cny(agg.gmvCny), cls: "info" },
+    { label: "Campaign 占比", value: pct(agg.campaignShare), cls: "", hide: metricView === "flow" },
+    { label: "Flow 占比", value: pct(agg.flowShare), cls: "success", hide: metricView === "campaign" },
+    { label: "打开率", value: pct(agg.openRate), cls: "" },
+    { label: "点击率", value: pct(agg.clickRate, 2), cls: "" },
+    { label: "转化率", value: pct(agg.convRate, 2), cls: "" },
   ]
+    .filter((k) => !k.hide)
     .map(
       (k) => `
     <div class="kpi">
@@ -77,75 +161,114 @@ function renderKpis() {
 }
 
 function renderCharts() {
-  const t = DATA.totals;
+  const agg = aggregateView(metricView);
   const pieCtx = $("#pie-chart");
   if (pieChart) pieChart.destroy();
-  pieChart = new Chart(pieCtx, {
-    type: "doughnut",
-    data: {
-      labels: ["Campaign", "Flow"],
-      datasets: [
-        {
-          data: [t.campaignCny, t.flowCny],
-          backgroundColor: ["#3b82f6", "#22c55e"],
-          borderWidth: 0,
-        },
-      ],
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      cutout: "55%",
-    },
-  });
-  $("#pie-legend").innerHTML = `
-    <div class="total">合计 ${cny(t.gmvCny)}</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>Campaign ${cny(t.campaignCny)} (${pct(t.campaignShare)})</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Flow ${cny(t.flowCny)} (${pct(t.flowShare)})</div>
-  `;
 
-  const rows = DATA.rows.slice().sort((a, b) => b.totalGmvCny - a.totalGmvCny);
+  if (metricView === "combined") {
+    pieChart = new Chart(pieCtx, {
+      type: "doughnut",
+      data: {
+        labels: ["Campaign", "Flow"],
+        datasets: [{ data: [agg.campaignCny, agg.flowCny], backgroundColor: ["#3b82f6", "#22c55e"], borderWidth: 0 }],
+      },
+      options: { plugins: { legend: { display: false } }, cutout: "55%" },
+    });
+    $("#pie-legend").innerHTML = `
+      <div class="total">合计 ${cny(agg.gmvCny)}</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>Campaign ${cny(agg.campaignCny)} (${pct(agg.campaignShare)})</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Flow ${cny(agg.flowCny)} (${pct(agg.flowShare)})</div>`;
+  } else {
+    const label = metricView === "campaign" ? "Campaign" : "Flow";
+    const val = metricView === "campaign" ? agg.campaignCny : agg.flowCny;
+    pieChart = new Chart(pieCtx, {
+      type: "doughnut",
+      data: {
+        labels: [label],
+        datasets: [{ data: [val], backgroundColor: [metricView === "campaign" ? "#3b82f6" : "#22c55e"], borderWidth: 0 }],
+      },
+      options: { plugins: { legend: { display: false } }, cutout: "55%" },
+    });
+    $("#pie-legend").innerHTML = `<div class="total">${label} ${cny(val)}</div>`;
+  }
+
+  const rows = DATA.rows.slice().sort((a, b) => viewGmv(b, metricView).cny - viewGmv(a, metricView).cny);
   const barCtx = $("#bar-chart");
   if (barChart) barChart.destroy();
-  barChart = new Chart(barCtx, {
-    type: "bar",
-    data: {
-      labels: rows.map((r) => r.region),
-      datasets: [
-        { label: "Campaign", data: rows.map((r) => r.campaignGmvCny), backgroundColor: "#3b82f6" },
-        { label: "Flow", data: rows.map((r) => r.flowGmvCny), backgroundColor: "#22c55e" },
-      ],
-    },
-    options: {
-      indexAxis: "y",
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: { stacked: true, ticks: { callback: (v) => cny(v) }, grid: { color: "#2d3a4f" } },
-        y: { stacked: true, grid: { display: false } },
+
+  const chartTitle = $("#bar-chart-title");
+  if (chartTitle) chartTitle.textContent = metricView === "combined" ? "各站 GMV（本位币 / CNY）" : `各站 ${metricView === "campaign" ? "Campaign" : "Flow"} GMV（CNY）`;
+
+  if (metricView === "combined") {
+    barChart = new Chart(barCtx, {
+      type: "bar",
+      data: {
+        labels: rows.map((r) => r.region),
+        datasets: [
+          { label: "Campaign CNY", data: rows.map((r) => r.campaignGmvCny), backgroundColor: "#3b82f6" },
+          { label: "Flow CNY", data: rows.map((r) => r.flowGmvCny), backgroundColor: "#22c55e" },
+        ],
       },
-      plugins: { legend: { position: "bottom", labels: { color: "#8b9cb3" } } },
+      options: chartOptions(),
+    });
+  } else {
+    const key = metricView === "campaign" ? "campaignGmvCny" : "flowGmvCny";
+    barChart = new Chart(barCtx, {
+      type: "bar",
+      data: {
+        labels: rows.map((r) => r.region),
+        datasets: [{ label: "GMV CNY", data: rows.map((r) => r[key]), backgroundColor: metricView === "campaign" ? "#3b82f6" : "#22c55e" }],
+      },
+      options: chartOptions(),
+    });
+  }
+}
+
+function chartOptions() {
+  return {
+    indexAxis: "y",
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: metricView === "combined", ticks: { callback: (v) => cny(v) }, grid: { color: "#2d3a4f" } },
+      y: { stacked: metricView === "combined", grid: { display: false } },
     },
-  });
+    plugins: { legend: { position: "bottom", labels: { color: "#8b9cb3" } } },
+  };
 }
 
 function renderOverviewTable() {
-  const view = $("#metric-view").value;
-  const totalGmv = DATA.totals.gmvCny;
+  const agg = aggregateView(metricView);
+  const totalGmv = agg.gmvCny;
   const tbody = $("#overview-table tbody");
+  const showCamp = metricView !== "flow";
+  const showFlow = metricView !== "campaign";
+
+  $("#overview-table thead tr").innerHTML = `
+    <th class="col-site">站点</th>
+    ${showCamp ? '<th class="col-num">Campaign GMV</th>' : ""}
+    ${showFlow ? '<th class="col-num">Flow GMV</th>' : ""}
+    <th class="col-num">合计 GMV</th>
+    <th class="col-num">打开率</th>
+    <th class="col-num">转化率</th>
+    <th class="col-num">占比</th>`;
+
   tbody.innerHTML = DATA.rows
     .map((row) => {
-      const m = pickMetrics(row, view);
-      const totalCny =
-        view === "campaign" ? row.campaignGmvCny : view === "flow" ? row.flowGmvCny : row.totalGmvCny;
-      return `<tr class="${rowTone(row, totalGmv)}">
-        <td>${row.region}</td>
-        <td class="num">${cny(row.campaignGmvCny)}</td>
-        <td class="num">${cny(row.flowGmvCny)}</td>
-        <td class="num">${cny(totalCny)}</td>
-        <td class="num">${pct(m.openRate)}</td>
-        <td class="num">${pct(m.convRate, 2)}</td>
-        <td class="num">${pct(totalCny / totalGmv, 1)}</td>
-      </tr>`;
+      const m = pickMetrics(row, metricView);
+      const g = viewGmv(row, metricView);
+      const cells = [
+        `<td class="col-site">${row.region}</td>`,
+        showCamp
+          ? `<td class="col-num dual">${dualGmv(g.campLocal, row.currency, g.campCny)}</td>`
+          : "",
+        showFlow ? `<td class="col-num dual">${dualGmv(g.flowLocal, row.currency, g.flowCny)}</td>` : "",
+        `<td class="col-num dual"><strong>${dualGmv(g.local, row.currency, g.cny)}</strong></td>`,
+        `<td class="col-num">${pct(m.openRate)}</td>`,
+        `<td class="col-num">${pct(m.convRate, 2)}</td>`,
+        `<td class="col-num">${pct(g.cny / totalGmv, 1)}</td>`,
+      ].join("");
+      return `<tr class="${rowTone(row, totalGmv, metricView)}">${cells}</tr>`;
     })
     .join("");
 }
@@ -154,15 +277,16 @@ function renderEmailList(items, kind) {
   if (!items?.length) return `<p class="hint">暂无数据</p>`;
   return items
     .map((item) => {
-      const metrics = item.metrics
-        ? `<div class="email-audience">打开 ${pct(item.metrics.openRate)} · 转化 ${pct(item.metrics.convRate, 2)}</div>`
+      const m = item.metrics || {};
+      const metricsLine = m.recipients
+        ? `<div class="email-metrics">发送 ${m.recipients.toLocaleString()} · 打开 ${pct(m.openRate)} · 点击 ${pct(m.clickRate, 2)} · GMV ${Math.round(m.gmv || 0).toLocaleString()}</div>`
         : "";
       return `
       <div class="email-card ${kind}">
         <div class="email-name">${escapeHtml(item.name)}</div>
-        <div class="email-subject">${escapeHtml(item.subject || "—")}</div>
-        <div class="email-audience">${escapeHtml(item.audience || "—")}</div>
-        ${metrics}
+        <div class="email-subject">Subject：${escapeHtml(item.subject || "—")}</div>
+        <div class="email-audience">受众：${escapeHtml(item.audience || "—")}</div>
+        ${metricsLine}
         <ul class="email-reasons">${(item.reasons || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul>
       </div>`;
     })
@@ -192,7 +316,7 @@ function renderSites() {
         </button>
         <div class="site-body">
           <p class="site-summary">${escapeHtml(why.summary || "")}</p>
-          <div class="sub-block">
+          <div class="sub-block open">
             <button type="button" class="sub-header">Campaign 最佳 / 待优化 <span class="chevron">›</span></button>
             <div class="sub-body">
               <p class="hint">最佳</p>
@@ -201,7 +325,7 @@ function renderSites() {
               ${renderEmailList(why.campaignWorst, "worst")}
             </div>
           </div>
-          <div class="sub-block">
+          <div class="sub-block open">
             <button type="button" class="sub-header">Flow 最佳 / 待优化 <span class="chevron">›</span></button>
             <div class="sub-body">
               <p class="hint">最佳</p>
@@ -229,9 +353,11 @@ function renderSites() {
 
 function renderFlow() {
   const tbody = $("#flow-table tbody");
-  tbody.innerHTML = (DATA.flowAlerts || [])
-    .map(
-      (a) => `<tr class="${alertTone(a.priority)}">
+  const alerts = DATA.flowAlerts || [];
+  tbody.innerHTML = alerts.length
+    ? alerts
+        .map(
+          (a) => `<tr class="${alertTone(a.priority)}">
       <td>${a.priority}</td>
       <td>${a.region}</td>
       <td>${escapeHtml(a.flow)}</td>
@@ -239,40 +365,50 @@ function renderFlow() {
       <td>${escapeHtml(a.issue)}</td>
       <td>${escapeHtml(a.action)}</td>
     </tr>`
-    )
-    .join("");
+        )
+        .join("")
+    : `<tr><td colspan="6" class="hint">暂无待关注项</td></tr>`;
 }
 
 function renderPlaybook() {
-  const s = DATA.successPlaybook;
-  const f = DATA.failurePlaybook;
-  $("#playbook-grid").innerHTML = `
-    <div class="card playbook-card">
-      <h3>${escapeHtml(s.title)}</h3>
-      <div class="playbook-section"><h4>Campaign</h4><ul>${s.campaign.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
-      <div class="playbook-section"><h4>Flow</h4><ul>${s.flow.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
-    </div>
-    <div class="card playbook-card">
-      <h3>${escapeHtml(f.title)}</h3>
-      <div class="playbook-section"><h4>Campaign</h4><ul>${f.campaign.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
-      <div class="playbook-section"><h4>Flow</h4><ul>${f.flow.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>
-    </div>`;
+  const order = DATA.siteOrder || DATA.rows.map((r) => r.region);
+  const playbooks = DATA.sitePlaybook || {};
+  $("#playbook-grid").innerHTML = order
+    .map((code) => {
+      const pb = playbooks[code];
+      if (!pb) return "";
+      const list = (title, items) =>
+        `<div class="playbook-section"><h4>${title}</h4><ul>${(items || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul></div>`;
+      return `
+      <div class="card playbook-card site-playbook">
+        <h3>${code} · Playbook</h3>
+        <p class="site-summary">${escapeHtml(pb.summary || "")}</p>
+        ${list("Campaign 可复制", pb.successCampaign)}
+        ${list("Campaign 待避免", pb.avoidCampaign)}
+        ${list("Flow 可复制", pb.successFlow)}
+        ${list("Flow 待避免", pb.avoidFlow)}
+      </div>`;
+    })
+    .join("");
+}
+
+function refreshOverview() {
+  renderKpis();
+  renderCharts();
+  renderOverviewTable();
 }
 
 function showSection(name) {
   document.querySelectorAll(".view").forEach((el) => el.classList.add("hidden"));
   $(`#view-${name}`).classList.remove("hidden");
   $("#metric-filter-wrap").classList.toggle("hidden", name !== "overview");
-  if (name === "overview") {
-    renderKpis();
-    renderCharts();
-    renderOverviewTable();
-  }
+  if (name === "overview") refreshOverview();
 }
 
 async function init() {
   try {
     DATA = await loadData();
+    metricView = $("#metric-view").value;
     $("#loading").classList.add("hidden");
     renderMeta();
     renderSites();
@@ -281,7 +417,10 @@ async function init() {
     showSection($("#section-select").value);
 
     $("#section-select").addEventListener("change", (e) => showSection(e.target.value));
-    $("#metric-view").addEventListener("change", () => renderOverviewTable());
+    $("#metric-view").addEventListener("change", (e) => {
+      metricView = e.target.value;
+      refreshOverview();
+    });
   } catch (err) {
     $("#loading").classList.add("hidden");
     const el = $("#error");

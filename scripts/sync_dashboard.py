@@ -9,7 +9,6 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from urllib.parse import quote
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -23,8 +22,10 @@ from klaviyo_config import (
     RegionConfig,
     api_key_for,
 )
+from entity_cache import EntityCache
 from ranking import (
     build_flow_alerts,
+    build_site_playbook,
     rank_items,
     to_flow_why_item,
     to_why_item,
@@ -32,6 +33,7 @@ from ranking import (
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = ROOT / "dashboard" / "data" / "dashboard.json"
+SEED_WHY_PATH = Path(__file__).resolve().parent / "seed_site_why.json"
 
 STATS = [
     "recipients",
@@ -168,28 +170,33 @@ def agg_metrics(rows: list[dict]) -> dict:
     }
 
 
-def parse_campaign_row(row: dict) -> tuple:
-    details = (row.get("campaign_details") or {}).get("attributes") or {}
+def parse_campaign_row(row: dict, cache: EntityCache) -> tuple[tuple, list[str], str]:
+    gid = row.get("groupings") or {}
+    campaign_id = gid.get("campaign_id") or gid.get("campaign_message_id") or ""
+    info = cache.campaign_info(campaign_id) if campaign_id else {"name": "Unknown", "subject": "", "status": "Sent", "audiences": []}
     stats = row["statistics"]
-    audiences = [a.get("name", "") for a in (details.get("audiences") or {}).get("included") or []]
-    return (
-        details.get("name") or "Unknown",
+    audiences = info.get("audiences") or []
+    item = (
+        info["name"],
         float(stats.get("recipients") or 0),
         float(stats.get("open_rate") or 0),
         float(stats.get("click_rate") or 0),
         float(stats.get("conversion_rate") or 0),
         float(stats.get("conversion_value") or 0),
-        details.get("status") or "Sent",
-    ), audiences
+        info.get("status") or "Sent",
+    )
+    subject = info.get("subject") or info["name"]
+    return item, audiences, subject
 
 
-def aggregate_flows(rows: list[dict]) -> list[tuple]:
+def aggregate_flows(rows: list[dict], cache: EntityCache) -> list[tuple]:
     buckets: dict[str, dict] = {}
     for row in rows:
-        fd = row.get("flow_details") or {}
-        attrs = fd.get("attributes") or {}
-        name = attrs.get("name") or row.get("groupings", {}).get("flow_id", "Flow")
-        status = attrs.get("status") or "live"
+        gid = row.get("groupings") or {}
+        flow_id = gid.get("flow_id") or ""
+        info = cache.flow_info(flow_id) if flow_id else {"name": "Flow", "status": "live"}
+        name = info["name"]
+        status = info.get("status") or "live"
         stats = row["statistics"]
         if name not in buckets:
             buckets[name] = {
@@ -226,14 +233,21 @@ def aggregate_flows(rows: list[dict]) -> list[tuple]:
     return out
 
 
-def sync_region(region: RegionConfig) -> dict:
+def load_seed_why() -> dict:
+    if SEED_WHY_PATH.exists():
+        return json.loads(SEED_WHY_PATH.read_text(encoding="utf-8"))
+    return {}
+
+
+def sync_region(region: RegionConfig, seed_why: dict) -> dict:
     key = api_key_for(region)
     if not key:
         raise RuntimeError(f"missing API key env {region.api_key_env}")
 
     client = KlaviyoClient(key)
+    cache = EntityCache(client)
     metric_id = region.metric_id or client.resolve_placed_order_metric()
-    time.sleep(1)  # gentle rate limit between report calls
+    time.sleep(1)
 
     camp_rows = client.campaign_report(metric_id)
     time.sleep(1)
@@ -242,18 +256,19 @@ def sync_region(region: RegionConfig) -> dict:
     campaigns: list[tuple] = []
     campaign_meta: dict[str, dict] = {}
     for row in camp_rows:
-        item, audiences = parse_campaign_row(row)
+        item, audiences, subject = parse_campaign_row(row, cache)
         campaigns.append(item)
-        campaign_meta[item[0]] = {"audiences": audiences, "subject": item[0]}
+        campaign_meta[item[0]] = {"audiences": audiences, "subject": subject}
 
-    flows = aggregate_flows(flow_rows)
+    flows = aggregate_flows(flow_rows, cache)
     ccy = region.currency
+    seed_block = seed_why.get(region.code) or {}
 
     cb, cw, _cs = rank_items(campaigns, "campaign", min_rec=1000)
     fb, fw, fs = rank_items(flows, "flow", min_rec=200)
 
     site_why = {
-        "summary": f"{len(campaigns)} Campaign · {len(flows)} Flow",
+        "summary": seed_block.get("summary") or f"{len(campaigns)} Campaign · {len(flows)} Flow · 近 30 天",
         "campaignBest": [],
         "campaignWorst": [],
         "flowBest": [to_flow_why_item(it, ccy, True) for it in fb],
@@ -281,22 +296,26 @@ def sync_region(region: RegionConfig) -> dict:
         "campaignGmvCny": round(camp_agg["gmv"] * region.fx_to_cny, 0),
         "flowGmvCny": round(flow_agg["gmv"] * region.fx_to_cny, 0),
         "siteWhy": site_why,
-        "flowAlerts": build_flow_alerts(flows, region.code),
+        "sitePlaybook": build_site_playbook(region.code, site_why, seed_block),
+        "flowAlerts": build_flow_alerts(flows, region.code, ccy),
     }
 
 
 def build_dashboard() -> dict:
     rows: list[dict] = []
     site_why: dict = {}
+    site_playbook: dict = {}
     flow_alerts: list[dict] = []
     errors: list[str] = []
+    seed_why = load_seed_why()
 
     for region in REGIONS:
         try:
-            data = sync_region(region)
+            data = sync_region(region, seed_why)
             data["totalGmvCny"] = data["campaignGmvCny"] + data["flowGmvCny"]
             rows.append({k: data[k] for k in ("region", "currency", "campaign", "flow", "campaignGmvCny", "flowGmvCny", "totalGmvCny")})
             site_why[region.code] = data["siteWhy"]
+            site_playbook[region.code] = data["sitePlaybook"]
             flow_alerts.extend(data["flowAlerts"])
             print(f"OK {region.code}", file=sys.stderr)
         except Exception as e:
@@ -344,6 +363,7 @@ def build_dashboard() -> dict:
         "siteOrder": SITE_ORDER,
         "rows": rows,
         "siteWhy": site_why,
+        "sitePlaybook": site_playbook,
         "successPlaybook": SUCCESS_PLAYBOOK,
         "failurePlaybook": FAILURE_PLAYBOOK,
         "flowAlerts": flow_alerts,

@@ -52,23 +52,24 @@
           </div>
         </div>
         <div class="card chart-card">
-          <h2>各站 GMV (CNY)</h2>
+          <h2 id="bar-chart-title">各站 GMV</h2>
           <canvas id="bar-chart"></canvas>
         </div>
       </div>
       <div class="card">
         <h2>各站对比</h2>
+        <p class="hint">GMV 列为「本位币 / 人民币」。切换「指标」会联动 KPI、图表与本表打开率/转化率/占比。</p>
         <div class="table-wrap">
-          <table id="overview-table">
+          <table id="overview-table" class="data-table">
             <thead>
               <tr>
-                <th>站点</th>
-                <th>Campaign CNY</th>
-                <th>Flow CNY</th>
-                <th>合计 CNY</th>
-                <th>打开率</th>
-                <th>转化率</th>
-                <th>占比</th>
+                <th class="col-site">站点</th>
+                <th class="col-num">Campaign GMV</th>
+                <th class="col-num">Flow GMV</th>
+                <th class="col-num">合计 GMV</th>
+                <th class="col-num">打开率</th>
+                <th class="col-num">转化率</th>
+                <th class="col-num">占比</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -104,6 +105,7 @@
     </section>
 
     <section id="view-playbook" class="view hidden">
+      <p class="hint">各站 Playbook：基于近 30 天实际 Campaign/Flow 表现 + 运营经验总结。</p>
       <div class="playbook-grid" id="playbook-grid"></div>
     </section>
 

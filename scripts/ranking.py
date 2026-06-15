@@ -136,17 +136,18 @@ def to_flow_why_item(item: tuple, ccy: str, positive: bool) -> dict:
     }
 
 
-def build_flow_alerts(flows: list[tuple], region: str) -> list[dict]:
+def build_flow_alerts(flows: list[tuple], region: str, ccy: str) -> list[dict]:
     alerts: list[dict] = []
-    for name, rec, open_r, _click, _conv, gmv, status in flows:
+    for name, rec, open_r, click, conv, gmv, status in flows:
+        base = f"近30天发送 {int(rec):,} · 打开 {fmt_pct(open_r)} · 点击 {fmt_pct(click, 2)} · GMV {fmt_gmv(gmv, ccy)}"
         if status.lower() == "draft" and rec >= 10:
             alerts.append({
                 "priority": "P1",
                 "region": region,
                 "flow": name,
                 "category": "Draft",
-                "issue": "Draft 状态仍有发送",
-                "action": "确认 Live / 合并 / 下线",
+                "issue": f"Draft 状态仍有发送 · {base}",
+                "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存",
             })
         elif is_sunset(name) and rec >= 100:
             alerts.append({
@@ -154,8 +155,17 @@ def build_flow_alerts(flows: list[tuple], region: str) -> list[dict]:
                 "region": region,
                 "flow": name,
                 "category": "Sunset",
-                "issue": f"打开 {fmt_pct(open_r)}（预期偏低）",
-                "action": "仅监控 list 健康",
+                "issue": f"List Hygiene 序列 · {base}（低打开为预期）",
+                "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率",
+            })
+        elif "welcome" in name.lower() and rec >= 1000 and open_r < 0.32:
+            alerts.append({
+                "priority": "P1",
+                "region": region,
+                "flow": name,
+                "category": "Welcome",
+                "issue": f"Welcome 打开 {fmt_pct(open_r)} 偏低 · {base}",
+                "action": "A/B 首封 Subject 或调整序列发送顺序",
             })
         elif not is_sunset(name) and rec >= 500 and gmv == 0 and open_r < 0.15:
             alerts.append({
@@ -163,7 +173,40 @@ def build_flow_alerts(flows: list[tuple], region: str) -> list[dict]:
                 "region": region,
                 "flow": name,
                 "category": "Other",
-                "issue": "大发送量但 GMV 为 0",
-                "action": "评估降频或合并",
+                "issue": f"大发送量但无 GMV · {base}",
+                "action": "评估降频、合并或下线",
+            })
+        elif not is_sunset(name) and status.lower() == "live" and rec >= 200 and gmv > 0 and conv < 0.003 and "checkout" not in name.lower() and "cart" not in name.lower() and "abandon" not in name.lower():
+            alerts.append({
+                "priority": "P2",
+                "region": region,
+                "flow": name,
+                "category": "Other",
+                "issue": f"Live 但转化偏弱 · {base}",
+                "action": "检查 offer / CTA，或与 Checkout 序列对比",
             })
     return alerts
+
+
+def build_site_playbook(region: str, site_why: dict, seed_block: dict | None) -> dict:
+    seed_block = seed_block or {}
+    def bullets(items: list[dict], limit: int = 4) -> list[str]:
+        out: list[str] = []
+        for item in items[:limit]:
+            reasons = item.get("reasons") or []
+            hint = reasons[0] if reasons else item.get("name", "")
+            subj = item.get("subject") or ""
+            if subj and subj not in ("—", item.get("name", "")):
+                out.append(f"{item['name']} · {subj[:60]} · {hint}")
+            else:
+                out.append(f"{item['name']} · {hint}")
+        return out or ["暂无足够数据"]
+
+    return {
+        "region": region,
+        "summary": seed_block.get("pattern") or seed_block.get("summary") or site_why.get("summary", ""),
+        "successCampaign": bullets(site_why.get("campaignBest", [])),
+        "avoidCampaign": bullets(site_why.get("campaignWorst", [])),
+        "successFlow": bullets(site_why.get("flowBest", [])),
+        "avoidFlow": bullets(site_why.get("flowWorst", [])),
+    }

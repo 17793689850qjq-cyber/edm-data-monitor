@@ -57,6 +57,18 @@
   <main class="main">
     <div id="loading" class="loading">正在加载数据…</div>
     <div id="error" class="error hidden"></div>
+    <div id="custom-empty" class="custom-empty hidden" role="status">
+      <div class="custom-empty-card">
+        <h2>该日期范围暂无数据</h2>
+        <p>自定义区间需先在 GitHub Actions 同步 Klaviyo 数据；预设区间（7 / 30 / 60 / 90 天）每日自动更新。</p>
+        <p class="custom-empty-range" id="custom-empty-range"></p>
+        <div class="custom-empty-actions">
+          <a id="custom-sync-link" class="btn-sync" href="#" target="_blank" rel="noopener">前往 GitHub Actions 同步</a>
+          <button type="button" class="btn-fallback" id="custom-fallback-30d">先看近 30 天数据</button>
+        </div>
+        <p class="custom-empty-hint">运行 <strong>Sync Klaviyo Dashboard</strong>，填写 <code>start_date</code> 与 <code>end_date</code>（与上方日期一致）。</p>
+      </div>
+    </div>
 
     <section id="view-overview" class="view hidden">
       <div class="kpi-grid" id="kpi-grid"></div>

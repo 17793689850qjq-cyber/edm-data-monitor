@@ -145,7 +145,10 @@ function periodLabel(period) {
 }
 
 function dataUrlForPeriod(period) {
-  if (period.preset === "custom" && period.start && period.end) {
+  if (period.preset === "custom") {
+    if (!period.start || !period.end) {
+      throw new Error("自定义区间需选择开始与结束日期");
+    }
     return `data/dashboard-custom-${period.start}_${period.end}.json`;
   }
   const days = PRESET_DAYS[period.preset] || 30;
@@ -176,7 +179,7 @@ function readUrlPeriod() {
   const end = params.get("end");
   if (start && end) return { preset: "custom", start, end };
   const preset = params.get("period");
-  if (preset && (PRESET_DAYS[preset] || preset === "custom")) return { preset };
+  if (preset && PRESET_DAYS[preset]) return { preset };
   return null;
 }
 
@@ -188,6 +191,48 @@ function syncPeriodUi(period) {
     if ($("#period-start")) $("#period-start").value = period.start || "";
     if ($("#period-end")) $("#period-end").value = period.end || "";
   }
+}
+
+function workflowSyncUrl() {
+  return `https://github.com/${GITHUB_REPO}/actions/workflows/sync-dashboard.yml`;
+}
+
+function syncUrlPeriod(period) {
+  const url = new URL(location.href);
+  if (period.preset === "custom" && period.start && period.end) {
+    url.searchParams.set("start", period.start);
+    url.searchParams.set("end", period.end);
+    url.searchParams.delete("period");
+  } else if (period.preset && PRESET_DAYS[period.preset]) {
+    url.searchParams.set("period", period.preset);
+    url.searchParams.delete("start");
+    url.searchParams.delete("end");
+  }
+  history.replaceState(null, "", url);
+}
+
+function hideAllViews() {
+  document.querySelectorAll(".view").forEach((el) => el.classList.add("hidden"));
+}
+
+function hideCustomEmpty() {
+  $("#custom-empty")?.classList.add("hidden");
+}
+
+function showCustomEmpty(period) {
+  hideAllViews();
+  $("#error")?.classList.add("hidden");
+  const el = $("#custom-empty");
+  if (!el) return;
+  $("#custom-empty-range").textContent = `${period.start} ~ ${period.end}`;
+  const link = $("#custom-sync-link");
+  if (link) link.href = workflowSyncUrl();
+  el.classList.remove("hidden");
+}
+
+function customMissingNotice(period) {
+  const wf = workflowSyncUrl();
+  return `自定义范围 <strong>${period.start} ~ ${period.end}</strong> 尚未同步。请 <a href="${wf}" target="_blank" rel="noopener">在 GitHub Actions 运行 Sync Klaviyo Dashboard</a>，填写 start_date=${period.start}、end_date=${period.end}。`;
 }
 
 function showPeriodNotice(message, isError = false) {
@@ -790,33 +835,45 @@ function refreshAllViews() {
   if (section === "overview") refreshOverview();
 }
 
-async function applyPeriod(period, { silent = false } = {}) {
+async function applyPeriod(period, { silent = false, fallbackOnCustomMissing = false } = {}) {
   currentPeriod = period;
   savePeriod(period);
   syncPeriodUi(period);
+  syncUrlPeriod(period);
   if (!silent) {
     $("#loading").classList.remove("hidden");
     $("#error").classList.add("hidden");
+    hideCustomEmpty();
   }
   showPeriodNotice("");
   try {
     const { data } = await loadData(period);
     DATA = data;
     $("#loading").classList.add("hidden");
+    hideCustomEmpty();
     refreshAllViews();
     showSection($("#section-select").value);
   } catch (err) {
     $("#loading").classList.add("hidden");
     if (period.preset === "custom") {
-      const wf = `https://github.com/${GITHUB_REPO}/actions/workflows/sync-dashboard.yml`;
-      showPeriodNotice(
-        `自定义范围数据尚未同步。请 <a href="${wf}" target="_blank" rel="noopener">在 GitHub Actions 手动运行 Sync Klaviyo Dashboard</a>，填写 start_date=${period.start}、end_date=${period.end}。`,
-        true
-      );
-      if (!DATA) {
-        const el = $("#error");
-        el.textContent = err.message;
-        el.classList.remove("hidden");
+      showCustomEmpty(period);
+      showPeriodNotice(customMissingNotice(period), true);
+      if (fallbackOnCustomMissing) {
+        try {
+          const { data } = await loadData({ preset: "30d" });
+          DATA = data;
+          hideCustomEmpty();
+          refreshAllViews();
+          showSection($("#section-select").value);
+          showPeriodNotice(
+            `已加载近 30 天数据。${customMissingNotice(period)}`,
+            true
+          );
+        } catch (fallbackErr) {
+          const el = $("#error");
+          el.textContent = fallbackErr.message;
+          el.classList.remove("hidden");
+        }
       }
       return;
     }
@@ -845,6 +902,9 @@ function bindPeriodControls() {
     }
     applyPeriod({ preset: "custom", start, end });
   });
+  $("#custom-fallback-30d")?.addEventListener("click", () => {
+    applyPeriod({ preset: "30d" });
+  });
 }
 
 function showDomainHintIfNeeded() {
@@ -860,7 +920,12 @@ async function init() {
     bindFlowFilterHandlers();
     const urlPeriod = readUrlPeriod();
     const stored = urlPeriod || loadStoredPeriod();
-    await applyPeriod(stored, { silent: true });
+    const fallbackCustom =
+      !urlPeriod &&
+      stored.preset === "custom" &&
+      stored.start &&
+      stored.end;
+    await applyPeriod(stored, { silent: true, fallbackOnCustomMissing: fallbackCustom });
     metricView = $("#metric-view").value;
 
     $("#section-select").addEventListener("change", (e) => showSection(e.target.value));

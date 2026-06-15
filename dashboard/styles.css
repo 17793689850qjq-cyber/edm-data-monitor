@@ -132,6 +132,86 @@ select {
 .loading, .error { text-align: center; padding: 3rem; color: var(--muted); }
 .error { color: var(--danger); }
 
+.custom-empty {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1rem 3rem;
+}
+
+.custom-empty-card {
+  max-width: 520px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+
+.custom-empty-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.custom-empty-card p {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.custom-empty-range {
+  font-size: 1rem !important;
+  font-weight: 600;
+  color: var(--text) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.custom-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin: 1.25rem 0 0.75rem;
+}
+
+.btn-sync,
+.btn-fallback {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-sync {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-sync:hover { filter: brightness(1.08); }
+
+.btn-fallback {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-fallback:hover { border-color: var(--muted); }
+
+.custom-empty-hint {
+  font-size: 0.78rem !important;
+  margin-bottom: 0 !important;
+}
+
+.custom-empty-hint code {
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
 .hidden { display: none !important; }
 
 .kpi-grid {

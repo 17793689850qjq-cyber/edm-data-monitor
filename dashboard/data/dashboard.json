@@ -1,24 +1,25 @@
 {
   "meta": {
-    "updatedAt": "2026-06-15T04:05:44Z",
+    "updatedAt": "2026-06-15T04:08:30Z",
     "period": "近 30 天",
     "timeframe": "last_30_days",
-    "siteCount": 11,
-    "errors": [],
-    "seed": true
+    "siteCount": 10,
+    "errors": [
+      "DE: URL can't contain control characters. \"/api/metrics/?filter=equals(name,'Placed Order')\" (found at least ' ')"
+    ]
   },
   "totals": {
-    "campaignCny": 11161662,
-    "flowCny": 11320284,
-    "gmvCny": 22481946,
-    "campaignShare": 0.4964722359888241,
-    "flowShare": 0.5035277640111759,
+    "campaignCny": 10413142.0,
+    "flowCny": 11112838.0,
+    "gmvCny": 21525980.0,
+    "campaignShare": 0.4837476388995995,
+    "flowShare": 0.5162523611004005,
     "global": {
       "deliveryRate": 0.99,
-      "openRate": 0.42383421618837847,
-      "clickRate": 0.019037422668854786,
-      "convRate": 0.0008500732959871636,
-      "gmvCny": 22481946
+      "openRate": 0.4266625023570852,
+      "clickRate": 0.018327909368380867,
+      "convRate": 0.0008378976261249785,
+      "gmvCny": 21525980.0
     }
   },
   "siteOrder": [
@@ -39,829 +40,1683 @@
       "region": "US",
       "currency": "USD",
       "campaign": {
-        "deliveryRate": 0.9981,
-        "openRate": 0.476,
-        "clickRate": 0.0129,
-        "convRate": 0.000283,
-        "gmv": 487639.52,
-        "conversions": 444,
-        "delivered": 1570693
+        "deliveryRate": 0.9980556194504139,
+        "openRate": 0.48114787550948424,
+        "clickRate": 0.01309891734672179,
+        "convRate": 0.00028840534129238697,
+        "gmv": 491962.92,
+        "conversions": 453,
+        "delivered": 1570706
       },
       "flow": {
-        "deliveryRate": 0.968,
-        "openRate": 0.372,
-        "clickRate": 0.039,
-        "convRate": 0.00601,
-        "gmv": 451316.84,
-        "conversions": 372,
-        "delivered": 61929
+        "deliveryRate": 0.9685696840177073,
+        "openRate": 0.3733264028935714,
+        "clickRate": 0.03958837102646136,
+        "convRate": 0.006114954847047328,
+        "gmv": 473631.57,
+        "conversions": 388,
+        "delivered": 63451
       },
-      "campaignGmvCny": 3354960,
-      "flowGmvCny": 3105060,
-      "totalGmvCny": 6460020
+      "campaignGmvCny": 3384705.0,
+      "flowGmvCny": 3258585.0,
+      "totalGmvCny": 6643290.0
     },
     {
       "region": "AU",
       "currency": "AUD",
       "campaign": {
-        "deliveryRate": 0.9987,
-        "openRate": 0.562,
-        "clickRate": 0.0369,
-        "convRate": 0.00163,
-        "gmv": 591494.91,
-        "conversions": 386,
-        "delivered": 236410
+        "deliveryRate": 0.9986864202457558,
+        "openRate": 0.5165000906979454,
+        "clickRate": 0.03468144300889081,
+        "convRate": 0.0015483999866804303,
+        "gmv": 565704.5,
+        "conversions": 372,
+        "delivered": 240248
       },
       "flow": {
-        "deliveryRate": 0.988,
-        "openRate": 0.447,
-        "clickRate": 0.0762,
-        "convRate": 0.0163,
-        "gmv": 440826.51,
-        "conversions": 288,
-        "delivered": 17621
+        "deliveryRate": 0.9882591759477698,
+        "openRate": 0.4516745172930661,
+        "clickRate": 0.07677646921667684,
+        "convRate": 0.01654360739465941,
+        "gmv": 457010.08,
+        "conversions": 298,
+        "delivered": 18013
       },
-      "campaignGmvCny": 2892410,
-      "flowGmvCny": 2155642,
-      "totalGmvCny": 5048052
+      "campaignGmvCny": 2766295.0,
+      "flowGmvCny": 2234779.0,
+      "totalGmvCny": 5001074.0
     },
     {
       "region": "CA",
       "currency": "CAD",
       "campaign": {
-        "deliveryRate": 0.9989,
-        "openRate": 0.494,
-        "clickRate": 0.0203,
-        "convRate": 0.0006,
-        "gmv": 248958.42,
-        "conversions": 219,
-        "delivered": 364870
+        "deliveryRate": 0.9988830455624331,
+        "openRate": 0.496331702272858,
+        "clickRate": 0.020451221089097242,
+        "convRate": 0.0006166562977052163,
+        "gmv": 255470.95,
+        "conversions": 225,
+        "delivered": 364871
       },
       "flow": {
-        "deliveryRate": 0.9927,
-        "openRate": 0.599,
-        "clickRate": 0.1026,
-        "convRate": 0.0168,
-        "gmv": 296946.16,
-        "conversions": 244,
-        "delivered": 14560
+        "deliveryRate": 0.9929256198347107,
+        "openRate": 0.5968182281262485,
+        "clickRate": 0.1024783666267146,
+        "convRate": 0.01671327740045279,
+        "gmv": 314576.42,
+        "conversions": 251,
+        "delivered": 15018
       },
-      "campaignGmvCny": 1252261,
-      "flowGmvCny": 1493639,
-      "totalGmvCny": 2745900
+      "campaignGmvCny": 1285019.0,
+      "flowGmvCny": 1582319.0,
+      "totalGmvCny": 2867338.0
     },
     {
       "region": "UK",
       "currency": "GBP",
       "campaign": {
-        "deliveryRate": 0.9941,
-        "openRate": 0.351,
-        "clickRate": 0.0149,
-        "convRate": 0.000346,
-        "gmv": 83122.62,
-        "conversions": 118,
-        "delivered": 341464
+        "deliveryRate": 0.9982666504237657,
+        "openRate": 0.3506426357097281,
+        "clickRate": 0.014298731132782672,
+        "convRate": 0.0003382065291293448,
+        "gmv": 70708.74,
+        "conversions": 97,
+        "delivered": 286807
       },
       "flow": {
-        "deliveryRate": 0.9902,
-        "openRate": 0.365,
-        "clickRate": 0.0647,
-        "convRate": 0.0112,
-        "gmv": 109522,
-        "conversions": 149,
-        "delivered": 13360
+        "deliveryRate": 0.9902905313864218,
+        "openRate": 0.3642167272174508,
+        "clickRate": 0.06445287223531201,
+        "convRate": 0.01117275974766284,
+        "gmv": 105164.92,
+        "conversions": 147,
+        "delivered": 13157
       },
-      "campaignGmvCny": 773872,
-      "flowGmvCny": 1019650,
-      "totalGmvCny": 1793521
+      "campaignGmvCny": 658298.0,
+      "flowGmvCny": 979085.0,
+      "totalGmvCny": 1637383.0
     },
     {
       "region": "FR",
       "currency": "EUR",
       "campaign": {
-        "deliveryRate": 0.9954,
-        "openRate": 0.289,
-        "clickRate": 0.0161,
-        "convRate": 0.000512,
-        "gmv": 74549,
-        "conversions": 105,
+        "deliveryRate": 0.9954270806055845,
+        "openRate": 0.28970881386070124,
+        "clickRate": 0.016131392792942012,
+        "convRate": 0.0005163905276439439,
+        "gmv": 76348.0,
+        "conversions": 106,
         "delivered": 205271
       },
       "flow": {
-        "deliveryRate": 0.9948,
-        "openRate": 0.467,
-        "clickRate": 0.0886,
-        "convRate": 0.015,
-        "gmv": 109154.55,
-        "conversions": 120,
-        "delivered": 8015
+        "deliveryRate": 0.9946209657242933,
+        "openRate": 0.4638390353414664,
+        "clickRate": 0.08778841780908063,
+        "convRate": 0.015343981889070556,
+        "gmv": 110086.69,
+        "conversions": 122,
+        "delivered": 7951
       },
-      "campaignGmvCny": 605338,
-      "flowGmvCny": 886335,
-      "totalGmvCny": 1491673
-    },
-    {
-      "region": "DE",
-      "currency": "EUR",
-      "campaign": {
-        "deliveryRate": 0.9982,
-        "openRate": 0.384,
-        "clickRate": 0.0318,
-        "convRate": 0.00103,
-        "gmv": 79100.44,
-        "conversions": 178,
-        "delivered": 173484
-      },
-      "flow": {
-        "deliveryRate": 0.9714,
-        "openRate": 0.502,
-        "clickRate": 0.0923,
-        "convRate": 0.0112,
-        "gmv": 59409.04,
-        "conversions": 88,
-        "delivered": 7851
-      },
-      "campaignGmvCny": 642296,
-      "flowGmvCny": 482401,
-      "totalGmvCny": 1124697
+      "campaignGmvCny": 619946.0,
+      "flowGmvCny": 893904.0,
+      "totalGmvCny": 1513850.0
     },
     {
       "region": "IT",
       "currency": "EUR",
       "campaign": {
-        "deliveryRate": 0.9984,
-        "openRate": 0.309,
-        "clickRate": 0.0154,
-        "convRate": 0.000348,
-        "gmv": 60075.76,
-        "conversions": 60,
+        "deliveryRate": 0.9984318853829729,
+        "openRate": 0.3095583108468368,
+        "clickRate": 0.015457451839488143,
+        "convRate": 0.00036511579386605466,
+        "gmv": 64147.3,
+        "conversions": 63,
         "delivered": 172548
       },
       "flow": {
-        "deliveryRate": 0.9899,
-        "openRate": 0.466,
-        "clickRate": 0.095,
-        "convRate": 0.0146,
-        "gmv": 86809.01,
-        "conversions": 104,
-        "delivered": 7134
+        "deliveryRate": 0.9895642363559441,
+        "openRate": 0.465442284452045,
+        "clickRate": 0.0940577782528146,
+        "convRate": 0.01410859341598974,
+        "gmv": 80878.52,
+        "conversions": 99,
+        "delivered": 7017
       },
-      "campaignGmvCny": 487815,
-      "flowGmvCny": 704889,
-      "totalGmvCny": 1192704
+      "campaignGmvCny": 520876.0,
+      "flowGmvCny": 656734.0,
+      "totalGmvCny": 1177610.0
     },
     {
       "region": "EU",
       "currency": "EUR",
       "campaign": {
-        "deliveryRate": 0.9983,
-        "openRate": 0.318,
-        "clickRate": 0.0177,
-        "convRate": 0.000215,
-        "gmv": 48103.58,
-        "conversions": 68,
+        "deliveryRate": 0.9982755081092178,
+        "openRate": 0.3190165232591618,
+        "clickRate": 0.017745932628634886,
+        "convRate": 0.00021830676213105367,
+        "gmv": 48500.36,
+        "conversions": 69,
         "delivered": 316069
       },
       "flow": {
-        "deliveryRate": 0.9908,
-        "openRate": 0.339,
-        "clickRate": 0.0572,
-        "convRate": 0.00718,
-        "gmv": 100161.16,
+        "deliveryRate": 0.9896439211235636,
+        "openRate": 0.37399733299885324,
+        "clickRate": 0.06250033615252294,
+        "convRate": 0.008099197247706422,
+        "gmv": 99440.22,
         "conversions": 113,
-        "delivered": 15747
+        "delivered": 13952
       },
-      "campaignGmvCny": 390601,
-      "flowGmvCny": 813309,
-      "totalGmvCny": 1203910
+      "campaignGmvCny": 393823.0,
+      "flowGmvCny": 807455.0,
+      "totalGmvCny": 1201278.0
     },
     {
       "region": "ES",
       "currency": "EUR",
       "campaign": {
-        "deliveryRate": 0.998,
-        "openRate": 0.316,
-        "clickRate": 0.0179,
-        "convRate": 0.000285,
-        "gmv": 34461.27,
-        "conversions": 38,
+        "deliveryRate": 0.9980335272390124,
+        "openRate": 0.3172715925351553,
+        "clickRate": 0.018023308010997986,
+        "convRate": 0.000292180792484211,
+        "gmv": 34481.17,
+        "conversions": 39,
         "delivered": 133479
       },
       "flow": {
-        "deliveryRate": 0.9895,
-        "openRate": 0.427,
-        "clickRate": 0.076,
-        "convRate": 0.00868,
-        "gmv": 49622.33,
+        "deliveryRate": 0.9895195317816796,
+        "openRate": 0.43369933562585977,
+        "clickRate": 0.0778531636863824,
+        "convRate": 0.008803301237964236,
+        "gmv": 50194.28,
         "conversions": 64,
-        "delivered": 7377
+        "delivered": 7270
       },
-      "campaignGmvCny": 279826,
-      "flowGmvCny": 402933,
-      "totalGmvCny": 682759
+      "campaignGmvCny": 279987.0,
+      "flowGmvCny": 407578.0,
+      "totalGmvCny": 687565.0
     },
     {
       "region": "JP",
       "currency": "JPY",
       "campaign": {
-        "deliveryRate": 0.9971,
-        "openRate": 0.4,
-        "clickRate": 0.0154,
-        "convRate": 0.000539,
-        "gmv": 7647712,
-        "conversions": 158,
+        "deliveryRate": 0.9971165289537216,
+        "openRate": 0.40138577420696897,
+        "clickRate": 0.015409851146834354,
+        "convRate": 0.0005558548911820271,
+        "gmv": 8145648.0,
+        "conversions": 163,
         "delivered": 293242
       },
       "flow": {
-        "deliveryRate": 0.994,
-        "openRate": 0.206,
-        "clickRate": 0.0645,
-        "convRate": 0.0125,
-        "gmv": 2501067,
+        "deliveryRate": 0.9944598337950139,
+        "openRate": 0.20264745125348194,
+        "clickRate": 0.061628781337047356,
+        "convRate": 0.012186629526462395,
+        "gmv": 2461137.0,
         "conversions": 35,
-        "delivered": 2804
+        "delivered": 2872
       },
-      "campaignGmvCny": 336499,
-      "flowGmvCny": 110047,
-      "totalGmvCny": 446546
+      "campaignGmvCny": 358409.0,
+      "flowGmvCny": 108290.0,
+      "totalGmvCny": 466699.0
     },
     {
       "region": "CL",
       "currency": "CLP",
       "campaign": {
-        "deliveryRate": 0.9959,
-        "openRate": 0.278,
-        "clickRate": 0.0206,
-        "convRate": 0.000745,
-        "gmv": 18453723,
+        "deliveryRate": 0.9958733638532465,
+        "openRate": 0.27850498705082555,
+        "clickRate": 0.020556831337002267,
+        "convRate": 0.0007445775331822596,
+        "gmv": 18453723.0,
         "conversions": 23,
         "delivered": 30890
       },
       "flow": {
-        "deliveryRate": 0.9902,
-        "openRate": 0.508,
-        "clickRate": 0.0841,
-        "convRate": 0.0176,
-        "gmv": 18529020,
-        "conversions": 23,
-        "delivered": 1308
+        "deliveryRate": 0.9904692082111437,
+        "openRate": 0.5085114729829755,
+        "clickRate": 0.08734335307179866,
+        "convRate": 0.01998519615099926,
+        "gmv": 23304925.0,
+        "conversions": 27,
+        "delivered": 1351
       },
-      "campaignGmvCny": 145784,
-      "flowGmvCny": 146379,
-      "totalGmvCny": 292164
+      "campaignGmvCny": 145784.0,
+      "flowGmvCny": 184109.0,
+      "totalGmvCny": 329893.0
     }
   ],
   "siteWhy": {
     "US": {
-      "summary": "Campaign 靠 Active 60D + 大促/会员主题；Flow 靠结账弃单的高购买意图。",
+      "summary": "18 Campaign · 16 Flow",
       "campaignBest": [
         {
-          "name": "MAY Member Day Sale",
-          "subject": "4-Day BLUETTI Member Day Sale | Exclusive Member Perks",
-          "audience": "Active 60D",
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 150324,
+            "openRate": 0.57295,
+            "clickRate": 0.02425,
+            "convRate": 0.00063,
+            "gmv": 103951.25045
+          },
           "reasons": [
-            "Active 60D 非 ALL，打开 57%",
-            "Member Day + 双倍 Bucks 权益清晰",
-            "4 天限时 urgency"
+            "GMV 104K USD",
+            "点击 2.4%"
           ]
         },
         {
-          "name": "Email 1 (6月大促)",
-          "subject": "Your Early Prime Day Deals Are Here",
-          "audience": "Active 60D",
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 143391,
+            "openRate": 0.61474,
+            "clickRate": 0.03166,
+            "convRate": 0.00056,
+            "gmv": 78931.33959
+          },
           "reasons": [
-            "Prime Day 节点 + 打开 61%",
-            "30-day price guarantee 降决策门槛",
-            "点击 3.1%"
+            "GMV 79K USD",
+            "点击 3.2%"
           ]
         },
         {
-          "name": "飓风月促72小时",
-          "subject": "72-Hour Hurricane Prep Sale — Shop Before It Ends",
-          "audience": "Active 60D",
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 148333,
+            "openRate": 0.5321,
+            "clickRate": 0.01488,
+            "convRate": 0.0003,
+            "gmv": 68014.27972
+          },
           "reasons": [
-            "飓风季场景共鸣",
-            "72h 倒计时",
-            "GMV $68K"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "夏季内容营销（世界杯）",
-          "subject": "Game Day, Campsite, Blackout: One Power Setup for Summer",
-          "audience": "ALL（27 万）",
-          "reasons": [
-            "全库 ALL 导致打开仅 26%",
-            "纯内容/场景叙事，促销钩子弱",
-            "点击 0.5%、RPR $0.05——宽网内容不适合大规模群发"
-          ]
-        },
-        {
-          "name": "春季拉新篇章3",
-          "subject": "Endless Energy for Life's Best Moments",
-          "audience": "ALL（26 万）",
-          "reasons": [
-            "同样 ALL 宽网，打开 32%",
-            "RV/生活方式内容无明确 offer",
-            "转化 0.007% 几乎无 revenue"
-          ]
-        },
-        {
-          "name": "FrigePower 24hrs Last Call|Subscribers",
-          "subject": "Final 24 Hours to Claim Your FridgePower VIP Price!",
-          "audience": "众筹预热 list（8.7K）",
-          "reasons": [
-            "受众已预热但仍打开 37%、GMV $132",
-            "众筹尾期 list 疲劳或 offer 不匹配",
-            "应缩小至未转化定金用户"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "弃单挽回-Checkout Abandoned Flow_V1",
-          "subject": "（序列多封，Top 邮件转化 4%）",
-          "audience": "Checkout 弃单",
-          "reasons": [
-            "行为触发，转化 2.8%",
-            "RPR 远超 Campaign"
-          ]
-        },
-        {
-          "name": "Welcome flow",
-          "subject": "（序列 Email 3 打开 38%、转化 0.8% 最佳）",
-          "audience": "新订阅",
-          "reasons": [
-            "体量 3.8 万+ 累积 GMV",
-            "序列中后期邮件贡献主要转化"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Welcome flow · Email 1",
-          "subject": "（首封打开 28%，9K 人）",
-          "audience": "新订阅",
-          "reasons": [
-            "Welcome 首封打开低于序列后续 10pp+",
-            "建议 A/B 主题行/延迟发送",
-            "优先级 P1"
-          ]
-        },
-        {
-          "name": "Growave - Points Expiration",
-          "subject": "积分过期提醒",
-          "audience": "会员积分",
-          "reasons": [
-            "打开 36% 但 GMV 极低",
-            "非核心 revenue Flow，可降频或合并"
-          ]
-        },
-        {
-          "name": "Sunset Unengaged Subscribers",
-          "subject": "（List Hygiene 序列）",
-          "audience": "低 engagement",
-          "reasons": [
-            "打开 3–6% 为预期行为",
-            "非优化对象，仅监控 list 健康"
-          ]
-        }
-      ]
-    },
-    "AU": {
-      "summary": "EOFY + Active 30D 是 AU Campaign 密码；Flow Checkout 转化 4.8%。",
-      "campaignBest": [
-        {
-          "name": "Eofy-Sale-2026（Active 30D)",
-          "subject": "EOFY 财年促销",
-          "audience": "Active 30D",
-          "reasons": [
-            "本地 EOFY 节点",
-            "打开 68%、RPR A$6.34"
-          ]
-        },
-        {
-          "name": "EOFY Top Deals and Giveaway",
-          "subject": "Top Deals + Giveaway",
-          "audience": "Active 60D",
-          "reasons": [
-            "抽奖拉升点击 3.6%"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "Email 1 (clone 3)",
-          "subject": "（同主促克隆）",
-          "audience": "Subscribed ALL（排除 Active）",
-          "reasons": [
-            "冷订阅池打开 4.6%",
-            "证明 AU 绝不应向非 Active 宽网促销",
-            "应立即停止此类克隆"
-          ]
-        },
-        {
-          "name": "Eofy-Sale（Active 60D)",
-          "subject": "EOFY 促销",
-          "audience": "Active 60D（排除 30D）",
-          "reasons": [
-            "同活动 30D 打开 68% vs 60D 仅 9%",
-            "受众分层错误导致资源浪费"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Checkout Abandoned Flow_V1",
-          "subject": "弃单挽回序列",
-          "audience": "Checkout",
-          "reasons": [
-            "转化 4.8%"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Sunset Unengaged Subscribers",
-          "subject": "List Hygiene",
-          "audience": "低 engagement",
-          "reasons": [
-            "打开 2.6% 预期",
-            "监控即可"
-          ]
-        }
-      ]
-    },
-    "CA": {
-      "summary": "会员日 + 产品聚焦 Campaign；Flow Checkout 是全球标杆之一。",
-      "campaignBest": [
-        {
-          "name": "5月会员日5.20",
-          "subject": "会员日专属",
-          "audience": "Active",
-          "reasons": [
-            "打开 69%"
-          ]
-        },
-        {
-          "name": "b500k 复购 5.25",
-          "subject": "B500K 复购",
-          "audience": "已购/意向",
-          "reasons": [
-            "小名单 RPR C$7.75"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "6.2 RV专题促销EDM",
-          "subject": "RV 专题",
-          "audience": "Active",
-          "reasons": [
-            "打开 68% 但 GMV 低于会员日",
-            "主题宽，可更聚焦 SKU"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Checkout Abandoned Flow_V1",
-          "subject": "弃单序列",
-          "audience": "Checkout",
-          "reasons": [
-            "转化 4.8%、GMV Flow 第一"
-          ]
-        }
-      ],
-      "flowWorst": []
-    },
-    "UK": {
-      "summary": "Bank Holiday / Prime 本地促销有效；Flow Welcome 打开优于 Campaign。",
-      "campaignBest": [
-        {
-          "name": "UK-Prime Summer Power Pre-Sale",
-          "subject": "Prime Summer 预售",
-          "audience": "Active",
-          "reasons": [
-            "本地节点"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "UK-User Stories",
-          "subject": "用户故事",
-          "audience": "Active",
-          "reasons": [
-            "点击 0.3%、GMV 最低",
-            "纯内容无 CTA"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Welcome flow_V1",
-          "subject": "Welcome 序列",
-          "audience": "新订阅",
-          "reasons": [
-            "打开 53%"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Sunset",
-          "subject": "Hygiene",
-          "audience": "低 engagement",
-          "reasons": [
-            "预期低打开"
-          ]
-        }
-      ]
-    },
-    "FR": {
-      "summary": "Campaign 打开天花板低；Flow 才是真正转化引擎。",
-      "campaignBest": [
-        {
-          "name": "PD预售（修改）",
-          "subject": "Prime Day 预售",
-          "audience": "FR 订阅（排除 45D 已购）",
-          "reasons": [
-            "促销钩子 + 排除已购"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "用户故事",
-          "subject": "Historias/Stories",
-          "audience": "FR 全订阅",
-          "reasons": [
-            "点击 0.5%",
-            "内容型无 offer"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Welcome flow_V1",
-          "subject": "Welcome",
-          "audience": "新订阅",
-          "reasons": [
-            "转化 2.8%"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Sunset",
-          "subject": "Hygiene",
-          "audience": "低 engagement",
-          "reasons": [
-            "监控"
-          ]
-        }
-      ]
-    },
-    "DE": {
-      "summary": "Transferhub 转化标杆；Flow Checkout 3.5%。",
-      "campaignBest": [
-        {
-          "name": "Transferhub-1",
-          "subject": "TransferHub 新品",
-          "audience": "Active DE",
-          "reasons": [
-            "转化 0.35%"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "May-平效期",
-          "subject": "平效促销",
-          "audience": "Active",
-          "reasons": [
-            "GMV 极低",
-            "平效期不宜硬广"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "checkout abandoned flow_V1",
-          "subject": "Checkout",
-          "audience": "Checkout",
-          "reasons": [
-            "转化 3.5%"
-          ]
-        }
-      ],
-      "flowWorst": []
-    },
-    "IT": {
-      "summary": "Prime Estate 大促 + Checkout Flow 4.3%。",
-      "campaignBest": [
-        {
-          "name": "2026 Prime Estate offerte first call",
-          "subject": "Prime Estate",
-          "audience": "Active IT",
-          "reasons": [
-            "GMV 最高"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "User Stories",
-          "subject": "Stories",
-          "audience": "Active",
-          "reasons": [
-            "点击 0.4%"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "checkout abandoned flow_V1",
-          "subject": "Checkout",
-          "audience": "Checkout",
-          "reasons": [
-            "转化 4.3%"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Avviso spedizione Elite 30 V2",
-          "subject": "发货通知",
-          "audience": "Draft",
-          "reasons": [
-            "Draft 有发送，需确认是否应 Live",
-            "P2"
-          ]
-        }
-      ]
-    },
-    "EU": {
-      "summary": "泛欧账号 Campaign 打开低；Flow 贡献主要 GMV。",
-      "campaignBest": [
-        {
-          "name": "Prime Day Pre-Sale 2026",
-          "subject": "Prime Day 预售",
-          "audience": "EU 泛欧",
-          "reasons": [
-            "大促单点爆破"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "User stories",
-          "subject": "Stories",
-          "audience": "EU 泛欧",
-          "reasons": [
-            "点击 0.4%"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Checkout Abandoned Flow_V1",
-          "subject": "Checkout",
-          "audience": "Checkout",
-          "reasons": [
-            "Flow GMV 第一"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Welcome flow_V1",
-          "subject": "Welcome",
-          "audience": "新订阅",
-          "reasons": [
-            "打开 32% 低于 US 37%",
-            "泛欧多语言混库",
-            "P1：对标 US Welcome 序列"
-          ]
-        }
-      ]
-    },
-    "ES": {
-      "summary": "Prime Summer 预售最佳；Flow 为主力。",
-      "campaignBest": [
-        {
-          "name": "Preventa BLUETTI Prime Summer Power",
-          "subject": "Prime Summer 预售",
-          "audience": "ES Active",
-          "reasons": [
-            "点击 3.5%"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "Solar Generator Sale开售",
-          "subject": "开售通知",
-          "audience": "ES 订阅",
-          "reasons": [
-            "GMV 低",
-            "缺 urgency/预售节奏"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "Welcome flow_V1",
-          "subject": "Welcome",
-          "audience": "新订阅",
-          "reasons": [
-            "GMV Flow 主体"
-          ]
-        }
-      ],
-      "flowWorst": []
-    },
-    "JP": {
-      "summary": "会员日/初夏促销强；Checkout NEW Flow 转化 8.6%。",
-      "campaignBest": [
-        {
-          "name": "BLUETTI会员日",
-          "subject": "会员日",
-          "audience": "Active JP",
-          "reasons": [
-            "打开 43%"
-          ]
-        }
-      ],
-      "campaignWorst": [
-        {
-          "name": "太阳能板选购指南",
-          "subject": "选购指南",
-          "audience": "Active",
-          "reasons": [
-            "点击 0.5%",
-            "内容型"
-          ]
-        }
-      ],
-      "flowBest": [
-        {
-          "name": "checkout abandoned flow（NEW）",
-          "subject": "Checkout NEW",
-          "audience": "Checkout",
-          "reasons": [
-            "转化 8.6% 全球最高"
-          ]
-        }
-      ],
-      "flowWorst": [
-        {
-          "name": "Sunset Unengaged Subscribers",
-          "subject": "Sungiene",
-          "audience": "低 engagement",
-          "reasons": [
-            "打开 5%",
-            "与 JP 团队对齐预期"
-          ]
-        }
-      ]
-    },
-    "CL": {
-      "summary": "Cyber Day burst + Checkout Flow 5.2%。",
-      "campaignBest": [
-        {
-          "name": "CL Cyber Day 开售",
-          "subject": "Cyber Day",
-          "audience": "CL Active",
-          "reasons": [
-            "本地大节"
+            "GMV 68K USD"
           ]
         }
       ],
       "campaignWorst": [],
       "flowBest": [
         {
-          "name": "Checkout Abandoned Flow_V1",
-          "subject": "Checkout",
-          "audience": "Checkout",
+          "name": "WmD5nh",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 40288,
+            "openRate": 0.33680805511379935,
+            "clickRate": 0.030449392027530827,
+            "convRate": 0.00417133769585734,
+            "gmv": 198809.16045000002
+          },
           "reasons": [
-            "转化 5.2%"
+            "GMV 199K USD",
+            "打开 33.7%"
+          ]
+        },
+        {
+          "name": "Ss3PZm",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4593,
+            "openRate": 0.5086702744237104,
+            "clickRate": 0.09066777387486277,
+            "convRate": 0.0283205268935236,
+            "gmv": 175245.07046999998
+          },
+          "reasons": [
+            "转化 2.83%",
+            "GMV 175K USD",
+            "打开 50.9%"
+          ]
+        },
+        {
+          "name": "RUnCBU",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2185,
+            "openRate": 0.5050450779816513,
+            "clickRate": 0.08669675688073394,
+            "convRate": 0.01834862385321101,
+            "gmv": 60535.27975999999
+          },
+          "reasons": [
+            "转化 1.83%",
+            "GMV 61K USD",
+            "打开 50.5%"
           ]
         }
       ],
       "flowWorst": [
         {
-          "name": "checkout abandoned flow (2026 NEW)",
-          "subject": "Draft Checkout",
-          "audience": "Draft",
+          "name": "S5v9Th",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4402,
+            "openRate": 0.04595030027297543,
+            "clickRate": 0.004775803002729754,
+            "convRate": 0.00022747952684258417,
+            "gmv": 812.17999
+          },
           "reasons": [
-            "Draft 有数据，需决定是否合并到 Live",
-            "P2"
+            "打开 4.6% 偏低"
+          ]
+        },
+        {
+          "name": "TYykGk",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4345,
+            "openRate": 0.4316,
+            "clickRate": 0.02491,
+            "convRate": 0.000461361014994233,
+            "gmv": 568.57001
+          },
+          "reasons": [
+            "TYykGk"
+          ]
+        },
+        {
+          "name": "R5kWZa",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1461,
+            "openRate": 0.36433,
+            "clickRate": 0.06405,
+            "convRate": 0.0013774104683195593,
+            "gmv": 239.41
+          },
+          "reasons": [
+            "R5kWZa"
           ]
         }
       ]
+    },
+    "AU": {
+      "summary": "21 Campaign · 12 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 24298,
+            "openRate": 0.68308,
+            "clickRate": 0.05119,
+            "convRate": 0.00362,
+            "gmv": 153881.12057
+          },
+          "reasons": [
+            "GMV 154K AUD",
+            "点击 5.1%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 26575,
+            "openRate": 0.62879,
+            "clickRate": 0.01845,
+            "convRate": 0.00166,
+            "gmv": 89600.46032
+          },
+          "reasons": [
+            "GMV 90K AUD"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 27841,
+            "openRate": 0.58438,
+            "clickRate": 0.03606,
+            "convRate": 0.00173,
+            "gmv": 74107.52051
+          },
+          "reasons": [
+            "GMV 74K AUD",
+            "点击 3.6%"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "UPVc2d",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 6034,
+            "openRate": 0.49712000000000006,
+            "clickRate": 0.09654,
+            "convRate": 0.02100271002710027,
+            "gmv": 186494.08128
+          },
+          "reasons": [
+            "转化 2.10%",
+            "GMV 186K AUD",
+            "打开 49.7%"
+          ]
+        },
+        {
+          "name": "RK4qvU",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1770,
+            "openRate": 0.5541099263456091,
+            "clickRate": 0.10594850991501417,
+            "convRate": 0.036260623229461754,
+            "gmv": 111824.65054999999
+          },
+          "reasons": [
+            "转化 3.63%",
+            "GMV 112K AUD",
+            "打开 55.4%"
+          ]
+        },
+        {
+          "name": "UD6Xmq",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1241,
+            "openRate": 0.5417674047039742,
+            "clickRate": 0.11354603406326035,
+            "convRate": 0.047039740470397405,
+            "gmv": 111393.63071999999
+          },
+          "reasons": [
+            "转化 4.70%",
+            "GMV 111K AUD",
+            "打开 54.2%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "RQU7Tm",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2226,
+            "openRate": 0.026686933514246943,
+            "clickRate": 0.004521166892808684,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 2.7% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "XQ8SJf",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2391,
+            "openRate": 0.41761,
+            "clickRate": 0.031029999999999995,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "Sc9Xqq",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 582,
+            "openRate": 0.54021,
+            "clickRate": 0.02622,
+            "convRate": 0.005244755244755245,
+            "gmv": 612.0
+          },
+          "reasons": [
+            "Sc9Xqq"
+          ]
+        }
+      ]
+    },
+    "CA": {
+      "summary": "17 Campaign · 11 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 56814,
+            "openRate": 0.35489,
+            "clickRate": 0.01357,
+            "convRate": 0.00041,
+            "gmv": 35879.18058
+          },
+          "reasons": [
+            "GMV 36K CAD"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 28437,
+            "openRate": 0.68956,
+            "clickRate": 0.05343,
+            "convRate": 0.00183,
+            "gmv": 34345.34019
+          },
+          "reasons": [
+            "GMV 34K CAD",
+            "点击 5.3%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 31359,
+            "openRate": 0.60065,
+            "clickRate": 0.01081,
+            "convRate": 0.00058,
+            "gmv": 33062.19965
+          },
+          "reasons": [
+            "GMV 33K CAD"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "XvkZAi",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2619,
+            "openRate": 0.6074462202609364,
+            "clickRate": 0.11895745970836533,
+            "convRate": 0.046431312356101304,
+            "gmv": 167432.60024
+          },
+          "reasons": [
+            "转化 4.64%",
+            "GMV 167K CAD",
+            "打开 60.7%"
+          ]
+        },
+        {
+          "name": "XXjkQF",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 3657,
+            "openRate": 0.60538,
+            "clickRate": 0.11287,
+            "convRate": 0.013865779256794232,
+            "gmv": 56135.04986
+          },
+          "reasons": [
+            "转化 1.39%",
+            "GMV 56K CAD",
+            "打开 60.5%"
+          ]
+        },
+        {
+          "name": "Ujgcjh",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1660,
+            "openRate": 0.5675526477683958,
+            "clickRate": 0.0977116224366707,
+            "convRate": 0.015078407720144753,
+            "gmv": 43646.25955
+          },
+          "reasons": [
+            "转化 1.51%",
+            "GMV 44K CAD",
+            "打开 56.8%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "UaDRmT",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2031,
+            "openRate": 0.5143,
+            "clickRate": 0.04783,
+            "convRate": 0.0019723865877712033,
+            "gmv": 2273.20999
+          },
+          "reasons": [
+            "UaDRmT"
+          ]
+        },
+        {
+          "name": "WWqzje",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1069,
+            "openRate": 0.6558,
+            "clickRate": 0.03835,
+            "convRate": 0.00862895493767977,
+            "gmv": 3979.38996
+          },
+          "reasons": [
+            "WWqzje"
+          ]
+        },
+        {
+          "name": "VTtJEe",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 991,
+            "openRate": 0.59252,
+            "clickRate": 0.08999,
+            "convRate": 0.00910010111223458,
+            "gmv": 2660.89001
+          },
+          "reasons": [
+            "VTtJEe"
+          ]
+        }
+      ]
+    },
+    "UK": {
+      "summary": "5 Campaign · 12 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 58163,
+            "openRate": 0.35557,
+            "clickRate": 0.02652,
+            "convRate": 0.00062,
+            "gmv": 20992.50024
+          },
+          "reasons": [
+            "GMV 21K GBP",
+            "点击 2.7%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 57421,
+            "openRate": 0.34913,
+            "clickRate": 0.01399,
+            "convRate": 0.00045,
+            "gmv": 18631.96994
+          },
+          "reasons": [
+            "GMV 19K GBP"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 56937,
+            "openRate": 0.35573,
+            "clickRate": 0.0162,
+            "convRate": 0.00035,
+            "gmv": 14079.13011
+          },
+          "reasons": [
+            "GMV 14K GBP"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "Uk8acX",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 3609,
+            "openRate": 0.53254,
+            "clickRate": 0.09932,
+            "convRate": 0.021222410865874362,
+            "gmv": 48285.13001
+          },
+          "reasons": [
+            "转化 2.12%",
+            "GMV 48K GBP",
+            "打开 53.3%"
+          ]
+        },
+        {
+          "name": "RN3qA9",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1671,
+            "openRate": 0.4838725380401704,
+            "clickRate": 0.10408009129640901,
+            "convRate": 0.023128423615337797,
+            "gmv": 28010.69976
+          },
+          "reasons": [
+            "转化 2.31%",
+            "GMV 28K GBP",
+            "打开 48.4%"
+          ]
+        },
+        {
+          "name": "VbPrGd",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 414,
+            "openRate": 0.53269,
+            "clickRate": 0.06538,
+            "convRate": 0.012106537530266344,
+            "gmv": 11739.15
+          },
+          "reasons": [
+            "转化 1.21%",
+            "GMV 12K GBP",
+            "打开 53.3%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "WUp29v",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 3942,
+            "openRate": 0.014999755911517925,
+            "clickRate": 0.0015261123824052887,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 1.5% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "TKvzCV",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1159,
+            "openRate": 0.41472,
+            "clickRate": 0.02338,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "UppeyA",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 845,
+            "openRate": 0.51667,
+            "clickRate": 0.1119,
+            "convRate": 0.005952380952380952,
+            "gmv": 4731.88991
+          },
+          "reasons": [
+            "UppeyA"
+          ]
+        }
+      ]
+    },
+    "FR": {
+      "summary": "8 Campaign · 17 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 30911,
+            "openRate": 0.26999,
+            "clickRate": 0.02581,
+            "convRate": 0.00078,
+            "gmv": 23985.67039
+          },
+          "reasons": [
+            "GMV 24K EUR",
+            "点击 2.6%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 31264,
+            "openRate": 0.28947,
+            "clickRate": 0.02245,
+            "convRate": 0.00106,
+            "gmv": 15129.37023
+          },
+          "reasons": [
+            "GMV 15K EUR",
+            "点击 2.2%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 30493,
+            "openRate": 0.26973,
+            "clickRate": 0.0117,
+            "convRate": 0.00044,
+            "gmv": 12966.48008
+          },
+          "reasons": [
+            "GMV 13K EUR"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "RrDsV9",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1628,
+            "openRate": 0.50623,
+            "clickRate": 0.08666000000000001,
+            "convRate": 0.028678304239401497,
+            "gmv": 39595.00006
+          },
+          "reasons": [
+            "转化 2.87%",
+            "GMV 40K EUR",
+            "打开 50.6%"
+          ]
+        },
+        {
+          "name": "VGHFui",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1043,
+            "openRate": 0.4513010993249759,
+            "clickRate": 0.11860893924783027,
+            "convRate": 0.03953712632594021,
+            "gmv": 38399.86016
+          },
+          "reasons": [
+            "转化 3.95%",
+            "GMV 38K EUR",
+            "打开 45.1%"
+          ]
+        },
+        {
+          "name": "X5jbLe",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 711,
+            "openRate": 0.51408,
+            "clickRate": 0.12817,
+            "convRate": 0.016901408450704224,
+            "gmv": 13579.42001
+          },
+          "reasons": [
+            "转化 1.69%",
+            "GMV 14K EUR",
+            "打开 51.4%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "RpRR5M",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 805,
+            "openRate": 0.04375115,
+            "clickRate": 0.0037515374999999994,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 4.4% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "YdgaiG",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 778,
+            "openRate": 0.38273,
+            "clickRate": 0.04124,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "VKQc3S",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 632,
+            "openRate": 0.4857556170886076,
+            "clickRate": 0.0648735917721519,
+            "convRate": 0.0015822784810126582,
+            "gmv": 799.0
+          },
+          "reasons": [
+            "VKQc3S"
+          ]
+        }
+      ]
+    },
+    "IT": {
+      "summary": "6 Campaign · 16 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 35918,
+            "openRate": 0.31417,
+            "clickRate": 0.03372,
+            "convRate": 0.00092,
+            "gmv": 29787.9503
+          },
+          "reasons": [
+            "GMV 30K EUR",
+            "点击 3.4%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 33631,
+            "openRate": 0.29076,
+            "clickRate": 0.01176,
+            "convRate": 0.00033,
+            "gmv": 11680.09998
+          },
+          "reasons": [
+            "GMV 12K EUR"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 35159,
+            "openRate": 0.30574,
+            "clickRate": 0.00361,
+            "convRate": 0.0002,
+            "gmv": 11032.15017
+          },
+          "reasons": [
+            "GMV 11K EUR"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "R7nvfv",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 982,
+            "openRate": 0.5036063439752833,
+            "clickRate": 0.09371505664263646,
+            "convRate": 0.046343975283213185,
+            "gmv": 40137.06037000001
+          },
+          "reasons": [
+            "转化 4.63%",
+            "GMV 40K EUR",
+            "打开 50.4%"
+          ]
+        },
+        {
+          "name": "UPtGYG",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1614,
+            "openRate": 0.50287,
+            "clickRate": 0.09242,
+            "convRate": 0.019120458891013385,
+            "gmv": 23752.75024
+          },
+          "reasons": [
+            "转化 1.91%",
+            "GMV 24K EUR",
+            "打开 50.3%"
+          ]
+        },
+        {
+          "name": "VYLmC6",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 646,
+            "openRate": 0.5201872049689441,
+            "clickRate": 0.10403405279503106,
+            "convRate": 0.010869565217391304,
+            "gmv": 8471.88016
+          },
+          "reasons": [
+            "转化 1.09%",
+            "GMV 8K EUR",
+            "打开 52.0%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "SzgFXD",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 956,
+            "openRate": 0.043113943217665616,
+            "clickRate": 0.0063083596214511045,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 4.3% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "Tnni4u",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 796,
+            "openRate": 0.41793,
+            "clickRate": 0.07197,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "VE99vV",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 291,
+            "openRate": 0.57241,
+            "clickRate": 0.09655,
+            "convRate": 0.0034482758620689655,
+            "gmv": 29.0
+          },
+          "reasons": [
+            "VE99vV"
+          ]
+        }
+      ]
+    },
+    "EU": {
+      "summary": "8 Campaign · 23 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 55322,
+            "openRate": 0.30287,
+            "clickRate": 0.03015,
+            "convRate": 0.00038,
+            "gmv": 20663.23998
+          },
+          "reasons": [
+            "GMV 21K EUR",
+            "点击 3.0%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 54244,
+            "openRate": 0.30557,
+            "clickRate": 0.01692,
+            "convRate": 0.00015,
+            "gmv": 7443.81001
+          },
+          "reasons": [
+            "GMV 7K EUR"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 54090,
+            "openRate": 0.29527,
+            "clickRate": 0.0156,
+            "convRate": 0.0002,
+            "gmv": 7121.46002
+          },
+          "reasons": [
+            "GMV 7K EUR"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "YbVTmy",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1920,
+            "openRate": 0.4719761131482451,
+            "clickRate": 0.0696684232582504,
+            "convRate": 0.021477213200628602,
+            "gmv": 44105.26949
+          },
+          "reasons": [
+            "转化 2.15%",
+            "GMV 44K EUR",
+            "打开 47.2%"
+          ]
+        },
+        {
+          "name": "S8rYQv",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2163,
+            "openRate": 0.54305,
+            "clickRate": 0.11111,
+            "convRate": 0.017797017797017797,
+            "gmv": 31106.9102
+          },
+          "reasons": [
+            "转化 1.78%",
+            "GMV 31K EUR",
+            "打开 54.3%"
+          ]
+        },
+        {
+          "name": "Um67dU",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1098,
+            "openRate": 0.47944948858447495,
+            "clickRate": 0.06301307762557079,
+            "convRate": 0.011872146118721462,
+            "gmv": 13932.50986
+          },
+          "reasons": [
+            "转化 1.19%",
+            "GMV 14K EUR",
+            "打开 47.9%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "Y3bAQu",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4318,
+            "openRate": 0.013700515439981426,
+            "clickRate": 0.0011620153238913395,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 1.4% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "VfrrUm",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1172,
+            "openRate": 0.43188,
+            "clickRate": 0.02314,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "UxjtkM",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 659,
+            "openRate": 0.5792726829268293,
+            "clickRate": 0.05792716463414634,
+            "convRate": 0.003048780487804878,
+            "gmv": 251.08
+          },
+          "reasons": [
+            "UxjtkM"
+          ]
+        }
+      ]
+    },
+    "ES": {
+      "summary": "6 Campaign · 19 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 30220,
+            "openRate": 0.32569,
+            "clickRate": 0.0357,
+            "convRate": 0.0006,
+            "gmv": 12967.81013
+          },
+          "reasons": [
+            "GMV 13K EUR",
+            "点击 3.6%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 29645,
+            "openRate": 0.30396,
+            "clickRate": 0.00469,
+            "convRate": 0.00027,
+            "gmv": 9199.26007
+          },
+          "reasons": [
+            "GMV 9K EUR"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 24473,
+            "openRate": 0.32355,
+            "clickRate": 0.01425,
+            "convRate": 0.00025,
+            "gmv": 6150.03009
+          },
+          "reasons": [
+            "GMV 6K EUR"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "YnMdRw",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1921,
+            "openRate": 0.49252999999999997,
+            "clickRate": 0.09338,
+            "convRate": 0.0144076840981857,
+            "gmv": 21132.47005
+          },
+          "reasons": [
+            "转化 1.44%",
+            "GMV 21K EUR",
+            "打开 49.3%"
+          ]
+        },
+        {
+          "name": "SbGjBw",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1210,
+            "openRate": 0.44379367194005,
+            "clickRate": 0.07660635303913406,
+            "convRate": 0.019150707743547043,
+            "gmv": 18935.8404
+          },
+          "reasons": [
+            "转化 1.92%",
+            "GMV 19K EUR",
+            "打开 44.4%"
+          ]
+        },
+        {
+          "name": "U2Rd2v",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 706,
+            "openRate": 0.50638,
+            "clickRate": 0.12481999999999999,
+            "convRate": 0.009929078014184398,
+            "gmv": 6605.20003
+          },
+          "reasons": [
+            "GMV 7K EUR",
+            "打开 50.6%"
+          ]
+        }
+      ],
+      "flowWorst": [
+        {
+          "name": "Y7NRbS",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1004,
+            "openRate": 0.026103734939759038,
+            "clickRate": 0.004012409638554217,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 2.6% 偏低",
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "VSsuwY",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 577,
+            "openRate": 0.38529,
+            "clickRate": 0.03678,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "TXqixp",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 274,
+            "openRate": 0.48174693430656934,
+            "clickRate": 0.0,
+            "convRate": 0.0036496350364963502,
+            "gmv": 264.19
+          },
+          "reasons": [
+            "TXqixp"
+          ]
+        }
+      ]
+    },
+    "JP": {
+      "summary": "5 Campaign · 4 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 59763,
+            "openRate": 0.37949,
+            "clickRate": 0.01424,
+            "convRate": 0.00064,
+            "gmv": 3073026.0
+          },
+          "reasons": [
+            "GMV 3.1M JPY"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 58591,
+            "openRate": 0.39042,
+            "clickRate": 0.00515,
+            "convRate": 0.00038,
+            "gmv": 1827149.0
+          },
+          "reasons": [
+            "GMV 1.8M JPY"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 58125,
+            "openRate": 0.4053,
+            "clickRate": 0.0176,
+            "convRate": 0.0006,
+            "gmv": 1602925.0
+          },
+          "reasons": [
+            "GMV 1.6M JPY"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "X2XRhC",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 317,
+            "openRate": 0.5428574603174603,
+            "clickRate": 0.12063746031746031,
+            "convRate": 0.09206349206349207,
+            "gmv": 2010703.0
+          },
+          "reasons": [
+            "转化 9.21%",
+            "GMV 2.0M JPY",
+            "打开 54.3%"
+          ]
+        },
+        {
+          "name": "Rzf6qp",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 549,
+            "openRate": 0.54851,
+            "clickRate": 0.22761,
+            "convRate": 0.007462686567164179,
+            "gmv": 171660.0
+          },
+          "reasons": [
+            "GMV 172K JPY",
+            "打开 54.9%"
+          ]
+        },
+        {
+          "name": "XeU3x5",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2010,
+            "openRate": 0.05575011448481832,
+            "clickRate": 0.006967695370831259,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "打开 5.6%"
+          ]
+        }
+      ],
+      "flowWorst": []
+    },
+    "CL": {
+      "summary": "5 Campaign · 16 Flow",
+      "campaignBest": [
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 6824,
+            "openRate": 0.28111,
+            "clickRate": 0.02486,
+            "convRate": 0.00132,
+            "gmv": 7714053.0
+          },
+          "reasons": [
+            "GMV 7.7M CLP",
+            "点击 2.5%"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 6962,
+            "openRate": 0.26872,
+            "clickRate": 0.01872,
+            "convRate": 0.00086,
+            "gmv": 4999974.0
+          },
+          "reasons": [
+            "GMV 5.0M CLP"
+          ]
+        },
+        {
+          "name": "Unknown",
+          "subject": "Unknown",
+          "audience": "—",
+          "metrics": {
+            "recipients": 3605,
+            "openRate": 0.30791,
+            "clickRate": 0.01984,
+            "convRate": 0.00028,
+            "gmv": 2298141.0
+          },
+          "reasons": [
+            "GMV 2.3M CLP"
+          ]
+        }
+      ],
+      "campaignWorst": [],
+      "flowBest": [
+        {
+          "name": "Tm3kYs",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 269,
+            "openRate": 0.3954341064638783,
+            "clickRate": 0.07224372623574145,
+            "convRate": 0.053231939163498096,
+            "gmv": 10504091.0
+          },
+          "reasons": [
+            "转化 5.32%",
+            "GMV 10.5M CLP",
+            "打开 39.5%"
+          ]
+        },
+        {
+          "name": "WBptQb",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 137,
+            "openRate": 0.64706,
+            "clickRate": 0.16912,
+            "convRate": 0.022058823529411766,
+            "gmv": 2001062.0
+          },
+          "reasons": [
+            "转化 2.21%",
+            "GMV 2.0M CLP",
+            "打开 64.7%"
+          ]
+        },
+        {
+          "name": "UCUrKB",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 303,
+            "openRate": 0.6072601320132013,
+            "clickRate": 0.029703597359735972,
+            "convRate": 0.0033003300330033004,
+            "gmv": 1538981.0
+          },
+          "reasons": [
+            "GMV 1.5M CLP",
+            "打开 60.7%"
+          ]
+        }
+      ],
+      "flowWorst": []
     }
   },
   "successPlaybook": {
@@ -897,52 +1752,60 @@
   },
   "flowAlerts": [
     {
-      "priority": "P0",
-      "region": "US",
-      "flow": "Welcome flow · Email 1",
-      "category": "Welcome",
-      "issue": "首封打开 28%，低于同序列后续邮件（38%）",
-      "action": "A/B 首封 Subject 或调整发送顺序"
-    },
-    {
-      "priority": "P1",
-      "region": "IT",
-      "flow": "Avviso spedizione Elite 30 V2",
-      "category": "Draft",
-      "issue": "Draft 状态仍有发送",
-      "action": "确认 Live / 合并 / 下线"
-    },
-    {
-      "priority": "P1",
-      "region": "CL",
-      "flow": "checkout abandoned (2026 NEW)",
-      "category": "Draft",
-      "issue": "Draft 与 Live Checkout 并存",
-      "action": "合并或下线 Draft 版本"
+      "priority": "P2",
+      "region": "AU",
+      "flow": "RQU7Tm",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
     },
     {
       "priority": "P2",
-      "region": "US",
-      "flow": "Growave - Points Expiration",
+      "region": "ES",
+      "flow": "Y7NRbS",
       "category": "Other",
-      "issue": "近 30 天 GMV 极低",
+      "issue": "大发送量但 GMV 为 0",
       "action": "评估降频或合并"
     },
     {
       "priority": "P2",
       "region": "EU",
-      "flow": "Sunset Unengaged Subscribers",
-      "category": "Sunset",
-      "issue": "打开 1.4%（预期偏低）",
-      "action": "仅监控 list 健康"
+      "flow": "Y3bAQu",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
+    },
+    {
+      "priority": "P2",
+      "region": "FR",
+      "flow": "RpRR5M",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
+    },
+    {
+      "priority": "P2",
+      "region": "IT",
+      "flow": "SzgFXD",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
+    },
+    {
+      "priority": "P2",
+      "region": "JP",
+      "flow": "XeU3x5",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
     },
     {
       "priority": "P2",
       "region": "UK",
-      "flow": "Sunset Unengaged Subscribers",
-      "category": "Sunset",
-      "issue": "打开 1.5%（预期偏低）",
-      "action": "仅监控 list 健康"
+      "flow": "WUp29v",
+      "category": "Other",
+      "issue": "大发送量但 GMV 为 0",
+      "action": "评估降频或合并"
     }
   ]
 }

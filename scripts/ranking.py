@@ -19,6 +19,26 @@ def fmt_gmv(gmv: float, ccy: str) -> str:
     return f"{gmv:.0f} {ccy}"
 
 
+FLOW_PRIORITY_RANK = {"P0": 0, "P1": 1, "P2": 2}
+
+
+def normalize_priority(priority: str | int | None) -> str:
+    if priority is None:
+        return ""
+    raw = str(priority).strip().upper()
+    if raw in FLOW_PRIORITY_RANK:
+        return raw
+    if raw.isdigit():
+        return f"P{raw}"
+    if raw.startswith("P") and raw[1:].isdigit():
+        return f"P{raw[1:]}"
+    return raw
+
+
+def flow_alert_sort_key(alert: dict) -> tuple[int, str]:
+    return (FLOW_PRIORITY_RANK.get(normalize_priority(alert.get("priority")), 99), alert.get("region", ""))
+
+
 def is_sunset(name: str) -> bool:
     return "sunset" in name.lower()
 
@@ -185,6 +205,8 @@ def build_flow_alerts(flows: list[tuple], region: str, ccy: str) -> list[dict]:
                 "issue": f"Live 但转化偏弱 · {base}",
                 "action": "检查 offer / CTA，或与 Checkout 序列对比",
             })
+    for alert in alerts:
+        alert["priority"] = normalize_priority(alert.get("priority"))
     return alerts
 
 

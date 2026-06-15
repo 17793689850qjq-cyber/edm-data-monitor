@@ -27,6 +27,7 @@ from ranking import (
     build_flow_alerts,
     build_flow_insights,
     build_site_playbook,
+    flow_alert_sort_key,
     rank_items,
     to_flow_why_item,
     to_why_item,
@@ -351,7 +352,7 @@ def build_dashboard() -> dict:
     conv = sum(r["campaign"]["conversions"] + r["flow"]["conversions"] for r in rows)
     d = delivered or 1
 
-    flow_alerts.sort(key=lambda a: (a["priority"], a["region"]))
+    flow_alerts.sort(key=flow_alert_sort_key)
     flow_index.sort(key=lambda x: (x["metrics"]["gmv"], x["metrics"]["recipients"]), reverse=True)
 
     return {

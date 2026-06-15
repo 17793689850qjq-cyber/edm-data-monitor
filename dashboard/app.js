@@ -310,6 +310,62 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+const FLOW_PRIORITY_ORDER = ["P0", "P1", "P2"];
+const FLOW_PRIORITY_RANK = { P0: 0, P1: 1, P2: 2 };
+let flowFilterHandlersBound = false;
+
+function normalizePriority(priority) {
+  if (priority == null || priority === "") return "";
+  const raw = String(priority).trim().toUpperCase();
+  if (FLOW_PRIORITY_ORDER.includes(raw)) return raw;
+  const match = raw.match(/^P?(\d)$/);
+  if (match) return `P${match[1]}`;
+  return raw;
+}
+
+function uniqueFlowRegions(extraItems = []) {
+  const seen = new Set();
+  const out = [];
+  const push = (code) => {
+    if (!code || seen.has(code)) return;
+    seen.add(code);
+    out.push(code);
+  };
+  for (const code of DATA.siteOrder || DATA.rows?.map((r) => r.region) || []) push(code);
+  for (const item of extraItems) push(typeof item === "string" ? item : item?.region);
+  return out;
+}
+
+function collectFlowPriorities(alerts) {
+  const found = new Set((alerts || []).map((a) => normalizePriority(a.priority)).filter(Boolean));
+  return FLOW_PRIORITY_ORDER.filter((p) => found.has(p));
+}
+
+function populateSelectOptions(select, options, currentValue, allLabel) {
+  if (!select) return;
+  const current = currentValue || select.value || "ALL";
+  select.innerHTML = `<option value="ALL">${allLabel}</option>${options
+    .map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
+    .join("")}`;
+  if ([...select.options].some((o) => o.value === current)) select.value = current;
+  else select.value = "ALL";
+}
+
+function getFlowIndexItems() {
+  if (DATA.flowIndex?.length) return DATA.flowIndex;
+  const insights = DATA.flowInsights || {};
+  return Object.values(insights);
+}
+
+function bindFlowFilterHandlers() {
+  if (flowFilterHandlersBound) return;
+  flowFilterHandlersBound = true;
+  $("#flow-alert-region")?.addEventListener("change", renderFlow);
+  $("#flow-alert-priority")?.addEventListener("change", renderFlow);
+  $("#flow-insight-region")?.addEventListener("change", renderFlowInsights);
+  $("#flow-insight-tag")?.addEventListener("change", renderFlowInsights);
+}
+
 function flowInsightId(region, name) {
   return `${region}::${name}`;
 }
@@ -454,9 +510,14 @@ function renderSites() {
 function renderFlow() {
   const regionFilter = $("#flow-alert-region")?.value || "ALL";
   const priorityFilter = $("#flow-alert-priority")?.value || "ALL";
-  let alerts = DATA.flowAlerts || [];
+  let alerts = (DATA.flowAlerts || []).map((a) => ({ ...a, priority: normalizePriority(a.priority) || a.priority }));
   if (regionFilter !== "ALL") alerts = alerts.filter((a) => a.region === regionFilter);
   if (priorityFilter !== "ALL") alerts = alerts.filter((a) => a.priority === priorityFilter);
+  alerts.sort(
+    (a, b) =>
+      (FLOW_PRIORITY_RANK[a.priority] ?? 99) - (FLOW_PRIORITY_RANK[b.priority] ?? 99) ||
+      String(a.region).localeCompare(String(b.region))
+  );
 
   const tbody = $("#flow-table tbody");
   tbody.innerHTML = alerts.length
@@ -478,47 +539,42 @@ function renderFlow() {
 }
 
 function setupFlowAlertFilters() {
-  const select = $("#flow-alert-region");
-  if (!select) return;
-  const order = DATA.siteOrder || DATA.rows.map((r) => r.region);
-  select.innerHTML = `<option value="ALL">全部站点</option>${order.map((c) => `<option value="${c}">${c}</option>`).join("")}`;
-  select.addEventListener("change", renderFlow);
-  $("#flow-alert-priority").addEventListener("change", renderFlow);
+  const alerts = DATA.flowAlerts || [];
+  populateSelectOptions($("#flow-alert-region"), uniqueFlowRegions(alerts), null, "全部站点");
+  populateSelectOptions($("#flow-alert-priority"), collectFlowPriorities(alerts), null, "全部");
 }
 
 function renderFlowInsights() {
-  const regionFilter = $("#flow-insight-region").value;
-  const tagFilter = $("#flow-insight-tag").value;
-  let items = DATA.flowIndex || [];
+  const regionFilter = $("#flow-insight-region")?.value || "ALL";
+  const tagFilter = $("#flow-insight-tag")?.value || "ALL";
+  let items = getFlowIndexItems();
   if (regionFilter !== "ALL") items = items.filter((x) => x.region === regionFilter);
   if (tagFilter !== "ALL") items = items.filter((x) => (x.tags || []).includes(tagFilter));
 
   const tbody = $("#flow-insight-table tbody");
+  if (!tbody) return;
   tbody.innerHTML = items.length
     ? items
-        .map(
-          (item) => `<tr>
-        <td class="col-site">${item.region}</td>
+        .map((item) => {
+          const m = item.metrics || {};
+          return `<tr>
+        <td class="col-site">${escapeHtml(item.region || "—")}</td>
         <td>${flowLink(item.region, item.name, item.name)}</td>
-        <td>${escapeHtml(item.status)}</td>
-        <td class="col-num">${escapeHtml(item.metrics.gmvLabel)}</td>
-        <td class="col-num">${pct(item.metrics.openRate)}</td>
-        <td class="col-num">${pct(item.metrics.convRate, 2)}</td>
+        <td>${escapeHtml(item.status || "—")}</td>
+        <td class="col-num">${escapeHtml(m.gmvLabel || "—")}</td>
+        <td class="col-num">${pct(m.openRate || 0)}</td>
+        <td class="col-num">${pct(m.convRate || 0, 2)}</td>
         <td>${renderFlowTags(item.tags)}</td>
         <td class="col-action">${insightBtn(item.region, item.name)}</td>
-      </tr>`
-        )
+      </tr>`;
+        })
         .join("")
     : `<tr><td colspan="8" class="hint">暂无匹配的 Flow</td></tr>`;
   bindFlowInsightClicks($("#flow-insight-table"));
 }
 
 function setupFlowInsightFilters() {
-  const select = $("#flow-insight-region");
-  const order = DATA.siteOrder || DATA.rows.map((r) => r.region);
-  select.innerHTML = `<option value="ALL">全部站点</option>${order.map((c) => `<option value="${c}">${c}</option>`).join("")}`;
-  select.addEventListener("change", renderFlowInsights);
-  $("#flow-insight-tag").addEventListener("change", renderFlowInsights);
+  populateSelectOptions($("#flow-insight-region"), uniqueFlowRegions(getFlowIndexItems()), null, "全部站点");
 }
 
 function renderPlaybookEntry(item, regionCode) {
@@ -633,8 +689,10 @@ async function init() {
     renderMeta();
     setupFlowInsightFilters();
     setupFlowAlertFilters();
+    bindFlowFilterHandlers();
     renderSites();
     renderFlow();
+    renderFlowInsights();
     renderPlaybook();
     showSection($("#section-select").value);
 

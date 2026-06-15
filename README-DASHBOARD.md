@@ -2,13 +2,13 @@
 
 静态网页 + JSON 数据，覆盖 11 个 Klaviyo 站点：US、AU、CA、UK、FR、DE、IT、EU、ES、JP、CL。
 
-**在线看板**：<https://17793689850qjq-cyber.github.io/edm-data-monitor/>
+**在线看板**：<https://bluetti-edm-databoard.netlify.app/>
 
 分享或收藏时请带上统计周期参数，例如 `?period=30d` 或 `?start=2026-05-01&end=2026-05-31`。
 
-可选 Netlify 短链（需本机 `netlify login` 后执行 `.\deploy-netlify.ps1` 部署）：<https://bluetti-edm-campaign.netlify.app/>
+备用 GitHub Pages（含个人账号前缀，不推荐对外分享）：<https://17793689850qjq-cyber.github.io/edm-data-monitor/>
 
-> **勿用**：`https://edm.bluetti.com/`（DNS 未配置）、`https://17793689850qjq-cyber.github.io/bluetti-edm-flow-campaign-data/`（404）、未部署时的 Netlify 地址
+> **勿用**：`https://edm.bluetti.com/`（DNS 未配置）、`https://17793689850qjq-cyber.github.io/bluetti-edm-flow-campaign-data/`（404）、旧 Netlify 地址 `bluetti-edm-campaign.netlify.app`
 
 若期望地址形如 `bluetti/edm-data-monitor`（无个人 GitHub 用户名），请从下表三种方案中选一（**推荐方案 A**，语义最接近该写法）：
 

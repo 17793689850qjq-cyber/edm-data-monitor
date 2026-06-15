@@ -1,6 +1,8 @@
-# Klaviyo 全球监控看板（GitHub Actions 每日同步）
+# BLUETTI EDM Flow & Campaign Data
 
 静态网页 + JSON 数据，覆盖 11 个 Klaviyo 站点：US、AU、CA、UK、FR、DE、IT、EU、ES、JP、CL。
+
+**在线看板**：<https://17793689850qjq-cyber.github.io/bluetti-edm-flow-campaign-data/>
 
 ## 架构
 

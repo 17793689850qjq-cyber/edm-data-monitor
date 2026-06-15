@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-06-15T04:22:14Z",
+    "updatedAt": "2026-06-15T04:44:39Z",
     "period": "近 30 天",
     "timeframe": "last_30_days",
     "siteCount": 11,
@@ -8,16 +8,16 @@
   },
   "totals": {
     "campaignCny": 11061433.0,
-    "flowCny": 11583851.0,
-    "gmvCny": 22645284.0,
-    "campaignShare": 0.4884651921344859,
-    "flowShare": 0.5115348078655141,
+    "flowCny": 11587304.0,
+    "gmvCny": 22648737.0,
+    "campaignShare": 0.48839072130158956,
+    "flowShare": 0.5116092786984104,
     "global": {
       "deliveryRate": 0.99,
-      "openRate": 0.4250518497544655,
-      "clickRate": 0.019066724402004825,
-      "convRate": 0.0008675761473586831,
-      "gmvCny": 22645284.0
+      "openRate": 0.4251403479829388,
+      "clickRate": 0.01907070822267116,
+      "convRate": 0.0008678093668159735,
+      "gmvCny": 22648737.0
     }
   },
   "siteOrder": [
@@ -39,21 +39,21 @@
       "currency": "USD",
       "campaign": {
         "deliveryRate": 0.9980556194504139,
-        "openRate": 0.481199980104488,
-        "clickRate": 0.01309891734672179,
+        "openRate": 0.4812723013600254,
+        "clickRate": 0.013100652158965458,
         "convRate": 0.00028840534129238697,
         "gmv": 491962.92,
         "conversions": 453,
         "delivered": 1570706
       },
       "flow": {
-        "deliveryRate": 0.9685725624274987,
-        "openRate": 0.37341834297240656,
-        "clickRate": 0.03958481270781789,
-        "convRate": 0.006114376664512977,
+        "deliveryRate": 0.968574960699623,
+        "openRate": 0.3734690824430367,
+        "clickRate": 0.039581790993035194,
+        "convRate": 0.006113894929249,
         "gmv": 473631.57,
         "conversions": 388,
-        "delivered": 63457
+        "delivered": 63462
       },
       "campaignGmvCny": 3384705.0,
       "flowGmvCny": 3258585.0,
@@ -63,22 +63,22 @@
       "region": "AU",
       "currency": "AUD",
       "campaign": {
-        "deliveryRate": 0.9986865458233404,
-        "openRate": 0.5174912485485139,
-        "clickRate": 0.03471579637159707,
-        "convRate": 0.0015482517657145474,
+        "deliveryRate": 0.998682482419245,
+        "openRate": 0.5183941827897472,
+        "clickRate": 0.03475437019064702,
+        "convRate": 0.0015481486722128122,
         "gmv": 565704.5,
         "conversions": 372,
-        "delivered": 240271
+        "delivered": 240287
       },
       "flow": {
-        "deliveryRate": 0.9882733300454819,
-        "openRate": 0.4515124541169947,
-        "clickRate": 0.07668334627113946,
-        "convRate": 0.016523426670363182,
+        "deliveryRate": 0.9882829610162067,
+        "openRate": 0.45141448144044316,
+        "clickRate": 0.07661972908587257,
+        "convRate": 0.016509695290858727,
         "gmv": 457010.08,
         "conversions": 298,
-        "delivered": 18035
+        "delivered": 18050
       },
       "campaignGmvCny": 2766295.0,
       "flowGmvCny": 2234779.0,
@@ -89,7 +89,7 @@
       "currency": "CAD",
       "campaign": {
         "deliveryRate": 0.9988830455624331,
-        "openRate": 0.4963476998171956,
+        "openRate": 0.49638037879140834,
         "clickRate": 0.020451221089097242,
         "convRate": 0.0006166562977052163,
         "gmv": 255470.95,
@@ -97,24 +97,24 @@
         "delivered": 364871
       },
       "flow": {
-        "deliveryRate": 0.9929410212429081,
-        "openRate": 0.5963731645737825,
-        "clickRate": 0.1022540316258056,
-        "convRate": 0.016676632781874957,
-        "gmv": 314576.42,
-        "conversions": 251,
-        "delivered": 15051
+        "deliveryRate": 0.9929637666863944,
+        "openRate": 0.5949006198675496,
+        "clickRate": 0.10198761523178809,
+        "convRate": 0.016688741721854305,
+        "gmv": 315262.91,
+        "conversions": 252,
+        "delivered": 15100
       },
       "campaignGmvCny": 1285019.0,
-      "flowGmvCny": 1582319.0,
-      "totalGmvCny": 2867338.0
+      "flowGmvCny": 1585772.0,
+      "totalGmvCny": 2870791.0
     },
     {
       "region": "UK",
       "currency": "GBP",
       "campaign": {
         "deliveryRate": 0.9982666504237657,
-        "openRate": 0.35064859578043767,
+        "openRate": 0.3506565872171879,
         "clickRate": 0.014298731132782672,
         "convRate": 0.0003382065291293448,
         "gmv": 70708.74,
@@ -122,13 +122,13 @@
         "delivered": 286807
       },
       "flow": {
-        "deliveryRate": 0.9902905313864218,
-        "openRate": 0.3642167272174508,
-        "clickRate": 0.06452885308200959,
-        "convRate": 0.01117275974766284,
+        "deliveryRate": 0.9902912621359223,
+        "openRate": 0.364189221006232,
+        "clickRate": 0.06452343745250039,
+        "convRate": 0.011171910624715002,
         "gmv": 105164.92,
         "conversions": 147,
-        "delivered": 13157
+        "delivered": 13158
       },
       "campaignGmvCny": 658298.0,
       "flowGmvCny": 979085.0,
@@ -139,21 +139,21 @@
       "currency": "EUR",
       "campaign": {
         "deliveryRate": 0.9954270806055845,
-        "openRate": 0.28970881386070124,
-        "clickRate": 0.016131392792942012,
+        "openRate": 0.28971332677290024,
+        "clickRate": 0.016135905705141007,
         "convRate": 0.0005163905276439439,
         "gmv": 76348.0,
         "conversions": 106,
         "delivered": 205271
       },
       "flow": {
-        "deliveryRate": 0.9946209657242933,
-        "openRate": 0.4638390353414664,
-        "clickRate": 0.08778841780908063,
-        "convRate": 0.015343981889070556,
+        "deliveryRate": 0.994622983618857,
+        "openRate": 0.46391738496354035,
+        "clickRate": 0.08788009680663816,
+        "convRate": 0.015338194619059593,
         "gmv": 110086.69,
         "conversions": 122,
-        "delivered": 7951
+        "delivered": 7954
       },
       "campaignGmvCny": 619946.0,
       "flowGmvCny": 893904.0,
@@ -164,7 +164,7 @@
       "currency": "EUR",
       "campaign": {
         "deliveryRate": 0.9982105354009033,
-        "openRate": 0.384606873141039,
+        "openRate": 0.3846117534758249,
         "clickRate": 0.03185080180304812,
         "convRate": 0.0010375596596804316,
         "gmv": 79838.8,
@@ -172,13 +172,13 @@
         "delivered": 173484
       },
       "flow": {
-        "deliveryRate": 0.9715615955706556,
-        "openRate": 0.5051165522600699,
-        "clickRate": 0.09091998834347884,
-        "convRate": 0.011527004274057765,
+        "deliveryRate": 0.9715651736285859,
+        "openRate": 0.5051816446516446,
+        "clickRate": 0.09103868816368815,
+        "convRate": 0.011525511525511525,
         "gmv": 58006.5,
         "conversions": 89,
-        "delivered": 7721
+        "delivered": 7722
       },
       "campaignGmvCny": 648291.0,
       "flowGmvCny": 471013.0,
@@ -189,7 +189,7 @@
       "currency": "EUR",
       "campaign": {
         "deliveryRate": 0.9984318853829729,
-        "openRate": 0.30957040209101233,
+        "openRate": 0.3095828403690567,
         "clickRate": 0.015457451839488143,
         "convRate": 0.00036511579386605466,
         "gmv": 64147.3,
@@ -198,7 +198,7 @@
       },
       "flow": {
         "deliveryRate": 0.9895657078398196,
-        "openRate": 0.4653756754060986,
+        "openRate": 0.46551797235679676,
         "clickRate": 0.09404461242519237,
         "convRate": 0.014106583072100314,
         "gmv": 80878.52,
@@ -222,13 +222,13 @@
         "delivered": 316069
       },
       "flow": {
-        "deliveryRate": 0.9896446556493368,
-        "openRate": 0.3739706299720491,
-        "clickRate": 0.06249585680498818,
-        "convRate": 0.008098616784920805,
+        "deliveryRate": 0.989645390070922,
+        "openRate": 0.3741588899240362,
+        "clickRate": 0.06256378099469687,
+        "convRate": 0.008098036405331804,
         "gmv": 99440.22,
         "conversions": 113,
-        "delivered": 13953
+        "delivered": 13954
       },
       "campaignGmvCny": 393823.0,
       "flowGmvCny": 807455.0,
@@ -239,7 +239,7 @@
       "currency": "EUR",
       "campaign": {
         "deliveryRate": 0.9980335272390124,
-        "openRate": 0.3172715925351553,
+        "openRate": 0.31729416986941766,
         "clickRate": 0.018023308010997986,
         "convRate": 0.000292180792484211,
         "gmv": 34481.17,
@@ -264,7 +264,7 @@
       "currency": "JPY",
       "campaign": {
         "deliveryRate": 0.9971165289537216,
-        "openRate": 0.4013959386445325,
+        "openRate": 0.40140000286452826,
         "clickRate": 0.015409851146834354,
         "convRate": 0.0005558548911820271,
         "gmv": 8145648.0,
@@ -272,13 +272,13 @@
         "delivered": 293242
       },
       "flow": {
-        "deliveryRate": 0.9944617514710973,
-        "openRate": 0.20257718412808912,
-        "clickRate": 0.06160805081796032,
-        "convRate": 0.012182387747998607,
+        "deliveryRate": 0.9944636678200692,
+        "openRate": 0.20320200765483645,
+        "clickRate": 0.06158582115518441,
+        "convRate": 0.012178148921363952,
         "gmv": 2461137.0,
         "conversions": 35,
-        "delivered": 2873
+        "delivered": 2874
       },
       "campaignGmvCny": 358409.0,
       "flowGmvCny": 108290.0,
@@ -298,7 +298,7 @@
       },
       "flow": {
         "deliveryRate": 0.9904692082111437,
-        "openRate": 0.5085114729829755,
+        "openRate": 0.5092521391561806,
         "clickRate": 0.08734335307179866,
         "convRate": 0.01998519615099926,
         "gmv": 23304925.0,
@@ -312,12 +312,12 @@
   ],
   "siteWhy": {
     "US": {
-      "summary": "18 Campaign · 16 Flow",
+      "summary": "Campaign 靠 Active 60D + 大促/会员主题；Flow 靠结账弃单的高购买意图。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "MAY Member Day Sale",
+          "subject": "4‑Day BLUETTI Member Day Sale | Exclusive Member Perks",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 150324,
             "openRate": 0.57295,
@@ -326,30 +326,34 @@
             "gmv": 103951.25045
           },
           "reasons": [
-            "GMV 104K USD",
-            "点击 2.4%"
+            "Subject 点明主题：4‑Day BLUETTI Member Day Sale | Exclusive Member Perks",
+            "受众：Active 60D",
+            "Active 分层，打开 57.3%",
+            "GMV 104K USD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Email 1",
+          "subject": "Your Early Prime Day Deals Are Here ⚡",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 143391,
-            "openRate": 0.61478,
+            "openRate": 0.61481,
             "clickRate": 0.03166,
             "convRate": 0.00056,
             "gmv": 78931.33959
           },
           "reasons": [
-            "GMV 79K USD",
-            "点击 3.2%"
+            "Subject 点明主题：Your Early Prime Day Deals Are Here ⚡",
+            "受众：Active 60D",
+            "Active 分层，打开 61.5%",
+            "GMV 79K USD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "飓风月促72小时",
+          "subject": "⚡ 72-Hour Hurricane Prep Sale — Shop Before It Ends",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 148333,
             "openRate": 0.5321,
@@ -358,19 +362,76 @@
             "gmv": 68014.27972
           },
           "reasons": [
+            "Subject 点明主题：⚡ 72-Hour Hurricane Prep Sale — Shop Before It Ends",
+            "受众：Active 60D",
+            "Active 分层，打开 53.2%",
             "GMV 68K USD"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "夏季内容营销（世界杯）",
+          "subject": "Game Day, Campsite, Blackout: One Power Setup for Summer",
+          "audience": "ALL",
+          "metrics": {
+            "recipients": 272887,
+            "openRate": 0.28937,
+            "clickRate": 0.00541,
+            "convRate": 7e-05,
+            "gmv": 17703.17022
+          },
+          "reasons": [
+            "Subject 点明主题：Game Day, Campsite, Blackout: One Power Setup for Summer",
+            "受众：ALL",
+            "含 ALL 宽网，打开 28.9%",
+            "打开率偏低（28.9%）"
+          ]
+        },
+        {
+          "name": "春季拉新篇章3",
+          "subject": "Endless Energy for Life's Best Moments🚐⚡",
+          "audience": "ALL",
+          "metrics": {
+            "recipients": 258268,
+            "openRate": 0.32423,
+            "clickRate": 0.00489,
+            "convRate": 7e-05,
+            "gmv": 18089.0799
+          },
+          "reasons": [
+            "Subject 点明主题：Endless Energy for Life's Best Moments🚐⚡",
+            "受众：ALL",
+            "含 ALL 宽网，打开 32.4%",
+            "点击率低（0.5%）"
+          ]
+        },
+        {
+          "name": "FrigePower 24hrs Last Call|Subscribers",
+          "subject": "⏳Final 24 Hours to Claim Your FridgePower VIP Price!",
+          "audience": "冰箱储能众筹预热页",
+          "metrics": {
+            "recipients": 8750,
+            "openRate": 0.36531,
+            "clickRate": 0.02596,
+            "convRate": 0.00011,
+            "gmv": 132.05
+          },
+          "reasons": [
+            "Subject 点明主题：⏳Final 24 Hours to Claim Your FridgePower VIP Price!",
+            "受众：冰箱储能众筹预热页",
+            "转化与 GMV 均偏弱"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "WmD5nh",
+          "name": "Welcome flow",
           "subject": "—",
           "audience": "—",
           "metrics": {
             "recipients": 40288,
-            "openRate": 0.3368885913914018,
+            "openRate": 0.33699467737310007,
             "clickRate": 0.030449392027530827,
             "convRate": 0.00417133769585734,
             "gmv": 198809.16045000002
@@ -381,14 +442,14 @@
           ]
         },
         {
-          "name": "Ss3PZm",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 4593,
-            "openRate": 0.5091092140504941,
-            "clickRate": 0.09066777387486277,
-            "convRate": 0.0283205268935236,
+            "recipients": 4595,
+            "openRate": 0.5088869212201009,
+            "clickRate": 0.090627869212201,
+            "convRate": 0.028308097432521395,
             "gmv": 175245.07046999998
           },
           "reasons": [
@@ -398,7 +459,7 @@
           ]
         },
         {
-          "name": "RUnCBU",
+          "name": "弃单挽回-Cart Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -417,22 +478,7 @@
       ],
       "flowWorst": [
         {
-          "name": "S5v9Th",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 4402,
-            "openRate": 0.04595030027297543,
-            "clickRate": 0.004775803002729754,
-            "convRate": 0.00022747952684258417,
-            "gmv": 812.17999
-          },
-          "reasons": [
-            "打开 4.6% 偏低"
-          ]
-        },
-        {
-          "name": "TYykGk",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -443,11 +489,11 @@
             "gmv": 568.57001
           },
           "reasons": [
-            "TYykGk"
+            "售后相关-购后半年问卷"
           ]
         },
         {
-          "name": "R5kWZa",
+          "name": "Growave - Points Expiration",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -458,18 +504,48 @@
             "gmv": 239.41
           },
           "reasons": [
-            "R5kWZa"
+            "Growave - Points Expiration"
+          ]
+        },
+        {
+          "name": "Place Order-Repeat Purchase(配件推荐）",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 385,
+            "openRate": 0.49608543080939954,
+            "clickRate": 0.047000182767624014,
+            "convRate": 0.005221932114882507,
+            "gmv": 2196.07007
+          },
+          "reasons": [
+            "Place Order-Repeat Purchase(配件推荐）"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4402,
+            "openRate": 0.04595030027297543,
+            "clickRate": 0.004775803002729754,
+            "convRate": 0.00022747952684258417,
+            "gmv": 812.17999
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "AU": {
-      "summary": "21 Campaign · 12 Flow",
+      "summary": "EOFY + Active 30D 是 AU Campaign 密码；Flow Checkout 转化 4.8%。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Eofy-Sale-2026（Active 30D)",
+          "subject": "⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+          "audience": "Active 30D",
           "metrics": {
             "recipients": 24298,
             "openRate": 0.68308,
@@ -478,53 +554,115 @@
             "gmv": 153881.12057
           },
           "reasons": [
-            "GMV 154K AUD",
-            "点击 5.1%"
+            "Subject 点明主题：⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+            "受众：Active 30D",
+            "Active 分层，打开 68.3%",
+            "GMV 154K AUD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Group C FridgePower Last Call - ALL",
+          "subject": "BLUETTI Owners: Get a Free Display 1 with FridgePower on Kickstarter",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 26575,
-            "openRate": 0.62879,
+            "openRate": 0.62883,
             "clickRate": 0.01845,
             "convRate": 0.00166,
             "gmv": 89600.46032
           },
           "reasons": [
+            "Subject 点明主题：BLUETTI Owners: Get a Free Display 1 with FridgePower on Kickstarter",
+            "受众：Active 60D",
+            "Active 分层，打开 62.9%",
             "GMV 90K AUD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "EOFY Top Deals and Giveaway",
+          "subject": "Get Ready for EOFY Rewards! 🚀",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 27841,
-            "openRate": 0.58441,
+            "openRate": 0.58445,
             "clickRate": 0.03606,
             "convRate": 0.00173,
             "gmv": 74107.52051
           },
           "reasons": [
-            "GMV 74K AUD",
-            "点击 3.6%"
+            "Subject 点明主题：Get Ready for EOFY Rewards! 🚀",
+            "受众：Active 60D",
+            "Active 分层，打开 58.4%",
+            "GMV 74K AUD"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "Eofy-Sale-2026-solar & Battery (Active 60D)",
+          "subject": "⚡ EOFY Sale: Buy More, Save More",
+          "audience": "Active 60D",
+          "metrics": {
+            "recipients": 3067,
+            "openRate": 0.06886,
+            "clickRate": 0.00849,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "Subject 点明主题：⚡ EOFY Sale: Buy More, Save More",
+            "受众：Active 60D",
+            "Active 分层，打开 6.9%",
+            "打开率偏低（6.9%）"
+          ]
+        },
+        {
+          "name": "Eofy-Sale-2026（Active 60D)",
+          "subject": "⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+          "audience": "Active 60D",
+          "metrics": {
+            "recipients": 3383,
+            "openRate": 0.09134,
+            "clickRate": 0.01182,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "Subject 点明主题：⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+            "受众：Active 60D",
+            "Active 分层，打开 9.1%",
+            "打开率偏低（9.1%）"
+          ]
+        },
+        {
+          "name": "Email 1 (clone 2)",
+          "subject": "⚡ EOFY Early Access Is Live: Shop Early Prices Now",
+          "audience": "Active 90D",
+          "metrics": {
+            "recipients": 2085,
+            "openRate": 0.09981,
+            "clickRate": 0.02351,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "Subject 点明主题：⚡ EOFY Early Access Is Live: Shop Early Prices Now",
+            "受众：Active 90D",
+            "Active 分层，打开 10.0%",
+            "打开率偏低（10.0%）"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "UPVc2d",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 6039,
-            "openRate": 0.49687,
-            "clickRate": 0.09646000000000002,
-            "convRate": 0.02098493822981892,
+            "recipients": 6042,
+            "openRate": 0.49662,
+            "clickRate": 0.09641,
+            "convRate": 0.02097428958051421,
             "gmv": 186494.08128
           },
           "reasons": [
@@ -534,14 +672,14 @@
           ]
         },
         {
-          "name": "RK4qvU",
+          "name": "弃单挽回-Cart Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 1771,
-            "openRate": 0.5543619705549264,
-            "clickRate": 0.1058876557191393,
-            "convRate": 0.0362400906002265,
+            "recipients": 1772,
+            "openRate": 0.5540446406338425,
+            "clickRate": 0.10583202603282399,
+            "convRate": 0.03621958121109225,
             "gmv": 111824.65054999999
           },
           "reasons": [
@@ -551,12 +689,12 @@
           ]
         },
         {
-          "name": "UD6Xmq",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
             "recipients": 1243,
-            "openRate": 0.5417022591093118,
+            "openRate": 0.542512089068826,
             "clickRate": 0.11336465587044536,
             "convRate": 0.04696356275303644,
             "gmv": 111393.63071999999
@@ -564,13 +702,58 @@
           "reasons": [
             "转化 4.70%",
             "GMV 111K AUD",
-            "打开 54.2%"
+            "打开 54.3%"
           ]
         }
       ],
       "flowWorst": [
         {
-          "name": "RQU7Tm",
+          "name": "售后相关-购后半年问卷",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 2393,
+            "openRate": 0.41726,
+            "clickRate": 0.031,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "售后相关-how to use SOC",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 587,
+            "openRate": 0.54073,
+            "clickRate": 0.026,
+            "convRate": 0.005199306759098787,
+            "gmv": 612.0
+          },
+          "reasons": [
+            "售后相关-how to use SOC"
+          ]
+        },
+        {
+          "name": "EOFY Sale Welcome FLOW",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1353,
+            "openRate": 0.45378999999999997,
+            "clickRate": 0.07652,
+            "convRate": 0.00909090909090909,
+            "gmv": 18841.52028
+          },
+          "reasons": [
+            "EOFY Sale Welcome FLOW"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -581,49 +764,18 @@
             "gmv": 0.0
           },
           "reasons": [
-            "打开 2.7% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "XQ8SJf",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 2392,
-            "openRate": 0.41744,
-            "clickRate": 0.031009999999999996,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "Sc9Xqq",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 586,
-            "openRate": 0.53993,
-            "clickRate": 0.02604,
-            "convRate": 0.005208333333333333,
-            "gmv": 612.0
-          },
-          "reasons": [
-            "Sc9Xqq"
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "CA": {
-      "summary": "17 Campaign · 12 Flow",
+      "summary": "会员日 + 产品聚焦 Campaign；Flow Checkout 是全球标杆之一。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "MKT Elite 300 Trusted by 2000 Canadian Home Campaign Jun 5, 2026, 6:25 PM",
+          "subject": "Trusted by 2,000+ Canadian Homes | Elite 300",
+          "audience": "Subscribed Consent Status | ALL",
           "metrics": {
             "recipients": 56814,
             "openRate": 0.35489,
@@ -632,13 +784,16 @@
             "gmv": 35879.18058
           },
           "reasons": [
+            "Subject 点明主题：Trusted by 2,000+ Canadian Homes | Elite 300",
+            "受众：Subscribed Consent Status | ALL",
+            "含 ALL 宽网，打开 35.5%",
             "GMV 36K CAD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "5月会员日5.20",
+          "subject": "⚡ May Member Day – 4 Days of Exclusive Deals",
+          "audience": "Active 30D",
           "metrics": {
             "recipients": 28437,
             "openRate": 0.68956,
@@ -647,14 +802,16 @@
             "gmv": 34345.34019
           },
           "reasons": [
-            "GMV 34K CAD",
-            "点击 5.3%"
+            "Subject 点明主题：⚡ May Member Day – 4 Days of Exclusive Deals",
+            "受众：Active 30D",
+            "Active 分层，打开 69.0%",
+            "GMV 34K CAD"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "MKT FridgePower 24h Last Call #3",
+          "subject": "Final 24 hours to Get a Free Display 1 with FridgePower on Kickstarter.",
+          "audience": "Active 60D",
           "metrics": {
             "recipients": 31359,
             "openRate": 0.60065,
@@ -663,31 +820,83 @@
             "gmv": 33062.19965
           },
           "reasons": [
+            "Subject 点明主题：Final 24 hours to Get a Free Display 1 with FridgePower on Kickstarter.",
+            "受众：Active 60D",
+            "Active 分层，打开 60.1%",
             "GMV 33K CAD"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "MKT SpringPower Mood #3Campaign May 15, 2026, 5:58 PM",
+          "subject": "Power Up Your Spring Adventures🌿",
+          "audience": "Subscribed Consent Status | CA",
+          "metrics": {
+            "recipients": 55739,
+            "openRate": 0.34952,
+            "clickRate": 0.01042,
+            "convRate": 0.00029,
+            "gmv": 21669.59949
+          },
+          "reasons": [
+            "Subject 点明主题：Power Up Your Spring Adventures🌿",
+            "受众：Subscribed Consent Status | CA"
+          ]
+        },
+        {
+          "name": "MKT Summer & Victoria Day Campaign May 18, 2026, 5:35 PM",
+          "subject": "Power Your First Summer Escape",
+          "audience": "Subscribed Consent Status | CA",
+          "metrics": {
+            "recipients": 55687,
+            "openRate": 0.36098,
+            "clickRate": 0.01396,
+            "convRate": 0.00034,
+            "gmv": 21174.81026
+          },
+          "reasons": [
+            "Subject 点明主题：Power Your First Summer Escape",
+            "受众：Subscribed Consent Status | CA"
+          ]
+        },
+        {
+          "name": "5.27 apex300 弃单弃购",
+          "subject": "⏳ Extra 5% Off Your Cart — 72 Hours Left",
+          "audience": "apex 弃单弃购",
+          "metrics": {
+            "recipients": 1309,
+            "openRate": 0.4219,
+            "clickRate": 0.03139,
+            "convRate": 0.00077,
+            "gmv": 5258.0
+          },
+          "reasons": [
+            "Subject 点明主题：⏳ Extra 5% Off Your Cart — 72 Hours Left",
+            "受众：apex 弃单弃购"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "XvkZAi",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 2619,
-            "openRate": 0.6074462202609363,
-            "clickRate": 0.11895745970836533,
-            "convRate": 0.046431312356101304,
-            "gmv": 167432.60024
+            "recipients": 2621,
+            "openRate": 0.6069770897239264,
+            "clickRate": 0.11886501533742333,
+            "convRate": 0.04677914110429448,
+            "gmv": 168119.09022999997
           },
           "reasons": [
-            "转化 4.64%",
-            "GMV 167K CAD",
+            "转化 4.68%",
+            "GMV 168K CAD",
             "打开 60.7%"
           ]
         },
         {
-          "name": "XXjkQF",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -704,7 +913,7 @@
           ]
         },
         {
-          "name": "Ujgcjh",
+          "name": "弃单挽回-Cart Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -723,7 +932,7 @@
       ],
       "flowWorst": [
         {
-          "name": "UaDRmT",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -734,11 +943,11 @@
             "gmv": 2273.20999
           },
           "reasons": [
-            "UaDRmT"
+            "售后相关-购后半年问卷"
           ]
         },
         {
-          "name": "WWqzje",
+          "name": "售后相关-how to use SOC",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -749,33 +958,33 @@
             "gmv": 3979.38996
           },
           "reasons": [
-            "WWqzje"
+            "售后相关-how to use SOC"
           ]
         },
         {
-          "name": "VTtJEe",
+          "name": "Growave - Tier Unlocked",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 991,
-            "openRate": 0.59252,
-            "clickRate": 0.08999,
-            "convRate": 0.00910010111223458,
-            "gmv": 2660.89001
+            "recipients": 227,
+            "openRate": 0.40969,
+            "clickRate": 0.14097,
+            "convRate": 0.00881057268722467,
+            "gmv": 4417.34998
           },
           "reasons": [
-            "VTtJEe"
+            "Growave - Tier Unlocked"
           ]
         }
       ]
     },
     "UK": {
-      "summary": "5 Campaign · 12 Flow",
+      "summary": "Bank Holiday / Prime 本地促销有效；Flow Welcome 打开优于 Campaign。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "UK-Prime Summer Power Pre-Sale",
+          "subject": "Up to 52% OFF| BLUETTI Prime Summer Starts Early",
+          "audience": "Subscribed Consent Status | UK",
           "metrics": {
             "recipients": 58163,
             "openRate": 0.35557,
@@ -784,29 +993,33 @@
             "gmv": 20992.50024
           },
           "reasons": [
+            "Subject 点明主题：Up to 52% OFF| BLUETTI Prime Summer Starts Early",
+            "受众：Subscribed Consent Status | UK",
             "GMV 21K GBP",
             "点击 2.7%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "UK-Bank-holiday-sale-3",
+          "subject": "Last Call: Save Up to 44% This Bank Holiday",
+          "audience": "Subscribed Consent Status | UK",
           "metrics": {
             "recipients": 57421,
-            "openRate": 0.34913,
+            "openRate": 0.34915,
             "clickRate": 0.01399,
             "convRate": 0.00045,
             "gmv": 18631.96994
           },
           "reasons": [
+            "Subject 点明主题：Last Call: Save Up to 44% This Bank Holiday",
+            "受众：Subscribed Consent Status | UK",
             "GMV 19K GBP"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "UK-Bank-holiday-sale-2",
+          "subject": "Save Up to 44% This Bank Holiday with BLUETTI",
+          "audience": "Subscribed Consent Status | UK",
           "metrics": {
             "recipients": 56937,
             "openRate": 0.35575,
@@ -815,31 +1028,67 @@
             "gmv": 14079.13011
           },
           "reasons": [
+            "Subject 点明主题：Save Up to 44% This Bank Holiday with BLUETTI",
+            "受众：Subscribed Consent Status | UK",
             "GMV 14K GBP"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "UK-User Stories",
+          "subject": "Stories Powered by BLUETTI.",
+          "audience": "Subscribed Consent Status | UK",
+          "metrics": {
+            "recipients": 57387,
+            "openRate": 0.34181,
+            "clickRate": 0.00253,
+            "convRate": 9e-05,
+            "gmv": 4914.96994
+          },
+          "reasons": [
+            "Subject 点明主题：Stories Powered by BLUETTI.",
+            "受众：Subscribed Consent Status | UK",
+            "点击率低（0.3%）"
+          ]
+        },
+        {
+          "name": "UK-solar-generator",
+          "subject": "Save Up to 31% on Solar Generator",
+          "audience": "Subscribed Consent Status | UK",
+          "metrics": {
+            "recipients": 57397,
+            "openRate": 0.35099,
+            "clickRate": 0.01212,
+            "convRate": 0.00017,
+            "gmv": 12090.17004
+          },
+          "reasons": [
+            "Subject 点明主题：Save Up to 31% on Solar Generator",
+            "受众：Subscribed Consent Status | UK"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "Uk8acX",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 3609,
-            "openRate": 0.53254,
-            "clickRate": 0.09932,
-            "convRate": 0.021222410865874362,
+            "recipients": 3610,
+            "openRate": 0.53239,
+            "clickRate": 0.09929,
+            "convRate": 0.021216407355021217,
             "gmv": 48285.13001
           },
           "reasons": [
             "转化 2.12%",
             "GMV 48K GBP",
-            "打开 53.3%"
+            "打开 53.2%"
           ]
         },
         {
-          "name": "RN3qA9",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -856,7 +1105,7 @@
           ]
         },
         {
-          "name": "VbPrGd",
+          "name": "Predicted Next Order FLOW",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -875,23 +1124,7 @@
       ],
       "flowWorst": [
         {
-          "name": "WUp29v",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 3942,
-            "openRate": 0.014999755911517925,
-            "clickRate": 0.0015261123824052887,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 1.5% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "TKvzCV",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -906,7 +1139,7 @@
           ]
         },
         {
-          "name": "UppeyA",
+          "name": "用户教育-Helpmechooes流程",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -917,34 +1150,66 @@
             "gmv": 4731.88991
           },
           "reasons": [
-            "UppeyA"
+            "用户教育-Helpmechooes流程"
+          ]
+        },
+        {
+          "name": "弃单挽回-Cart Abandoned Flow_V1",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 789,
+            "openRate": 0.5209123954372623,
+            "clickRate": 0.10392892268694548,
+            "convRate": 0.011406844106463879,
+            "gmv": 7493.82999
+          },
+          "reasons": [
+            "弃单挽回-Cart Abandoned Flow_V1"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 3942,
+            "openRate": 0.014999755911517925,
+            "clickRate": 0.0015261123824052887,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "FR": {
-      "summary": "8 Campaign · 17 Flow",
+      "summary": "Campaign 打开天花板低；Flow 才是真正转化引擎。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "PD预售（修改）",
+          "subject": "Jusqu’à 42 % de réduction | BLUETTI Prime Summer commence plus tôt",
+          "audience": "Subscribed Consent Status | FR",
           "metrics": {
             "recipients": 30911,
-            "openRate": 0.26999,
-            "clickRate": 0.02581,
+            "openRate": 0.27002,
+            "clickRate": 0.02584,
             "convRate": 0.00078,
             "gmv": 23985.67039
           },
           "reasons": [
+            "Subject 点明主题：Jusqu’à 42 % de réduction | BLUETTI Prime Summer commence plus tôt",
+            "受众：Subscribed Consent Status | FR",
             "GMV 24K EUR",
             "点击 2.6%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "TransferHub新品",
+          "subject": "BLUETTI Balco Transfer Hub est arrivé | Offre de lancement : Copiez le code : TRANEDM10，10 % de réduction",
+          "audience": "Subscribed Consent Status | FR",
           "metrics": {
             "recipients": 31264,
             "openRate": 0.28947,
@@ -953,14 +1218,16 @@
             "gmv": 15129.37023
           },
           "reasons": [
+            "Subject 点明主题：BLUETTI Balco Transfer Hub est arrivé | Offre de lancement : Copiez le code : TR",
+            "受众：Subscribed Consent Status | FR",
             "GMV 15K EUR",
             "点击 2.2%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "solarGenerator开售",
+          "subject": "Économisez jusqu’à 33 % sur les kits générateurs solaires BLUETTI",
+          "audience": "Subscribed Consent Status | FR",
           "metrics": {
             "recipients": 30493,
             "openRate": 0.26973,
@@ -969,31 +1236,86 @@
             "gmv": 12966.48008
           },
           "reasons": [
+            "Subject 点明主题：Économisez jusqu’à 33 % sur les kits générateurs solaires BLUETTI",
+            "受众：Subscribed Consent Status | FR",
             "GMV 13K EUR"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "用户故事",
+          "subject": "Histoires alimentées par BLUETTI",
+          "audience": "Subscribed Consent Status | FR",
+          "metrics": {
+            "recipients": 30036,
+            "openRate": 0.27477,
+            "clickRate": 0.0053,
+            "convRate": 0.00037,
+            "gmv": 7074.68
+          },
+          "reasons": [
+            "Subject 点明主题：Histoires alimentées par BLUETTI",
+            "受众：Subscribed Consent Status | FR",
+            "打开率偏低（27.5%）",
+            "点击率低（0.5%）"
+          ]
+        },
+        {
+          "name": "5月平促",
+          "subject": "Passez au solaire avec BLUETTI｜8 % de réduction sur les packs de panneaux solaires",
+          "audience": "Subscribed Consent Status | FR",
+          "metrics": {
+            "recipients": 30381,
+            "openRate": 0.27379,
+            "clickRate": 0.01335,
+            "convRate": 0.00026,
+            "gmv": 7717.16006
+          },
+          "reasons": [
+            "Subject 点明主题：Passez au solaire avec BLUETTI｜8 % de réduction sur les packs de panneaux solair",
+            "受众：Subscribed Consent Status | FR",
+            "打开率偏低（27.4%）"
+          ]
+        },
+        {
+          "name": "RoadTrip收尾",
+          "subject": "Dernier appel : économisez jusqu’à 39 % sur les solutions d’alimentation BLUETTI pour vos road trips",
+          "audience": "Subscribed Consent Status | FR",
+          "metrics": {
+            "recipients": 30331,
+            "openRate": 0.28579,
+            "clickRate": 0.01738,
+            "convRate": 0.00023,
+            "gmv": 6328.79011
+          },
+          "reasons": [
+            "Subject 点明主题：Dernier appel : économisez jusqu’à 39 % sur les solutions d’alimentation BLUETTI",
+            "受众：Subscribed Consent Status | FR",
+            "打开率偏低（28.6%）"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "RrDsV9",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 1628,
+            "recipients": 1630,
             "openRate": 0.50623,
-            "clickRate": 0.08666000000000001,
-            "convRate": 0.028678304239401497,
+            "clickRate": 0.08716999999999998,
+            "convRate": 0.028642590286425903,
             "gmv": 39595.00006
           },
           "reasons": [
-            "转化 2.87%",
+            "转化 2.86%",
             "GMV 40K EUR",
             "打开 50.6%"
           ]
         },
         {
-          "name": "VGHFui",
+          "name": "弃单挽回-checkout abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1010,7 +1332,7 @@
           ]
         },
         {
-          "name": "X5jbLe",
+          "name": "用户教育-Helpmechooes流程",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1029,23 +1351,7 @@
       ],
       "flowWorst": [
         {
-          "name": "RpRR5M",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 805,
-            "openRate": 0.04375115,
-            "clickRate": 0.0037515374999999994,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 4.4% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "YdgaiG",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1060,29 +1366,59 @@
           ]
         },
         {
-          "name": "VKQc3S",
+          "name": "复购流程-repurchase solar panel",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 632,
-            "openRate": 0.4857556170886076,
-            "clickRate": 0.0648735917721519,
-            "convRate": 0.0015822784810126582,
+            "recipients": 633,
+            "openRate": 0.4849918483412322,
+            "clickRate": 0.06477142180094786,
+            "convRate": 0.001579778830963665,
             "gmv": 799.0
           },
           "reasons": [
-            "VKQc3S"
+            "复购流程-repurchase solar panel"
+          ]
+        },
+        {
+          "name": "Predicted Next Order FLOW",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 308,
+            "openRate": 0.56026,
+            "clickRate": 0.11401,
+            "convRate": 0.003257328990228013,
+            "gmv": 1709.05005
+          },
+          "reasons": [
+            "Predicted Next Order FLOW"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 805,
+            "openRate": 0.04375115,
+            "clickRate": 0.0037515374999999994,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "DE": {
-      "summary": "9 Campaign · 17 Flow",
+      "summary": "Transferhub 转化标杆；Flow Checkout 3.5%。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Transferhub-1",
+          "subject": "BLUETTI Balco Transfer Hub ist da | Code kopieren: TRANEDM10, 10 % Rabatt zum Launch",
+          "audience": "Subscribed Consent Status | DE",
           "metrics": {
             "recipients": 28573,
             "openRate": 0.39665,
@@ -1091,30 +1427,34 @@
             "gmv": 34207.46996
           },
           "reasons": [
+            "Subject 点明主题：BLUETTI Balco Transfer Hub ist da | Code kopieren: TRANEDM10, 10 % Rabatt zum La",
+            "受众：Subscribed Consent Status | DE",
             "GMV 34K EUR",
             "点击 6.1%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "2026 Prime Day1",
+          "subject": "Bis zu 51 % Rabatt | BLUETTI Prime Sommer startet früher",
+          "audience": "Subscribed Consent Status | DE",
           "metrics": {
             "recipients": 28301,
-            "openRate": 0.36252,
+            "openRate": 0.36255,
             "clickRate": 0.04613,
             "convRate": 0.00103,
             "gmv": 16935.45999
           },
           "reasons": [
+            "Subject 点明主题：Bis zu 51 % Rabatt | BLUETTI Prime Sommer startet früher",
+            "受众：Subscribed Consent Status | DE",
             "GMV 17K EUR",
             "点击 4.6%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Kundengeschichten",
+          "subject": "Rückblick: Der Launch der Balco Series",
+          "audience": "Subscribed Consent Status | DE",
           "metrics": {
             "recipients": 28126,
             "openRate": 0.36415,
@@ -1123,30 +1463,81 @@
             "gmv": 9639.31999
           },
           "reasons": [
+            "Subject 点明主题：Rückblick: Der Launch der Balco Series",
+            "受众：Subscribed Consent Status | DE",
             "GMV 10K EUR"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "May-平效期",
+          "subject": "Mit BLUETTI auf Solar umsteigen｜8 % Rabatt auf Solarpanel-Bundles",
+          "audience": "Subscribed Consent Status | DE",
+          "metrics": {
+            "recipients": 22355,
+            "openRate": 0.35662,
+            "clickRate": 0.01998,
+            "convRate": 4e-05,
+            "gmv": 1699.0
+          },
+          "reasons": [
+            "Subject 点明主题：Mit BLUETTI auf Solar umsteigen｜8 % Rabatt auf Solarpanel-Bundles",
+            "受众：Subscribed Consent Status | DE"
+          ]
+        },
+        {
+          "name": "Solargenerator Sale",
+          "subject": "Solargeneratoren-Sale ist jetzt live",
+          "audience": "Subscribed Consent Status | DE",
+          "metrics": {
+            "recipients": 22444,
+            "openRate": 0.35989,
+            "clickRate": 0.02615,
+            "convRate": 0.00022,
+            "gmv": 4184.56001
+          },
+          "reasons": [
+            "Subject 点明主题：Solargeneratoren-Sale ist jetzt live",
+            "受众：Subscribed Consent Status | DE"
+          ]
+        },
+        {
+          "name": "Road Trip Sale Lastcall",
+          "subject": "Endet bald:Spare bis zu 49 % auf BLUETTI Roadtrip-Power",
+          "audience": "Subscribed Consent Status | DE",
+          "metrics": {
+            "recipients": 22284,
+            "openRate": 0.36513,
+            "clickRate": 0.02925,
+            "convRate": 0.00031,
+            "gmv": 6678.8399
+          },
+          "reasons": [
+            "Subject 点明主题：Endet bald:Spare bis zu 49 % auf BLUETTI Roadtrip-Power",
+            "受众：Subscribed Consent Status | DE"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "UPecZL",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
             "recipients": 2895,
-            "openRate": 0.54341,
-            "clickRate": 0.07574,
+            "openRate": 0.54377,
+            "clickRate": 0.0761,
             "convRate": 0.00964630225080386,
             "gmv": 19688.68002
           },
           "reasons": [
             "GMV 20K EUR",
-            "打开 54.3%"
+            "打开 54.4%"
           ]
         },
         {
-          "name": "T3NdKc",
+          "name": "弃单挽回-checkout abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1163,7 +1554,7 @@
           ]
         },
         {
-          "name": "SYNEmm",
+          "name": "弃单挽回-cart abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1182,23 +1573,7 @@
       ],
       "flowWorst": [
         {
-          "name": "Tmyfh4",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 773,
-            "openRate": 0.040259142857142854,
-            "clickRate": 0.007791142857142857,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 4.0% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "Wvtx9B",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1209,11 +1584,11 @@
             "gmv": 49.0
           },
           "reasons": [
-            "Wvtx9B"
+            "售后相关-购后半年问卷"
           ]
         },
         {
-          "name": "UuBJWk",
+          "name": "用户教育-Helpmechooes流程",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1224,34 +1599,66 @@
             "gmv": 3447.06009
           },
           "reasons": [
-            "UuBJWk"
+            "用户教育-Helpmechooes流程"
+          ]
+        },
+        {
+          "name": "Predicted Next Order FLOW",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 349,
+            "openRate": 0.68195,
+            "clickRate": 0.11461,
+            "convRate": 0.0028653295128939827,
+            "gmv": 83.0
+          },
+          "reasons": [
+            "Predicted Next Order FLOW"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 773,
+            "openRate": 0.040259142857142854,
+            "clickRate": 0.007791142857142857,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "IT": {
-      "summary": "6 Campaign · 16 Flow",
+      "summary": "Prime Estate 大促 + Checkout Flow 4.3%。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "2026 Prime Estate offerte first call",
+          "subject": "Fino al 42% di sconto | BLUETTI Prime Summer inizia in anticipo",
+          "audience": "Subscribed Consent Status | IT",
           "metrics": {
             "recipients": 35918,
-            "openRate": 0.3142,
+            "openRate": 0.31426,
             "clickRate": 0.03372,
             "convRate": 0.00092,
             "gmv": 29787.9503
           },
           "reasons": [
+            "Subject 点明主题：Fino al 42% di sconto | BLUETTI Prime Summer inizia in anticipo",
+            "受众：Subscribed Consent Status | IT",
             "GMV 30K EUR",
             "点击 3.4%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "2026 Road trip-3 last call",
+          "subject": "⏳ Ultime Ore: Fino al 39% OFF per il Tuo Road Trip",
+          "audience": "Subscribed Consent Status | IT",
           "metrics": {
             "recipients": 33631,
             "openRate": 0.29076,
@@ -1260,13 +1667,15 @@
             "gmv": 11680.09998
           },
           "reasons": [
+            "Subject 点明主题：⏳ Ultime Ore: Fino al 39% OFF per il Tuo Road Trip",
+            "受众：Subscribed Consent Status | IT",
             "GMV 12K EUR"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "User Stories",
+          "subject": "💙 L’energia che accende le tue storie",
+          "audience": "Subscribed Consent Status | ALL",
           "metrics": {
             "recipients": 35159,
             "openRate": 0.30574,
@@ -1275,14 +1684,50 @@
             "gmv": 11032.15017
           },
           "reasons": [
+            "Subject 点明主题：💙 L’energia che accende le tue storie",
+            "受众：Subscribed Consent Status | ALL",
+            "含 ALL 宽网，打开 30.6%",
             "GMV 11K EUR"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "2026 solar generator-5.27",
+          "subject": "Genera energia e risparmia fino al 33%!",
+          "audience": "Subscribed Consent Status | IT",
+          "metrics": {
+            "recipients": 33824,
+            "openRate": 0.30695,
+            "clickRate": 0.01261,
+            "convRate": 9e-05,
+            "gmv": 4759.55005
+          },
+          "reasons": [
+            "Subject 点明主题：Genera energia e risparmia fino al 33%!",
+            "受众：Subscribed Consent Status | IT"
+          ]
+        },
+        {
+          "name": "2026 solar generator-5.22",
+          "subject": "Passa al solare con BLUETTI｜8% di sconto sui bundle di pannelli solari",
+          "audience": "Subscribed Consent Status | IT",
+          "metrics": {
+            "recipients": 33680,
+            "openRate": 0.32724,
+            "clickRate": 0.01462,
+            "convRate": 0.00024,
+            "gmv": 6887.54997
+          },
+          "reasons": [
+            "Subject 点明主题：Passa al solare con BLUETTI｜8% di sconto sui bundle di pannelli solari",
+            "受众：Subscribed Consent Status | IT"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "R7nvfv",
+          "name": "弃单挽回-checkout abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1299,7 +1744,7 @@
           ]
         },
         {
-          "name": "UPtGYG",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1316,7 +1761,7 @@
           ]
         },
         {
-          "name": "VYLmC6",
+          "name": "弃单挽回-cart abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1335,23 +1780,7 @@
       ],
       "flowWorst": [
         {
-          "name": "SzgFXD",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 956,
-            "openRate": 0.043113943217665616,
-            "clickRate": 0.0063083596214511045,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 4.3% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "Tnni4u",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1366,7 +1795,7 @@
           ]
         },
         {
-          "name": "VE99vV",
+          "name": "Predicted Next Order FLOW",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1377,18 +1806,48 @@
             "gmv": 29.0
           },
           "reasons": [
-            "VE99vV"
+            "Predicted Next Order FLOW"
+          ]
+        },
+        {
+          "name": "复购流程-repurchase solar panel",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 531,
+            "openRate": 0.5830223018867925,
+            "clickRate": 0.062264301886792446,
+            "convRate": 0.007547169811320755,
+            "gmv": 191.1
+          },
+          "reasons": [
+            "复购流程-repurchase solar panel"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 956,
+            "openRate": 0.043113943217665616,
+            "clickRate": 0.0063083596214511045,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "EU": {
-      "summary": "8 Campaign · 23 Flow",
+      "summary": "泛欧账号 Campaign 打开低；Flow 贡献主要 GMV。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Prime Day Pre-Sale 2026",
+          "subject": "Up to 42% OFF| BLUETTI Prime Summer Starts Early",
+          "audience": "Subscribed Consent Status | EU",
           "metrics": {
             "recipients": 55322,
             "openRate": 0.30287,
@@ -1397,14 +1856,16 @@
             "gmv": 20663.23998
           },
           "reasons": [
+            "Subject 点明主题：Up to 42% OFF| BLUETTI Prime Summer Starts Early",
+            "受众：Subscribed Consent Status | EU",
             "GMV 21K EUR",
             "点击 3.0%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Solar Generators Sale",
+          "subject": "Save Up to 33% on BLUETTI Solar Generator Kits",
+          "audience": "Subscribed Consent Status | EU",
           "metrics": {
             "recipients": 54244,
             "openRate": 0.30557,
@@ -1413,13 +1874,15 @@
             "gmv": 7443.81001
           },
           "reasons": [
+            "Subject 点明主题：Save Up to 33% on BLUETTI Solar Generator Kits",
+            "受众：Subscribed Consent Status | EU",
             "GMV 7K EUR"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Road Trip Sale 2026-3",
+          "subject": "Last Call: Save Up to 39% on BLUETTI Road Trip Power",
+          "audience": "Subscribed Consent Status | EU",
           "metrics": {
             "recipients": 54090,
             "openRate": 0.29527,
@@ -1428,14 +1891,67 @@
             "gmv": 7121.46002
           },
           "reasons": [
+            "Subject 点明主题：Last Call: Save Up to 39% on BLUETTI Road Trip Power",
+            "受众：Subscribed Consent Status | EU",
             "GMV 7K EUR"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "User stories",
+          "subject": "❤️Real Stories. Real Power.",
+          "audience": "Subscribed Consent Status | EU",
+          "metrics": {
+            "recipients": 54185,
+            "openRate": 0.28707,
+            "clickRate": 0.00434,
+            "convRate": 0.00018,
+            "gmv": 6926.98994
+          },
+          "reasons": [
+            "Subject 点明主题：❤️Real Stories. Real Power.",
+            "受众：Subscribed Consent Status | EU",
+            "打开率偏低（28.7%）",
+            "点击率低（0.4%）"
+          ]
+        },
+        {
+          "name": "Solar Generator Kit Discount",
+          "subject": "Go Solar with BLUETTI |  Save 8% on Solar Panel Bundles",
+          "audience": "Subscribed Consent Status | EU",
+          "metrics": {
+            "recipients": 54148,
+            "openRate": 0.30442,
+            "clickRate": 0.01361,
+            "convRate": 0.00011,
+            "gmv": 1553.48
+          },
+          "reasons": [
+            "Subject 点明主题：Go Solar with BLUETTI |  Save 8% on Solar Panel Bundles",
+            "受众：Subscribed Consent Status | EU"
+          ]
+        },
+        {
+          "name": "Transfer Hub Pre-Sale",
+          "subject": "BLUETTI Balco Transfer Hub Is Here | 10% OFF Launch Offer (Code: TRANEDM10)",
+          "audience": "Subscribed Consent Status | EU (DE&FR Customer)",
+          "metrics": {
+            "recipients": 6333,
+            "openRate": 0.31888,
+            "clickRate": 0.02684,
+            "convRate": 0.00016,
+            "gmv": 2066.0
+          },
+          "reasons": [
+            "Subject 点明主题：BLUETTI Balco Transfer Hub Is Here | 10% OFF Launch Offer (Code: TRANEDM10)",
+            "受众：Subscribed Consent Status | EU (DE&FR Customer)"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "YbVTmy",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1452,14 +1968,14 @@
           ]
         },
         {
-          "name": "S8rYQv",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
-            "recipients": 2163,
-            "openRate": 0.54305,
-            "clickRate": 0.11111,
-            "convRate": 0.017797017797017797,
+            "recipients": 2164,
+            "openRate": 0.54327,
+            "clickRate": 0.11106,
+            "convRate": 0.017788461538461538,
             "gmv": 31106.9102
           },
           "reasons": [
@@ -1469,7 +1985,7 @@
           ]
         },
         {
-          "name": "Um67dU",
+          "name": "弃单挽回-Cart Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1488,23 +2004,7 @@
       ],
       "flowWorst": [
         {
-          "name": "Y3bAQu",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 4318,
-            "openRate": 0.013700515439981426,
-            "clickRate": 0.0011620153238913395,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 1.4% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "VfrrUm",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1519,45 +2019,77 @@
           ]
         },
         {
-          "name": "UxjtkM",
+          "name": "复购流程-repurchase solar panel",
           "subject": "—",
           "audience": "—",
           "metrics": {
             "recipients": 659,
-            "openRate": 0.5792726829268293,
+            "openRate": 0.5807926524390244,
             "clickRate": 0.05792716463414634,
             "convRate": 0.003048780487804878,
             "gmv": 251.08
           },
           "reasons": [
-            "UxjtkM"
+            "复购流程-repurchase solar panel"
+          ]
+        },
+        {
+          "name": "售后相关-how to use SOC",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 249,
+            "openRate": 0.62656,
+            "clickRate": 0.0083,
+            "convRate": 0.008298755186721992,
+            "gmv": 142.47001
+          },
+          "reasons": [
+            "售后相关-how to use SOC"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 4318,
+            "openRate": 0.013700515439981426,
+            "clickRate": 0.0011620153238913395,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "ES": {
-      "summary": "6 Campaign · 19 Flow",
+      "summary": "Prime Summer 预售最佳；Flow 为主力。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Preventa BLUETTI Prime Summer Power",
+          "subject": "Hasta un 42 % de descuento | BLUETTI Prime Summer empieza antes",
+          "audience": "Subscribed Consent Status | ES",
           "metrics": {
             "recipients": 30220,
-            "openRate": 0.32569,
+            "openRate": 0.32579,
             "clickRate": 0.0357,
             "convRate": 0.0006,
             "gmv": 12967.81013
           },
           "reasons": [
+            "Subject 点明主题：Hasta un 42 % de descuento | BLUETTI Prime Summer empieza antes",
+            "受众：Subscribed Consent Status | ES",
             "GMV 13K EUR",
             "点击 3.6%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "5.29 Historias impulsadas por BLUETTI",
+          "subject": "📖Historias impulsadas por BLUETTI",
+          "audience": "Subscribed Consent Status | ES",
           "metrics": {
             "recipients": 29645,
             "openRate": 0.30396,
@@ -1566,13 +2098,15 @@
             "gmv": 9199.26007
           },
           "reasons": [
+            "Subject 点明主题：📖Historias impulsadas por BLUETTI",
+            "受众：Subscribed Consent Status | ES",
             "GMV 9K EUR"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "5.22平销期8%-solar generate",
+          "subject": "Pásate a la energía solar con BLUETTI｜8 % de descuento en packs de paneles solares",
+          "audience": "Subscribed Consent Status | ES",
           "metrics": {
             "recipients": 24473,
             "openRate": 0.32355,
@@ -1581,14 +2115,49 @@
             "gmv": 6150.03009
           },
           "reasons": [
+            "Subject 点明主题：Pásate a la energía solar con BLUETTI｜8 % de descuento en packs de paneles solar",
+            "受众：Subscribed Consent Status | ES",
             "GMV 6K EUR"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "Solar Generator Sale开售",
+          "subject": "Ahorra hasta un 33 % en kits de generador solar BLUETTI",
+          "audience": "Subscribed Consent Status | ES",
+          "metrics": {
+            "recipients": 24550,
+            "openRate": 0.30382,
+            "clickRate": 0.01595,
+            "convRate": 8e-05,
+            "gmv": 2398.0
+          },
+          "reasons": [
+            "Subject 点明主题：Ahorra hasta un 33 % en kits de generador solar BLUETTI",
+            "受众：Subscribed Consent Status | ES"
+          ]
+        },
+        {
+          "name": "5月促销结束EDM",
+          "subject": "¡Descuentos imperdibles en energía para viajes!",
+          "audience": "Subscribed Consent Status | ES",
+          "metrics": {
+            "recipients": 24332,
+            "openRate": 0.32803,
+            "clickRate": 0.01813,
+            "convRate": 0.00012,
+            "gmv": 3766.06996
+          },
+          "reasons": [
+            "Subject 点明主题：¡Descuentos imperdibles en energía para viajes!",
+            "受众：Subscribed Consent Status | ES"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "YnMdRw",
+          "name": "Welcome flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1605,7 +2174,7 @@
           ]
         },
         {
-          "name": "SbGjBw",
+          "name": "弃单挽回-checkout abandoned flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1622,7 +2191,7 @@
           ]
         },
         {
-          "name": "U2Rd2v",
+          "name": "用户教育-Helpmechooes流程",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1640,23 +2209,7 @@
       ],
       "flowWorst": [
         {
-          "name": "Y7NRbS",
-          "subject": "—",
-          "audience": "—",
-          "metrics": {
-            "recipients": 1004,
-            "openRate": 0.026103734939759038,
-            "clickRate": 0.004012409638554217,
-            "convRate": 0.0,
-            "gmv": 0.0
-          },
-          "reasons": [
-            "打开 2.6% 偏低",
-            "近 30 天无 GMV"
-          ]
-        },
-        {
-          "name": "VSsuwY",
+          "name": "售后相关-购后半年问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1671,7 +2224,7 @@
           ]
         },
         {
-          "name": "TXqixp",
+          "name": "复购流程-repurchase solar panel",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1682,18 +2235,48 @@
             "gmv": 264.19
           },
           "reasons": [
-            "TXqixp"
+            "复购流程-repurchase solar panel"
+          ]
+        },
+        {
+          "name": "用户购后体验问卷",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 318,
+            "openRate": 0.63836,
+            "clickRate": 0.13522,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "近 30 天无 GMV"
+          ]
+        },
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 1004,
+            "openRate": 0.026103734939759038,
+            "clickRate": 0.004012409638554217,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ]
     },
     "JP": {
-      "summary": "5 Campaign · 4 Flow",
+      "summary": "会员日/初夏促销强；Checkout NEW Flow 转化 8.6%。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "初夏倒计时",
+          "subject": "【まもなく終了】最大63％OFFの初夏セールをお見逃しなく✨さらに時間限定タイムセールもご用意⏳",
+          "audience": "Shopify手动导入客户, Subscribed Consent Status | JP",
           "metrics": {
             "recipients": 59763,
             "openRate": 0.37952,
@@ -1702,13 +2285,15 @@
             "gmv": 3073026.0
           },
           "reasons": [
+            "Subject 点明主题：【まもなく終了】最大63％OFFの初夏セールをお見逃しなく✨さらに時間限定タイムセールもご用意⏳",
+            "受众：Shopify手动导入客户, Subscribed Consent Status | JP",
             "GMV 3.1M JPY"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "太阳能板选购指南",
+          "subject": "あなたにぴったりのソーラーパネル、見つけませんか？☀️🔋",
+          "audience": "Shopify手动导入客户, Subscribed Consent Status | JP",
           "metrics": {
             "recipients": 58591,
             "openRate": 0.39042,
@@ -1717,13 +2302,15 @@
             "gmv": 1827149.0
           },
           "reasons": [
+            "Subject 点明主题：あなたにぴったりのソーラーパネル、見つけませんか？☀️🔋",
+            "受众：Shopify手动导入客户, Subscribed Consent Status | JP",
             "GMV 1.8M JPY"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "初夏促销开始",
+          "subject": "【最大63%OFF】初夏セール開催中⛱️ 初夏を彩るAORA、スマートに節電🔋",
+          "audience": "Shopify手动导入客户, Subscribed Consent Status | JP",
           "metrics": {
             "recipients": 58125,
             "openRate": 0.4053,
@@ -1732,47 +2319,82 @@
             "gmv": 1602925.0
           },
           "reasons": [
+            "Subject 点明主题：【最大63%OFF】初夏セール開催中⛱️ 初夏を彩るAORA、スマートに節電🔋",
+            "受众：Shopify手动导入客户, Subscribed Consent Status | JP",
             "GMV 1.6M JPY"
           ]
         }
       ],
-      "campaignWorst": [],
-      "flowBest": [
+      "campaignWorst": [
         {
-          "name": "X2XRhC",
-          "subject": "—",
-          "audience": "—",
+          "name": "艺人合作官宣",
+          "subject": "✨【ブランドパートナー就任のお知らせ】✨",
+          "audience": "Shopify手动导入客户, Subscribed Consent Status | JP",
           "metrics": {
-            "recipients": 317,
-            "openRate": 0.5428574603174603,
-            "clickRate": 0.12063746031746031,
-            "convRate": 0.09206349206349207,
-            "gmv": 2010703.0
+            "recipients": 59745,
+            "openRate": 0.40611,
+            "clickRate": 0.01453,
+            "convRate": 0.00023,
+            "gmv": 533122.0
           },
           "reasons": [
-            "转化 9.21%",
-            "GMV 2.0M JPY",
-            "打开 54.3%"
+            "Subject 点明主题：✨【ブランドパートナー就任のお知らせ】✨",
+            "受众：Shopify手动导入客户, Subscribed Consent Status | JP"
           ]
         },
         {
-          "name": "Rzf6qp",
+          "name": "BLUETTI会员日",
+          "subject": "BLUETTIメンバーズデー⚡もっとお得に、もっと楽しく！",
+          "audience": "Shopify手动导入客户, Subscribed Consent Status | JP",
+          "metrics": {
+            "recipients": 57866,
+            "openRate": 0.42636,
+            "clickRate": 0.02572,
+            "convRate": 0.00038,
+            "gmv": 1109426.0
+          },
+          "reasons": [
+            "Subject 点明主题：BLUETTIメンバーズデー⚡もっとお得に、もっと楽しく！",
+            "受众：Shopify手动导入客户, Subscribed Consent Status | JP"
+          ]
+        }
+      ],
+      "flowBest": [
+        {
+          "name": "checkout abandoned flow（NEW ）",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 318,
+            "openRate": 0.5411417088607595,
+            "clickRate": 0.12024848101265823,
+            "convRate": 0.09177215189873418,
+            "gmv": 2010703.0
+          },
+          "reasons": [
+            "转化 9.18%",
+            "GMV 2.0M JPY",
+            "打开 54.1%"
+          ]
+        },
+        {
+          "name": "用户购后体验问卷",
           "subject": "—",
           "audience": "—",
           "metrics": {
             "recipients": 550,
-            "openRate": 0.54749,
+            "openRate": 0.55121,
             "clickRate": 0.22719,
             "convRate": 0.0074487895716946,
             "gmv": 171660.0
           },
           "reasons": [
             "GMV 172K JPY",
-            "打开 54.7%"
+            "打开 55.1%"
           ]
         },
         {
-          "name": "XeU3x5",
+          "name": "Sunset Unengaged Subscribers",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1783,19 +2405,19 @@
             "gmv": 0.0
           },
           "reasons": [
-            "打开 5.6%"
+            "List Hygiene 序列，低打开为预期行为"
           ]
         }
       ],
       "flowWorst": []
     },
     "CL": {
-      "summary": "5 Campaign · 16 Flow",
+      "summary": "Cyber Day burst + Checkout Flow 5.2%。",
       "campaignBest": [
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "CL Cyber Day 开售",
+          "subject": "¡Comienza el Cyber Day 2026! 🛒 | Ofertas exclusivas hasta el 4 de junio",
+          "audience": "Subscribed Consent Status | CL",
           "metrics": {
             "recipients": 6824,
             "openRate": 0.28111,
@@ -1804,14 +2426,16 @@
             "gmv": 7714053.0
           },
           "reasons": [
+            "Subject 点明主题：¡Comienza el Cyber Day 2026! 🛒 | Ofertas exclusivas hasta el 4 de junio",
+            "受众：Subscribed Consent Status | CL",
             "GMV 7.7M CLP",
             "点击 2.5%"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "CL Cyber Day 中期",
+          "subject": "🎉 Cyber Day BLUETTI: Grandes Descuentos",
+          "audience": "Subscribed Consent Status | CL",
           "metrics": {
             "recipients": 6962,
             "openRate": 0.26872,
@@ -1820,13 +2444,15 @@
             "gmv": 4999974.0
           },
           "reasons": [
+            "Subject 点明主题：🎉 Cyber Day BLUETTI: Grandes Descuentos",
+            "受众：Subscribed Consent Status | CL",
             "GMV 5.0M CLP"
           ]
         },
         {
-          "name": "Unknown",
-          "subject": "Unknown",
-          "audience": "—",
+          "name": "Elite 300 lanzamiento",
+          "subject": "⚽ Que el partido no se corte por falta de energía",
+          "audience": "ALL Members",
           "metrics": {
             "recipients": 3605,
             "openRate": 0.30791,
@@ -1835,14 +2461,52 @@
             "gmv": 2298141.0
           },
           "reasons": [
+            "Subject 点明主题：⚽ Que el partido no se corte por falta de energía",
+            "受众：ALL Members",
+            "含 ALL 宽网，打开 30.8%",
             "GMV 2.3M CLP"
           ]
         }
       ],
-      "campaignWorst": [],
+      "campaignWorst": [
+        {
+          "name": "CL Cyber Day 尾期",
+          "subject": "⏳ Cuenta regresiva del Cyber Day | Hasta 36% DTO.",
+          "audience": "Subscribed Consent Status | CL",
+          "metrics": {
+            "recipients": 7002,
+            "openRate": 0.25737,
+            "clickRate": 0.01617,
+            "convRate": 0.00043,
+            "gmv": 1804023.0
+          },
+          "reasons": [
+            "Subject 点明主题：⏳ Cuenta regresiva del Cyber Day | Hasta 36% DTO.",
+            "受众：Subscribed Consent Status | CL",
+            "打开率偏低（25.7%）"
+          ]
+        },
+        {
+          "name": "Resplado para el hogar 2026.5.18",
+          "subject": "¡Aprovecha la oportunidad! | Hasta 32% DTO en energía de respaldo ⚡",
+          "audience": "Subscribed Consent Status | CL",
+          "metrics": {
+            "recipients": 6625,
+            "openRate": 0.2926,
+            "clickRate": 0.0231,
+            "convRate": 0.00046,
+            "gmv": 1637532.0
+          },
+          "reasons": [
+            "Subject 点明主题：¡Aprovecha la oportunidad! | Hasta 32% DTO en energía de respaldo ⚡",
+            "受众：Subscribed Consent Status | CL",
+            "打开率偏低（29.3%）"
+          ]
+        }
+      ],
       "flowBest": [
         {
-          "name": "Tm3kYs",
+          "name": "弃单挽回-Checkout Abandoned Flow_V1",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1859,7 +2523,7 @@
           ]
         },
         {
-          "name": "WBptQb",
+          "name": "售前促销-Low Inventory Reminder",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1876,7 +2540,7 @@
           ]
         },
         {
-          "name": "UCUrKB",
+          "name": "弃单挽回-add to cart abandoned flow",
           "subject": "—",
           "audience": "—",
           "metrics": {
@@ -1892,7 +2556,288 @@
           ]
         }
       ],
-      "flowWorst": []
+      "flowWorst": [
+        {
+          "name": "Sunset Unengaged Subscribers",
+          "subject": "—",
+          "audience": "—",
+          "metrics": {
+            "recipients": 102,
+            "openRate": 0.03921411764705882,
+            "clickRate": 0.0,
+            "convRate": 0.0,
+            "gmv": 0.0
+          },
+          "reasons": [
+            "List Hygiene 序列，低打开为预期行为"
+          ]
+        }
+      ]
+    }
+  },
+  "sitePlaybook": {
+    "US": {
+      "region": "US",
+      "summary": "Campaign：坚持 Active 分层 + 促销钩子；Flow：优先优化 Welcome 首封与 Checkout 序列。",
+      "successCampaign": [
+        "MAY Member Day Sale · 4‑Day BLUETTI Member Day Sale | Exclusive Member Perks · Subject 点明主题：4‑Day BLUETTI Member Day Sale | Exclusive Member Perks",
+        "Email 1 · Your Early Prime Day Deals Are Here ⚡ · Subject 点明主题：Your Early Prime Day Deals Are Here ⚡",
+        "飓风月促72小时 · ⚡ 72-Hour Hurricane Prep Sale — Shop Before It Ends · Subject 点明主题：⚡ 72-Hour Hurricane Prep Sale — Shop Before It Ends"
+      ],
+      "avoidCampaign": [
+        "夏季内容营销（世界杯） · Game Day, Campsite, Blackout: One Power Setup for Summer · Subject 点明主题：Game Day, Campsite, Blackout: One Power Setup for Summer",
+        "春季拉新篇章3 · Endless Energy for Life's Best Moments🚐⚡ · Subject 点明主题：Endless Energy for Life's Best Moments🚐⚡",
+        "FrigePower 24hrs Last Call|Subscribers · ⏳Final 24 Hours to Claim Your FridgePower VIP Price! · Subject 点明主题：⏳Final 24 Hours to Claim Your FridgePower VIP Price!"
+      ],
+      "successFlow": [
+        "Welcome flow · GMV 199K USD",
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 2.83%",
+        "弃单挽回-Cart Abandoned Flow_V1 · 转化 1.83%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 售后相关-购后半年问卷",
+        "Growave - Points Expiration · Growave - Points Expiration",
+        "Place Order-Repeat Purchase(配件推荐） · Place Order-Repeat Purchase(配件推荐）",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "AU": {
+      "region": "AU",
+      "summary": "Campaign 由 AU 本地运营；Flow 可复制 US Checkout 序列但需 EOFY/本地 send time 校准。",
+      "successCampaign": [
+        "Eofy-Sale-2026（Active 30D) · ⚡ EOFY Sale Is Live: Lowest Price Picks Inside · Subject 点明主题：⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+        "Group C FridgePower Last Call - ALL · BLUETTI Owners: Get a Free Display 1 with FridgePower on Kic · Subject 点明主题：BLUETTI Owners: Get a Free Display 1 with FridgePower on Kickstarter",
+        "EOFY Top Deals and Giveaway · Get Ready for EOFY Rewards! 🚀 · Subject 点明主题：Get Ready for EOFY Rewards! 🚀"
+      ],
+      "avoidCampaign": [
+        "Eofy-Sale-2026-solar & Battery (Active 60D) · ⚡ EOFY Sale: Buy More, Save More · Subject 点明主题：⚡ EOFY Sale: Buy More, Save More",
+        "Eofy-Sale-2026（Active 60D) · ⚡ EOFY Sale Is Live: Lowest Price Picks Inside · Subject 点明主题：⚡ EOFY Sale Is Live: Lowest Price Picks Inside",
+        "Email 1 (clone 2) · ⚡ EOFY Early Access Is Live: Shop Early Prices Now · Subject 点明主题：⚡ EOFY Early Access Is Live: Shop Early Prices Now"
+      ],
+      "successFlow": [
+        "Welcome flow_V1 · 转化 2.10%",
+        "弃单挽回-Cart Abandoned Flow_V1 · 转化 3.62%",
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 4.70%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "售后相关-how to use SOC · 售后相关-how to use SOC",
+        "EOFY Sale Welcome FLOW · EOFY Sale Welcome FLOW",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "CA": {
+      "region": "CA",
+      "summary": "CA Campaign 本地负责；Flow 可作为北美 Checkout 模板同步给 US。",
+      "successCampaign": [
+        "MKT Elite 300 Trusted by 2000 Canadian Home Campaign Jun 5, 2026, 6:25 PM · Trusted by 2,000+ Canadian Homes | Elite 300 · Subject 点明主题：Trusted by 2,000+ Canadian Homes | Elite 300",
+        "5月会员日5.20 · ⚡ May Member Day – 4 Days of Exclusive Deals · Subject 点明主题：⚡ May Member Day – 4 Days of Exclusive Deals",
+        "MKT FridgePower 24h Last Call #3 · Final 24 hours to Get a Free Display 1 with FridgePower on K · Subject 点明主题：Final 24 hours to Get a Free Display 1 with FridgePower on Kickstarter."
+      ],
+      "avoidCampaign": [
+        "MKT SpringPower Mood #3Campaign May 15, 2026, 5:58 PM · Power Up Your Spring Adventures🌿 · Subject 点明主题：Power Up Your Spring Adventures🌿",
+        "MKT Summer & Victoria Day Campaign May 18, 2026, 5:35 PM · Power Your First Summer Escape · Subject 点明主题：Power Your First Summer Escape",
+        "5.27 apex300 弃单弃购 · ⏳ Extra 5% Off Your Cart — 72 Hours Left · Subject 点明主题：⏳ Extra 5% Off Your Cart — 72 Hours Left"
+      ],
+      "successFlow": [
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 4.68%",
+        "Welcome flow_V1 · 转化 1.39%",
+        "弃单挽回-Cart Abandoned Flow_V1 · 转化 1.51%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 售后相关-购后半年问卷",
+        "售后相关-how to use SOC · 售后相关-how to use SOC",
+        "Growave - Tier Unlocked · Growave - Tier Unlocked"
+      ]
+    },
+    "UK": {
+      "region": "UK",
+      "summary": "Campaign 本地；Flow 全球团队维护 Welcome/Checkout。",
+      "successCampaign": [
+        "UK-Prime Summer Power Pre-Sale · Up to 52% OFF| BLUETTI Prime Summer Starts Early · Subject 点明主题：Up to 52% OFF| BLUETTI Prime Summer Starts Early",
+        "UK-Bank-holiday-sale-3 · Last Call: Save Up to 44% This Bank Holiday · Subject 点明主题：Last Call: Save Up to 44% This Bank Holiday",
+        "UK-Bank-holiday-sale-2 · Save Up to 44% This Bank Holiday with BLUETTI · Subject 点明主题：Save Up to 44% This Bank Holiday with BLUETTI"
+      ],
+      "avoidCampaign": [
+        "UK-User Stories · Stories Powered by BLUETTI. · Subject 点明主题：Stories Powered by BLUETTI.",
+        "UK-solar-generator · Save Up to 31% on Solar Generator · Subject 点明主题：Save Up to 31% on Solar Generator"
+      ],
+      "successFlow": [
+        "Welcome flow_V1 · 转化 2.12%",
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 2.31%",
+        "Predicted Next Order FLOW · 转化 1.21%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "用户教育-Helpmechooes流程 · 用户教育-Helpmechooes流程",
+        "弃单挽回-Cart Abandoned Flow_V1 · 弃单挽回-Cart Abandoned Flow_V1",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "FR": {
+      "region": "FR",
+      "summary": "FR Campaign 本地；Flow Welcome/Checkout 需全球团队与 FR 对齐 send time。",
+      "successCampaign": [
+        "PD预售（修改） · Jusqu’à 42 % de réduction | BLUETTI Prime Summer commence pl · Subject 点明主题：Jusqu’à 42 % de réduction | BLUETTI Prime Summer commence plus tôt",
+        "TransferHub新品 · BLUETTI Balco Transfer Hub est arrivé | Offre de lancement : · Subject 点明主题：BLUETTI Balco Transfer Hub est arrivé | Offre de lancement : Copiez le code : TR",
+        "solarGenerator开售 · Économisez jusqu’à 33 % sur les kits générateurs solaires BL · Subject 点明主题：Économisez jusqu’à 33 % sur les kits générateurs solaires BLUETTI"
+      ],
+      "avoidCampaign": [
+        "用户故事 · Histoires alimentées par BLUETTI · Subject 点明主题：Histoires alimentées par BLUETTI",
+        "5月平促 · Passez au solaire avec BLUETTI｜8 % de réduction sur les pack · Subject 点明主题：Passez au solaire avec BLUETTI｜8 % de réduction sur les packs de panneaux solair",
+        "RoadTrip收尾 · Dernier appel : économisez jusqu’à 39 % sur les solutions d’ · Subject 点明主题：Dernier appel : économisez jusqu’à 39 % sur les solutions d’alimentation BLUETTI"
+      ],
+      "successFlow": [
+        "Welcome flow_V1 · 转化 2.86%",
+        "弃单挽回-checkout abandoned flow_V1 · 转化 3.95%",
+        "用户教育-Helpmechooes流程 · 转化 1.69%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "复购流程-repurchase solar panel · 复购流程-repurchase solar panel",
+        "Predicted Next Order FLOW · Predicted Next Order FLOW",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "DE": {
+      "region": "DE",
+      "summary": "DE Campaign 本地；Flow 德语文案需全球团队 QA。",
+      "successCampaign": [
+        "Transferhub-1 · BLUETTI Balco Transfer Hub ist da | Code kopieren: TRANEDM10 · Subject 点明主题：BLUETTI Balco Transfer Hub ist da | Code kopieren: TRANEDM10, 10 % Rabatt zum La",
+        "2026 Prime Day1 · Bis zu 51 % Rabatt | BLUETTI Prime Sommer startet früher · Subject 点明主题：Bis zu 51 % Rabatt | BLUETTI Prime Sommer startet früher",
+        "Kundengeschichten · Rückblick: Der Launch der Balco Series · Subject 点明主题：Rückblick: Der Launch der Balco Series"
+      ],
+      "avoidCampaign": [
+        "May-平效期 · Mit BLUETTI auf Solar umsteigen｜8 % Rabatt auf Solarpanel-Bu · Subject 点明主题：Mit BLUETTI auf Solar umsteigen｜8 % Rabatt auf Solarpanel-Bundles",
+        "Solargenerator Sale · Solargeneratoren-Sale ist jetzt live · Subject 点明主题：Solargeneratoren-Sale ist jetzt live",
+        "Road Trip Sale Lastcall · Endet bald:Spare bis zu 49 % auf BLUETTI Roadtrip-Power · Subject 点明主题：Endet bald:Spare bis zu 49 % auf BLUETTI Roadtrip-Power"
+      ],
+      "successFlow": [
+        "Welcome flow_V1 · GMV 20K EUR",
+        "弃单挽回-checkout abandoned flow_V1 · 转化 3.18%",
+        "弃单挽回-cart abandoned flow_V1 · 转化 1.62%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 售后相关-购后半年问卷",
+        "用户教育-Helpmechooes流程 · 用户教育-Helpmechooes流程",
+        "Predicted Next Order FLOW · Predicted Next Order FLOW",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "IT": {
+      "region": "IT",
+      "summary": "IT Campaign 本地；Flow Draft 状态需全球团队统一治理。",
+      "successCampaign": [
+        "2026 Prime Estate offerte first call · Fino al 42% di sconto | BLUETTI Prime Summer inizia in antic · Subject 点明主题：Fino al 42% di sconto | BLUETTI Prime Summer inizia in anticipo",
+        "2026 Road trip-3 last call · ⏳ Ultime Ore: Fino al 39% OFF per il Tuo Road Trip · Subject 点明主题：⏳ Ultime Ore: Fino al 39% OFF per il Tuo Road Trip",
+        "User Stories · 💙 L’energia che accende le tue storie · Subject 点明主题：💙 L’energia che accende le tue storie"
+      ],
+      "avoidCampaign": [
+        "2026 solar generator-5.27 · Genera energia e risparmia fino al 33%! · Subject 点明主题：Genera energia e risparmia fino al 33%!",
+        "2026 solar generator-5.22 · Passa al solare con BLUETTI｜8% di sconto sui bundle di panne · Subject 点明主题：Passa al solare con BLUETTI｜8% di sconto sui bundle di pannelli solari"
+      ],
+      "successFlow": [
+        "弃单挽回-checkout abandoned flow_V1 · 转化 4.63%",
+        "Welcome flow_V1 · 转化 1.91%",
+        "弃单挽回-cart abandoned flow_V1 · 转化 1.09%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "Predicted Next Order FLOW · Predicted Next Order FLOW",
+        "复购流程-repurchase solar panel · 复购流程-repurchase solar panel",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "EU": {
+      "region": "EU",
+      "summary": "EU 不宜均等投入；Flow Welcome 是全球团队 P1。",
+      "successCampaign": [
+        "Prime Day Pre-Sale 2026 · Up to 42% OFF| BLUETTI Prime Summer Starts Early · Subject 点明主题：Up to 42% OFF| BLUETTI Prime Summer Starts Early",
+        "Solar Generators Sale · Save Up to 33% on BLUETTI Solar Generator Kits · Subject 点明主题：Save Up to 33% on BLUETTI Solar Generator Kits",
+        "Road Trip Sale 2026-3 · Last Call: Save Up to 39% on BLUETTI Road Trip Power · Subject 点明主题：Last Call: Save Up to 39% on BLUETTI Road Trip Power"
+      ],
+      "avoidCampaign": [
+        "User stories · ❤️Real Stories. Real Power. · Subject 点明主题：❤️Real Stories. Real Power.",
+        "Solar Generator Kit Discount · Go Solar with BLUETTI |  Save 8% on Solar Panel Bundles · Subject 点明主题：Go Solar with BLUETTI |  Save 8% on Solar Panel Bundles",
+        "Transfer Hub Pre-Sale · BLUETTI Balco Transfer Hub Is Here | 10% OFF Launch Offer (C · Subject 点明主题：BLUETTI Balco Transfer Hub Is Here | 10% OFF Launch Offer (Code: TRANEDM10)"
+      ],
+      "successFlow": [
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 2.15%",
+        "Welcome flow_V1 · 转化 1.78%",
+        "弃单挽回-Cart Abandoned Flow_V1 · 转化 1.19%"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "复购流程-repurchase solar panel · 复购流程-repurchase solar panel",
+        "售后相关-how to use SOC · 售后相关-how to use SOC",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "ES": {
+      "region": "ES",
+      "summary": "ES Campaign 本地；Flow 全球维护。",
+      "successCampaign": [
+        "Preventa BLUETTI Prime Summer Power · Hasta un 42 % de descuento | BLUETTI Prime Summer empieza an · Subject 点明主题：Hasta un 42 % de descuento | BLUETTI Prime Summer empieza antes",
+        "5.29 Historias impulsadas por BLUETTI · 📖Historias impulsadas por BLUETTI · Subject 点明主题：📖Historias impulsadas por BLUETTI",
+        "5.22平销期8%-solar generate · Pásate a la energía solar con BLUETTI｜8 % de descuento en pa · Subject 点明主题：Pásate a la energía solar con BLUETTI｜8 % de descuento en packs de paneles solar"
+      ],
+      "avoidCampaign": [
+        "Solar Generator Sale开售 · Ahorra hasta un 33 % en kits de generador solar BLUETTI · Subject 点明主题：Ahorra hasta un 33 % en kits de generador solar BLUETTI",
+        "5月促销结束EDM · ¡Descuentos imperdibles en energía para viajes! · Subject 点明主题：¡Descuentos imperdibles en energía para viajes!"
+      ],
+      "successFlow": [
+        "Welcome flow_V1 · 转化 1.44%",
+        "弃单挽回-checkout abandoned flow_V1 · 转化 1.92%",
+        "用户教育-Helpmechooes流程 · GMV 7K EUR"
+      ],
+      "avoidFlow": [
+        "售后相关-购后半年问卷 · 近 30 天无 GMV",
+        "复购流程-repurchase solar panel · 复购流程-repurchase solar panel",
+        "用户购后体验问卷 · 近 30 天无 GMV",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
+    },
+    "JP": {
+      "region": "JP",
+      "summary": "JP Checkout NEW 可反向输出给 US；Campaign 本地。",
+      "successCampaign": [
+        "初夏倒计时 · 【まもなく終了】最大63％OFFの初夏セールをお見逃しなく✨さらに時間限定タイムセールもご用意⏳ · Subject 点明主题：【まもなく終了】最大63％OFFの初夏セールをお見逃しなく✨さらに時間限定タイムセールもご用意⏳",
+        "太阳能板选购指南 · あなたにぴったりのソーラーパネル、見つけませんか？☀️🔋 · Subject 点明主题：あなたにぴったりのソーラーパネル、見つけませんか？☀️🔋",
+        "初夏促销开始 · 【最大63%OFF】初夏セール開催中⛱️ 初夏を彩るAORA、スマートに節電🔋 · Subject 点明主题：【最大63%OFF】初夏セール開催中⛱️ 初夏を彩るAORA、スマートに節電🔋"
+      ],
+      "avoidCampaign": [
+        "艺人合作官宣 · ✨【ブランドパートナー就任のお知らせ】✨ · Subject 点明主题：✨【ブランドパートナー就任のお知らせ】✨",
+        "BLUETTI会员日 · BLUETTIメンバーズデー⚡もっとお得に、もっと楽しく！ · Subject 点明主题：BLUETTIメンバーズデー⚡もっとお得に、もっと楽しく！"
+      ],
+      "successFlow": [
+        "checkout abandoned flow（NEW ） · 转化 9.18%",
+        "用户购后体验问卷 · GMV 172K JPY",
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ],
+      "avoidFlow": [
+        "暂无足够数据"
+      ]
+    },
+    "CL": {
+      "region": "CL",
+      "summary": "CL 小站：全球 Flow 团队低频巡检即可。",
+      "successCampaign": [
+        "CL Cyber Day 开售 · ¡Comienza el Cyber Day 2026! 🛒 | Ofertas exclusivas hasta el · Subject 点明主题：¡Comienza el Cyber Day 2026! 🛒 | Ofertas exclusivas hasta el 4 de junio",
+        "CL Cyber Day 中期 · 🎉 Cyber Day BLUETTI: Grandes Descuentos · Subject 点明主题：🎉 Cyber Day BLUETTI: Grandes Descuentos",
+        "Elite 300 lanzamiento · ⚽ Que el partido no se corte por falta de energía · Subject 点明主题：⚽ Que el partido no se corte por falta de energía"
+      ],
+      "avoidCampaign": [
+        "CL Cyber Day 尾期 · ⏳ Cuenta regresiva del Cyber Day | Hasta 36% DTO. · Subject 点明主题：⏳ Cuenta regresiva del Cyber Day | Hasta 36% DTO.",
+        "Resplado para el hogar 2026.5.18 · ¡Aprovecha la oportunidad! | Hasta 32% DTO en energía de res · Subject 点明主题：¡Aprovecha la oportunidad! | Hasta 32% DTO en energía de respaldo ⚡"
+      ],
+      "successFlow": [
+        "弃单挽回-Checkout Abandoned Flow_V1 · 转化 5.32%",
+        "售前促销-Low Inventory Reminder · 转化 2.21%",
+        "弃单挽回-add to cart abandoned flow · GMV 1.5M CLP"
+      ],
+      "avoidFlow": [
+        "Sunset Unengaged Subscribers · List Hygiene 序列，低打开为预期行为"
+      ]
     }
   },
   "successPlaybook": {
@@ -1928,68 +2873,172 @@
   },
   "flowAlerts": [
     {
+      "priority": "P1",
+      "region": "CL",
+      "flow": "弃单挽回-checkout abandoned flow (2026 NEW)",
+      "category": "Draft",
+      "issue": "Draft 状态仍有发送 · 近30天发送 43 · 打开 48.8% · 点击 6.98% · GMV 4.0M CLP",
+      "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存"
+    },
+    {
+      "priority": "P1",
+      "region": "ES",
+      "flow": "Elite 100 V2 预计发货通知",
+      "category": "Draft",
+      "issue": "Draft 状态仍有发送 · 近30天发送 10 · 打开 100.0% · 点击 0.00% · GMV 0 EUR",
+      "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存"
+    },
+    {
+      "priority": "P1",
+      "region": "IT",
+      "flow": "Avviso di spedizione Elite 30 V2 verde e grigia fine aprile",
+      "category": "Draft",
+      "issue": "Draft 状态仍有发送 · 近30天发送 10 · 打开 90.0% · 点击 0.00% · GMV 0 EUR",
+      "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存"
+    },
+    {
+      "priority": "P1",
+      "region": "IT",
+      "flow": "Avviso di spedizione cavo solare fine aprile",
+      "category": "Draft",
+      "issue": "Draft 状态仍有发送 · 近30天发送 19 · 打开 89.5% · 点击 0.00% · GMV 0 EUR",
+      "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存"
+    },
+    {
+      "priority": "P1",
+      "region": "US",
+      "flow": "Welcome flow",
+      "category": "Draft",
+      "issue": "Draft 状态仍有发送 · 近30天发送 40,288 · 打开 33.7% · 点击 3.04% · GMV 199K USD",
+      "action": "确认 Live / 合并 / 下线，避免与 Live 版本并存"
+    },
+    {
       "priority": "P2",
       "region": "AU",
-      "flow": "RQU7Tm",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 2,226 · 打开 2.7% · 点击 0.45% · GMV 0 AUD（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
+    },
+    {
+      "priority": "P2",
+      "region": "CA",
+      "flow": "售后相关-购后半年问卷",
       "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "issue": "Live 但转化偏弱 · 近30天发送 2,031 · 打开 51.4% · 点击 4.78% · GMV 2K CAD",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
+    },
+    {
+      "priority": "P2",
+      "region": "CL",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 102 · 打开 3.9% · 点击 0.00% · GMV 0K CLP（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "DE",
-      "flow": "Tmyfh4",
+      "flow": "Predicted Next Order FLOW",
       "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "issue": "Live 但转化偏弱 · 近30天发送 349 · 打开 68.2% · 点击 11.46% · GMV 83 EUR",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
+    },
+    {
+      "priority": "P2",
+      "region": "DE",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 773 · 打开 4.0% · 点击 0.78% · GMV 0 EUR（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
+    },
+    {
+      "priority": "P2",
+      "region": "DE",
+      "flow": "售后相关-购后半年问卷",
+      "category": "Other",
+      "issue": "Live 但转化偏弱 · 近30天发送 815 · 打开 43.0% · 点击 5.18% · GMV 49 EUR",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
     },
     {
       "priority": "P2",
       "region": "ES",
-      "flow": "Y7NRbS",
-      "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 1,004 · 打开 2.6% · 点击 0.40% · GMV 0 EUR（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "EU",
-      "flow": "Y3bAQu",
-      "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 4,318 · 打开 1.4% · 点击 0.12% · GMV 0 EUR（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "FR",
-      "flow": "RpRR5M",
+      "flow": "复购流程-repurchase solar panel",
       "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "issue": "Live 但转化偏弱 · 近30天发送 633 · 打开 48.5% · 点击 6.48% · GMV 799 EUR",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
+    },
+    {
+      "priority": "P2",
+      "region": "FR",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 805 · 打开 4.4% · 点击 0.38% · GMV 0 EUR（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "IT",
-      "flow": "SzgFXD",
-      "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 956 · 打开 4.3% · 点击 0.63% · GMV 0 EUR（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "JP",
-      "flow": "XeU3x5",
-      "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 2,010 · 打开 5.6% · 点击 0.70% · GMV 0K JPY（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
     },
     {
       "priority": "P2",
       "region": "UK",
-      "flow": "WUp29v",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 3,942 · 打开 1.5% · 点击 0.15% · GMV 0 GBP（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
+    },
+    {
+      "priority": "P2",
+      "region": "US",
+      "flow": "Sunset Unengaged Subscribers",
+      "category": "Sunset",
+      "issue": "List Hygiene 序列 · 近30天发送 4,402 · 打开 4.6% · 点击 0.48% · GMV 812 USD（低打开为预期）",
+      "action": "仅监控 list 健康，不与 Welcome/Checkout 比打开率"
+    },
+    {
+      "priority": "P2",
+      "region": "US",
+      "flow": "Growave - Points Expiration",
       "category": "Other",
-      "issue": "大发送量但 GMV 为 0",
-      "action": "评估降频或合并"
+      "issue": "Live 但转化偏弱 · 近30天发送 1,461 · 打开 36.4% · 点击 6.40% · GMV 239 USD",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
+    },
+    {
+      "priority": "P2",
+      "region": "US",
+      "flow": "售后相关-购后半年问卷",
+      "category": "Other",
+      "issue": "Live 但转化偏弱 · 近30天发送 4,345 · 打开 43.2% · 点击 2.49% · GMV 569 USD",
+      "action": "检查 offer / CTA，或与 Checkout 序列对比"
     }
   ]
 }

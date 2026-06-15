@@ -5,6 +5,26 @@ on:
     # 每天 06:00 UTC（北京时间 14:00）
     - cron: "0 6 * * *"
   workflow_dispatch:
+    inputs:
+      days:
+        description: "Preset days (7/30/60/90/all); ignored when custom dates set"
+        required: false
+        type: choice
+        options:
+          - "all"
+          - "7"
+          - "30"
+          - "60"
+          - "90"
+        default: "all"
+      start_date:
+        description: "Custom start YYYY-MM-DD (optional)"
+        required: false
+        type: string
+      end_date:
+        description: "Custom end YYYY-MM-DD (optional)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -37,13 +57,22 @@ jobs:
           KLAVIYO_API_KEY_JP: ${{ secrets.KLAVIYO_API_KEY_JP }}
           KLAVIYO_API_KEY_CL: ${{ secrets.KLAVIYO_API_KEY_CL }}
         working-directory: scripts
-        run: python sync_dashboard.py
+        run: |
+          if [ -n "${{ inputs.start_date }}" ] && [ -n "${{ inputs.end_date }}" ]; then
+            python sync_dashboard.py --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.days }}" != "all" ]; then
+            python sync_dashboard.py --days "${{ inputs.days }}"
+          else
+            for d in 7 30 60 90; do
+              python sync_dashboard.py --days "$d"
+            done
+          fi
 
-      - name: Commit updated dashboard.json
+      - name: Commit updated dashboard JSON
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dashboard/data/dashboard.json
+          git add dashboard/data/
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

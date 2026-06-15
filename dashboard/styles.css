@@ -46,8 +46,78 @@ h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--
 
 .subtitle { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
 
-.controls { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.controls { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end; }
 .controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem; color: var(--muted); }
+
+.period-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0.65rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.toolbar-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.period-presets { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.period-btn,
+.period-apply {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.period-btn:hover,
+.period-apply:hover { border-color: var(--accent); }
+
+.period-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.period-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.period-custom input[type="date"] {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.3rem 0.45rem;
+  font-size: 0.8rem;
+}
+
+.period-sep { color: var(--muted); font-size: 0.8rem; }
+
+.period-notice {
+  flex-basis: 100%;
+  font-size: 0.78rem;
+  color: var(--warn);
+  margin: 0;
+}
+
+.period-notice a { color: var(--accent); }
+
+.period-notice.error { color: var(--warn); }
+
+.header-inner { align-items: flex-start; }
 select {
   background: var(--surface2);
   color: var(--text);

@@ -7,7 +7,15 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from klaviyo_config import FAILURE_PLAYBOOK, SITE_ORDER, SUCCESS_PLAYBOOK, TIMEFRAME
+from klaviyo_config import (
+    DEFAULT_DAYS,
+    FAILURE_PLAYBOOK,
+    PRESET_DAYS,
+    SITE_ORDER,
+    SUCCESS_PLAYBOOK,
+    dashboard_filename,
+    period_meta,
+)
 from ranking import build_flow_insights
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -84,9 +92,10 @@ def build_seed_flow_insights(site_why: dict, alerts: list[dict], currency_by_reg
     return flow_insights, flow_index
 
 
-def main() -> None:
+def main(days: int = DEFAULT_DAYS, out_path: Path | None = None, period: dict | None = None) -> None:
     raw_why = json.loads(SEED_WHY.read_text(encoding="utf-8"))
     site_why = strip_internal(raw_why)
+    period = period or period_meta(days=days)
 
     total_campaign = sum(r["campaignGmvCny"] for r in ROWS)
     total_flow = sum(r["flowGmvCny"] for r in ROWS)
@@ -110,8 +119,8 @@ def main() -> None:
     payload = {
         "meta": {
             "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "period": "近 30 天",
-            "timeframe": TIMEFRAME,
+            "period": period,
+            "timeframe": {"key": f"last_{period['days']}_days"} if period.get("preset") != "custom" else {"start": period["start"], "end": period["end"]},
             "siteCount": len(ROWS),
             "errors": [],
             "seed": True,
@@ -139,10 +148,22 @@ def main() -> None:
         "flowInsights": flow_insights,
         "flowIndex": flow_index,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {OUT}")
+    target = out_path or OUT
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Wrote {target}")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--days", type=int, default=DEFAULT_DAYS, choices=PRESET_DAYS)
+    ap.add_argument("--all-presets", action="store_true", help="Write dashboard-7d/30d/60d/90d + dashboard.json")
+    args = ap.parse_args()
+    if args.all_presets:
+        for d in PRESET_DAYS:
+            p = period_meta(days=d)
+            main(days=d, out_path=ROOT / "dashboard" / "data" / dashboard_filename(p), period=p)
+    else:
+        main(days=args.days)

@@ -4,6 +4,11 @@ let DATA = null;
 let pieChart = null;
 let barChart = null;
 let metricView = "combined";
+let currentPeriod = { preset: "30d", start: null, end: null };
+
+const PERIOD_STORAGE_KEY = "bluetti-dashboard-period";
+const PRESET_DAYS = { "7d": 7, "30d": 30, "60d": 60, "90d": 90 };
+const GITHUB_REPO = "17793689850qjq-cyber/bluetti-edm-flow-campaign-data";
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -124,18 +129,110 @@ function alertTone(priority) {
   return "tone-warn";
 }
 
-async function loadData() {
-  const res = await fetch("data/dashboard.json");
-  if (!res.ok) throw new Error(`无法加载 dashboard.json (${res.status})`);
-  return res.json();
+function normalizePeriod(metaPeriod) {
+  if (!metaPeriod) return { label: "近30天", days: 30, start: null, end: null, preset: "30d" };
+  if (typeof metaPeriod === "string") {
+    return { label: metaPeriod.replace(/\s/g, ""), days: 30, start: null, end: null, preset: "30d" };
+  }
+  return metaPeriod;
+}
+
+function periodLabel(period) {
+  const p = normalizePeriod(period);
+  if (p.start && p.end) return `${p.label || "自定义"} · ${p.start} ~ ${p.end}`;
+  if (p.start && p.end === undefined) return p.label || "近30天";
+  return p.label || `近${p.days || 30}天`;
+}
+
+function dataUrlForPeriod(period) {
+  if (period.preset === "custom" && period.start && period.end) {
+    return `data/dashboard-custom-${period.start}_${period.end}.json`;
+  }
+  const days = PRESET_DAYS[period.preset] || 30;
+  if (days === 30) return "data/dashboard-30d.json";
+  return `data/dashboard-${days}d.json`;
+}
+
+function loadStoredPeriod() {
+  try {
+    const raw = localStorage.getItem(PERIOD_STORAGE_KEY);
+    if (!raw) return { preset: "30d" };
+    const parsed = JSON.parse(raw);
+    if (parsed.preset === "custom" && parsed.start && parsed.end) return parsed;
+    if (parsed.preset && PRESET_DAYS[parsed.preset]) return { preset: parsed.preset };
+  } catch (_) {
+    /* ignore */
+  }
+  return { preset: "30d" };
+}
+
+function savePeriod(period) {
+  localStorage.setItem(PERIOD_STORAGE_KEY, JSON.stringify(period));
+}
+
+function readUrlPeriod() {
+  const params = new URLSearchParams(window.location.search);
+  const start = params.get("start");
+  const end = params.get("end");
+  if (start && end) return { preset: "custom", start, end };
+  const preset = params.get("period");
+  if (preset && (PRESET_DAYS[preset] || preset === "custom")) return { preset };
+  return null;
+}
+
+function syncPeriodUi(period) {
+  document.querySelectorAll(".period-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.preset === period.preset);
+  });
+  if (period.preset === "custom") {
+    if ($("#period-start")) $("#period-start").value = period.start || "";
+    if ($("#period-end")) $("#period-end").value = period.end || "";
+  }
+}
+
+function showPeriodNotice(message, isError = false) {
+  const el = $("#period-notice");
+  if (!el) return;
+  if (!message) {
+    el.classList.add("hidden");
+    el.textContent = "";
+    return;
+  }
+  el.classList.remove("hidden");
+  el.classList.toggle("error", isError);
+  el.innerHTML = message;
+}
+
+async function loadData(period) {
+  const primary = dataUrlForPeriod(period);
+  const fallbacks =
+    period.preset === "30d" ? ["data/dashboard.json", primary] : [primary, "data/dashboard.json"];
+  const urls = [...new Set(fallbacks)];
+  let lastErr = null;
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        lastErr = new Error(`无法加载 ${url} (${res.status})`);
+        continue;
+      }
+      return { data: await res.json(), url };
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr || new Error("无法加载看板数据");
 }
 
 function renderMeta() {
   const m = DATA.meta;
+  const p = normalizePeriod(m.period);
   const seed = m.seed ? " · 快照预览" : "";
   const errs = m.errors?.length ? ` · ${m.errors.length} 站同步失败` : "";
+  const range =
+    p.start && p.end ? ` · ${p.start} ~ ${p.end}` : "";
   $("#meta-line").textContent =
-    `${m.period} · 更新 ${m.updatedAt.replace("T", " ").replace("Z", " UTC")} · ${m.siteCount} 站${seed}${errs}`;
+    `数据区间：${p.label || periodLabel(p)}${range} · 更新 ${m.updatedAt.replace("T", " ").replace("Z", " UTC")} · ${m.siteCount} 站${seed}${errs}`;
 }
 
 function renderKpis() {
@@ -398,7 +495,7 @@ function renderInsightDrawer(item) {
   if (!item) return;
   $("#insight-drawer-region").textContent = item.region;
   $("#insight-drawer-title").textContent = item.name;
-  $("#insight-drawer-status").textContent = `${item.status.toUpperCase()} · ${item.summary} · 近 30 天`;
+  $("#insight-drawer-status").textContent = `${item.status.toUpperCase()} · ${item.summary} · ${periodLabel(DATA.meta?.period)}`;
   const m = item.metrics;
   const alertBlock =
     item.alerts?.length > 0
@@ -681,20 +778,83 @@ function showSection(name) {
   if (name === "flow-insights") renderFlowInsights();
 }
 
+function refreshAllViews() {
+  renderMeta();
+  setupFlowInsightFilters();
+  setupFlowAlertFilters();
+  renderSites();
+  renderFlow();
+  renderFlowInsights();
+  renderPlaybook();
+  const section = $("#section-select").value;
+  if (section === "overview") refreshOverview();
+}
+
+async function applyPeriod(period, { silent = false } = {}) {
+  currentPeriod = period;
+  savePeriod(period);
+  syncPeriodUi(period);
+  if (!silent) {
+    $("#loading").classList.remove("hidden");
+    $("#error").classList.add("hidden");
+  }
+  showPeriodNotice("");
+  try {
+    const { data } = await loadData(period);
+    DATA = data;
+    $("#loading").classList.add("hidden");
+    refreshAllViews();
+    showSection($("#section-select").value);
+  } catch (err) {
+    $("#loading").classList.add("hidden");
+    if (period.preset === "custom") {
+      const wf = `https://github.com/${GITHUB_REPO}/actions/workflows/sync-dashboard.yml`;
+      showPeriodNotice(
+        `自定义范围数据尚未同步。请 <a href="${wf}" target="_blank" rel="noopener">在 GitHub Actions 手动运行 Sync Klaviyo Dashboard</a>，填写 start_date=${period.start}、end_date=${period.end}。`,
+        true
+      );
+      if (!DATA) {
+        const el = $("#error");
+        el.textContent = err.message;
+        el.classList.remove("hidden");
+      }
+      return;
+    }
+    const el = $("#error");
+    el.textContent = err.message;
+    el.classList.remove("hidden");
+  }
+}
+
+function bindPeriodControls() {
+  document.querySelectorAll(".period-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyPeriod({ preset: btn.dataset.preset });
+    });
+  });
+  $("#period-apply")?.addEventListener("click", () => {
+    const start = $("#period-start").value;
+    const end = $("#period-end").value;
+    if (!start || !end) {
+      showPeriodNotice("请选择开始与结束日期", true);
+      return;
+    }
+    if (start > end) {
+      showPeriodNotice("开始日期不能晚于结束日期", true);
+      return;
+    }
+    applyPeriod({ preset: "custom", start, end });
+  });
+}
+
 async function init() {
   try {
-    DATA = await loadData();
-    metricView = $("#metric-view").value;
-    $("#loading").classList.add("hidden");
-    renderMeta();
-    setupFlowInsightFilters();
-    setupFlowAlertFilters();
+    bindPeriodControls();
     bindFlowFilterHandlers();
-    renderSites();
-    renderFlow();
-    renderFlowInsights();
-    renderPlaybook();
-    showSection($("#section-select").value);
+    const urlPeriod = readUrlPeriod();
+    const stored = urlPeriod || loadStoredPeriod();
+    await applyPeriod(stored, { silent: true });
+    metricView = $("#metric-view").value;
 
     $("#section-select").addEventListener("change", (e) => showSection(e.target.value));
     $("#metric-view").addEventListener("change", (e) => {

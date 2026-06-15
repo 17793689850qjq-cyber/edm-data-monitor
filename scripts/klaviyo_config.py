@@ -34,8 +34,65 @@ REGIONS: list[RegionConfig] = [
 
 SITE_ORDER = [r.code for r in REGIONS]
 
-TIMEFRAME = "last_30_days"
+DEFAULT_DAYS = 30
+PRESET_DAYS = (7, 30, 60, 90)
+TIMEFRAME = "last_30_days"  # legacy default key
 API_REVISION = "2024-10-15"
+
+
+def klaviyo_timeframe(*, days: int | None = None, start: str | None = None, end: str | None = None) -> dict:
+    """Build Klaviyo report timeframe: preset key or custom start/end."""
+    if start and end:
+        return {"start": start, "end": end}
+    d = days if days is not None else DEFAULT_DAYS
+    if d in PRESET_DAYS:
+        return {"key": f"last_{d}_days"}
+    raise ValueError(f"unsupported preset days {d}; use --start/--end for custom range")
+
+
+def period_meta(*, days: int | None = None, start: str | None = None, end: str | None = None) -> dict:
+    """Dashboard period metadata for JSON output."""
+    from datetime import date, timedelta
+
+    if start and end:
+        start_d = date.fromisoformat(start)
+        end_d = date.fromisoformat(end)
+        span = (end_d - start_d).days + 1
+        return {
+            "preset": "custom",
+            "start": start,
+            "end": end,
+            "days": span,
+            "label": f"自定义 {start} ~ {end}",
+        }
+    d = days if days is not None else DEFAULT_DAYS
+    end_d = date.today()
+    start_d = end_d - timedelta(days=d - 1)
+    label_map = {7: "近7天", 30: "近30天", 60: "近60天", 90: "近90天"}
+    return {
+        "preset": f"{d}d",
+        "start": start_d.isoformat(),
+        "end": end_d.isoformat(),
+        "days": d,
+        "label": label_map.get(d, f"近{d}天"),
+    }
+
+
+def dashboard_filename(period: dict) -> str:
+    """Primary dashboard/data JSON filename for a period."""
+    names = dashboard_filenames(period)
+    return names[0]
+
+
+def dashboard_filenames(period: dict) -> list[str]:
+    """All JSON filenames to write for a period (30d → dashboard.json + dashboard-30d.json)."""
+    if period.get("preset") == "custom":
+        return [f"dashboard-custom-{period['start']}_{period['end']}.json"]
+    days = period.get("days", DEFAULT_DAYS)
+    name = f"dashboard-{days}d.json"
+    if days == DEFAULT_DAYS:
+        return ["dashboard.json", name]
+    return [name]
 
 SUCCESS_PLAYBOOK = {
     "title": "成功模式 · 下次可复制",

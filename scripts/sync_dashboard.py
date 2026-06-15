@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Sync Klaviyo dashboard data for all regions → dashboard/data/dashboard.json"""
+"""Sync Klaviyo dashboard data for all regions → dashboard/data/*.json"""
 
 from __future__ import annotations
 
+import argparse
 import json
-import os
 import sys
 import time
 import urllib.error
@@ -14,13 +14,17 @@ from pathlib import Path
 
 from klaviyo_config import (
     API_REVISION,
+    DEFAULT_DAYS,
     FAILURE_PLAYBOOK,
     REGIONS,
     SITE_ORDER,
     SUCCESS_PLAYBOOK,
-    TIMEFRAME,
     RegionConfig,
     api_key_for,
+    dashboard_filename,
+    dashboard_filenames,
+    klaviyo_timeframe,
+    period_meta,
 )
 from entity_cache import EntityCache
 from ranking import (
@@ -34,7 +38,7 @@ from ranking import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT_PATH = ROOT / "dashboard" / "data" / "dashboard.json"
+DATA_DIR = ROOT / "dashboard" / "data"
 SEED_WHY_PATH = Path(__file__).resolve().parent / "seed_site_why.json"
 
 STATS = [
@@ -52,8 +56,9 @@ STATS = [
 class KlaviyoClient:
     BASE = "https://a.klaviyo.com/api"
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, timeframe: dict):
         self.api_key = api_key
+        self.timeframe = timeframe
 
     def _request(self, method: str, path: str, body: dict | None = None) -> dict:
         url = f"{self.BASE}{path}"
@@ -88,7 +93,7 @@ class KlaviyoClient:
             "data": {
                 "type": "campaign-values-report",
                 "attributes": {
-                    "timeframe": {"key": TIMEFRAME},
+                    "timeframe": self.timeframe,
                     "conversion_metric_id": metric_id,
                     "filter": 'equals(send_channel,"email")',
                     "statistics": STATS,
@@ -102,7 +107,7 @@ class KlaviyoClient:
             "data": {
                 "type": "flow-values-report",
                 "attributes": {
-                    "timeframe": {"key": TIMEFRAME},
+                    "timeframe": self.timeframe,
                     "conversion_metric_id": metric_id,
                     "filter": 'equals(send_channel,"email")',
                     "statistics": STATS,
@@ -116,7 +121,6 @@ class KlaviyoClient:
         next_url: str | None = path
         while next_url:
             if next_url.startswith("http"):
-                # full URL from links.next — use GET not supported; use cursor if present
                 break
             payload = self._request("POST", next_url, body)
             attrs = payload.get("data", {}).get("attributes", {})
@@ -125,7 +129,6 @@ class KlaviyoClient:
             nxt = links.get("next")
             if not nxt:
                 break
-            # Klaviyo may return full URL; for simplicity single page (MCP also returns next:null)
             break
         return results
 
@@ -241,12 +244,7 @@ def load_seed_why() -> dict:
     return {}
 
 
-def sync_region(region: RegionConfig, seed_why: dict) -> dict:
-    key = api_key_for(region)
-    if not key:
-        raise RuntimeError(f"missing API key env {region.api_key_env}")
-
-    client = KlaviyoClient(key)
+def sync_region(region: RegionConfig, seed_why: dict, client: KlaviyoClient, period_label: str) -> dict:
     cache = EntityCache(client)
     metric_id = region.metric_id or client.resolve_placed_order_metric()
     time.sleep(1)
@@ -270,7 +268,7 @@ def sync_region(region: RegionConfig, seed_why: dict) -> dict:
     fb, fw, fs = rank_items(flows, "flow", min_rec=200)
 
     site_why = {
-        "summary": seed_block.get("summary") or f"{len(campaigns)} Campaign · {len(flows)} Flow · 近 30 天",
+        "summary": seed_block.get("summary") or f"{len(campaigns)} Campaign · {len(flows)} Flow · {period_label}",
         "campaignBest": [],
         "campaignWorst": [],
         "flowBest": [to_flow_why_item(it, ccy, True) for it in fb],
@@ -312,7 +310,7 @@ def sync_region(region: RegionConfig, seed_why: dict) -> dict:
     }
 
 
-def build_dashboard() -> dict:
+def build_dashboard(timeframe: dict, period: dict) -> dict:
     rows: list[dict] = []
     site_why: dict = {}
     site_playbook: dict = {}
@@ -321,10 +319,16 @@ def build_dashboard() -> dict:
     flow_index: list[dict] = []
     errors: list[str] = []
     seed_why = load_seed_why()
+    period_label = period["label"]
 
     for region in REGIONS:
+        key = api_key_for(region)
+        if not key:
+            errors.append(f"{region.code}: missing API key env {region.api_key_env}")
+            continue
         try:
-            data = sync_region(region, seed_why)
+            client = KlaviyoClient(key, timeframe)
+            data = sync_region(region, seed_why, client, period_label)
             data["totalGmvCny"] = data["campaignGmvCny"] + data["flowGmvCny"]
             rows.append({k: data[k] for k in ("region", "currency", "campaign", "flow", "campaignGmvCny", "flowGmvCny", "totalGmvCny")})
             site_why[region.code] = data["siteWhy"]
@@ -345,7 +349,6 @@ def build_dashboard() -> dict:
     total_flow = sum(r["flowGmvCny"] for r in rows)
     total_gmv = total_campaign + total_flow
 
-    # Global KPI (combined weighted)
     delivered = sum(r["campaign"]["delivered"] + r["flow"]["delivered"] for r in rows)
     open_w = sum(r["campaign"]["openRate"] * r["campaign"]["delivered"] + r["flow"]["openRate"] * r["flow"]["delivered"] for r in rows)
     click_w = sum(r["campaign"]["clickRate"] * r["campaign"]["delivered"] + r["flow"]["clickRate"] * r["flow"]["delivered"] for r in rows)
@@ -358,8 +361,8 @@ def build_dashboard() -> dict:
     return {
         "meta": {
             "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "period": "近 30 天",
-            "timeframe": TIMEFRAME,
+            "period": period,
+            "timeframe": timeframe,
             "siteCount": len(rows),
             "errors": errors,
         },
@@ -389,17 +392,52 @@ def build_dashboard() -> dict:
     }
 
 
-def main() -> int:
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    dashboard = build_dashboard()
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Sync Klaviyo dashboard JSON for a date range.")
+    p.add_argument("--days", type=int, help="Preset lookback days (7, 30, 60, 90)")
+    p.add_argument("--start", help="Custom range start YYYY-MM-DD")
+    p.add_argument("--end", help="Custom range end YYYY-MM-DD")
+    p.add_argument("--out", help="Output path (default: dashboard/data/<period>.json)")
+    return p.parse_args(argv)
+
+
+def resolve_sync_window(args: argparse.Namespace) -> tuple[dict, dict]:
+    if args.start or args.end:
+        if not (args.start and args.end):
+            raise SystemExit("Custom range requires both --start and --end")
+        timeframe = klaviyo_timeframe(start=args.start, end=args.end)
+        period = period_meta(start=args.start, end=args.end)
+    else:
+        days = args.days if args.days is not None else DEFAULT_DAYS
+        timeframe = klaviyo_timeframe(days=days)
+        period = period_meta(days=days)
+    return timeframe, period
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    timeframe, period = resolve_sync_window(args)
+    out_path = Path(args.out) if args.out else DATA_DIR / dashboard_filename(period)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    dashboard = build_dashboard(timeframe, period)
     if not dashboard["rows"]:
         print("No API keys or all regions failed; using seed snapshot", file=sys.stderr)
         import build_seed_dashboard
 
-        build_seed_dashboard.main()
+        for name in dashboard_filenames(period) if not args.out else [out_path.name]:
+            build_seed_dashboard.main(
+                days=period.get("days", DEFAULT_DAYS),
+                out_path=DATA_DIR / name,
+                period=period,
+            )
         return 0
-    OUT_PATH.write_text(json.dumps(dashboard, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {OUT_PATH} ({dashboard['meta']['siteCount']} sites)")
+
+    payload = json.dumps(dashboard, ensure_ascii=False, indent=2)
+    targets = [out_path] if args.out else [DATA_DIR / n for n in dashboard_filenames(period)]
+    for target in targets:
+        target.write_text(payload, encoding="utf-8")
+        print(f"Wrote {target} ({dashboard['meta']['siteCount']} sites, {period['label']})")
     if dashboard["meta"]["errors"]:
         print("Partial errors:", dashboard["meta"]["errors"], file=sys.stderr)
     return 0

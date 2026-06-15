@@ -16,6 +16,22 @@
         <p class="subtitle" id="meta-line">加载中…</p>
       </div>
       <div class="controls">
+        <div class="period-toolbar" id="period-toolbar">
+          <span class="toolbar-label">数据区间</span>
+          <div class="period-presets" id="period-presets">
+            <button type="button" class="period-btn" data-preset="7d">近7天</button>
+            <button type="button" class="period-btn active" data-preset="30d">近30天</button>
+            <button type="button" class="period-btn" data-preset="60d">近60天</button>
+            <button type="button" class="period-btn" data-preset="90d">近90天</button>
+          </div>
+          <div class="period-custom">
+            <input type="date" id="period-start" aria-label="开始日期" />
+            <span class="period-sep">~</span>
+            <input type="date" id="period-end" aria-label="结束日期" />
+            <button type="button" class="period-apply" id="period-apply">应用</button>
+          </div>
+        </div>
+        <p class="period-notice hidden" id="period-notice"></p>
         <label>
           视图
           <select id="section-select">
@@ -80,7 +96,7 @@
     </section>
 
     <section id="view-sites" class="view hidden">
-      <p class="hint">展开站点 → Campaign / Flow。每条含 Subject、受众与原因解读（近 30 天）。</p>
+      <p class="hint">展开站点 → Campaign / Flow。每条含 Subject、受众与原因解读（统计周期见页头）。</p>
       <div id="sites-container"></div>
     </section>
 
@@ -164,12 +180,12 @@
     </section>
 
     <section id="view-playbook" class="view hidden">
-      <p class="hint">各站 Playbook：基于近 30 天实际 Campaign/Flow 表现 + 运营经验总结。</p>
+      <p class="hint">各站 Playbook：基于所选统计周期内实际 Campaign/Flow 表现 + 运营经验总结。</p>
       <div class="playbook-grid" id="playbook-grid"></div>
     </section>
 
     <footer class="footer">
-      <p>数据每日由 GitHub Actions 从 Klaviyo API 同步 · 转化口径：Placed Order · 统计周期：近 30 天</p>
+      <p>数据每日由 GitHub Actions 从 Klaviyo API 同步 · 转化口径：Placed Order · 可在页头切换统计周期</p>
     </footer>
   </main>
 

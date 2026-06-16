@@ -10,7 +10,7 @@ const PERIOD_STORAGE_KEY = "bluetti-dashboard-period";
 const PRESET_DAYS = { "7d": 7, "30d": 30, "60d": 60, "90d": 90 };
 const GITHUB_REPO = "17793689850qjq-cyber/bluetti-edm-dashboard";
 const CUSTOM_POLL_INTERVAL_MS = 30000;
-const CUSTOM_POLL_MAX_MS = 600000;
+const CUSTOM_POLL_MAX_MS = 900000;
 const TRIGGER_SYNC_URL = "/.netlify/functions/trigger-sync";
 
 let customPollTimer = null;
@@ -241,11 +241,22 @@ function updateCustomPollStatus(period, elapsedMs, { syncing = true } = {}) {
   const secs = Math.floor((elapsedMs % 60000) / 1000);
   const remainingMin = Math.max(0, Math.ceil((CUSTOM_POLL_MAX_MS - elapsedMs) / 60000));
   if (syncing) {
-    el.textContent = `正在后台同步 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 约 ${remainingMin} 分钟后超时 · 每 30 秒自动检测`;
+    el.textContent = `正在后台同步 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 最长等待 15 分钟 · 每 30 秒自动检测`;
   } else {
     el.textContent = `同步进行中 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 约 ${remainingMin} 分钟后超时`;
   }
   el.classList.remove("hidden");
+}
+
+function isPatMissingPayload(payload, status) {
+  return payload?.code === "pat_missing" || (status === 503 && /GITHUB_PAT|pat_missing|尚未配置/i.test(payload?.error || ""));
+}
+
+function patSetupMessage(payload) {
+  return (
+    payload?.setup ||
+    "在 Netlify 站点 bluetti-edm-dashboard 的环境变量中添加 GITHUB_PAT（Classic PAT，勾选 repo + workflow），设置后重新选择日期即可。"
+  );
 }
 
 async function triggerRemoteSync(start, end) {
@@ -258,6 +269,12 @@ async function triggerRemoteSync(start, end) {
     payload = {};
   }
   if (!res.ok || !payload.triggered) {
+    if (isPatMissingPayload(payload, res.status)) {
+      const err = new Error(payload.error || "后台同步尚未配置");
+      err.code = "pat_missing";
+      err.setup = patSetupMessage(payload);
+      throw err;
+    }
     const msg = payload.error || payload.detail || `HTTP ${res.status}`;
     throw new Error(msg);
   }
@@ -355,6 +372,16 @@ async function beginCustomAutoSync(period, { silent = false } = {}) {
     }
   } catch (err) {
     syncTriggeredKey = null;
+    if (err.code === "pat_missing") {
+      const setup = err.setup || patSetupMessage({});
+      if (silent) {
+        showPeriodNotice(`后台同步尚未配置：${setup}`, true);
+      } else {
+        showCustomEmpty(period, { polling: false, syncError: setup, patMissing: true });
+        showPeriodNotice("后台同步需要一次性配置 GITHUB_PAT，详见下方说明。", true);
+      }
+      return;
+    }
     if (silent) {
       showPeriodNotice(`自定义范围同步未能启动：${err.message}`, true);
     } else {
@@ -398,7 +425,7 @@ function hideCustomEmpty() {
   $("#custom-poll-status")?.classList.add("hidden");
 }
 
-function showCustomEmpty(period, { polling = false, autoTriggered = false, pending = false, syncError = null } = {}) {
+function showCustomEmpty(period, { polling = false, autoTriggered = false, pending = false, syncError = null, patMissing = false } = {}) {
   hideAllViews();
   $("#error")?.classList.add("hidden");
   const el = $("#custom-empty");
@@ -428,11 +455,13 @@ function showCustomEmpty(period, { polling = false, autoTriggered = false, pendi
   }
   const hint = $("#custom-empty-hint");
   if (hint) {
-    if (syncError) {
+    if (patMissing) {
+      hint.textContent = syncError || patSetupMessage({});
+    } else if (syncError) {
       hint.textContent = `自动同步失败：${syncError}。点击「重试同步」再试一次；GitHub 链接仅供排查。`;
     } else if (polling || autoTriggered) {
       hint.textContent =
-        "首次选择该日期范围时会自动在后台拉取 Klaviyo 数据，无需手动打开 GitHub。本页每 30 秒检测，就绪后自动展示。";
+        "首次选择该区间，正在后台拉取数据（约 5–10 分钟），请稍候。本页每 30 秒自动检测，就绪后自动展示，无需刷新。";
     } else {
       hint.textContent =
         "选择自定义日期后会自动触发后台同步。预设区间（7 / 30 / 60 / 90 天）及上月、本月至今每日自动更新。";
@@ -446,7 +475,7 @@ function showCustomEmpty(period, { polling = false, autoTriggered = false, pendi
 }
 
 function customMissingNotice(period) {
-  return `自定义范围 <strong>${period.start} ~ ${period.end}</strong> 尚未就绪，正在后台自动同步…`;
+  return `自定义范围 <strong>${period.start} ~ ${period.end}</strong> 首次选择，正在后台拉取数据（约 5–10 分钟），请稍候…`;
 }
 
 function showPeriodNotice(message, isError = false) {

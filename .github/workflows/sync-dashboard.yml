@@ -29,6 +29,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: sync-dashboard
@@ -37,6 +38,8 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      data_changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
 
@@ -85,13 +88,33 @@ jobs:
           fi
 
       - name: Commit updated dashboard JSON
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add dashboard/data/
           if git diff --staged --quiet; then
             echo "No changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "chore(dashboard): sync Klaviyo data [skip ci]"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+  deploy:
+    needs: sync
+    if: needs.sync.outputs.data_changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify deploy workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "deploy-netlify.yml",
+              ref: "main",
+            });
+            core.info("Triggered deploy-netlify.yml after dashboard data commit");

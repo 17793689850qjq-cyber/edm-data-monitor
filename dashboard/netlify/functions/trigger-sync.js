@@ -54,7 +54,10 @@ exports.handler = async (event) => {
   const pat = process.env.GITHUB_PAT;
   if (!pat) {
     return json(503, {
-      error: "GITHUB_PAT 未配置。请在 Netlify 站点环境变量中添加 Personal Access Token（需 repo + workflow 权限）。",
+      code: "pat_missing",
+      error: "后台同步尚未配置（一次性设置）",
+      setup:
+        "在 Netlify 站点 bluetti-edm-dashboard → Site configuration → Environment variables 添加 GITHUB_PAT：GitHub Classic PAT，勾选 repo + workflow。设置后重新选择日期即可自动同步。",
       triggered: false,
     });
   }

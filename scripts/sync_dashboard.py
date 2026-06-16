@@ -389,7 +389,7 @@ def totals_from_rows(rows: list[dict]) -> dict:
 
 
 FLOW_YOY_TOP_N = 50
-FLOW_YOY_PRESETS = {"30d"}
+FLOW_YOY_PRESETS = {"30d", "custom"}
 
 
 def fetch_region_flow_buckets(region: RegionConfig, timeframe: dict, label: str) -> dict[str, dict] | None:
@@ -418,7 +418,7 @@ def attach_flow_yoy(
     min_delivered: int = MIN_DELIVERED,
     top_n: int = FLOW_YOY_TOP_N,
 ) -> dict:
-    """Fetch per-flow current vs YoY rows; only for supported presets (30d)."""
+    """Fetch per-flow current vs YoY rows for 30d preset and custom date ranges."""
     preset = period.get("preset")
     if preset not in FLOW_YOY_PRESETS:
         return comparisons

@@ -64,15 +64,16 @@ jobs:
             LAST_MONTH_END=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m-%d)
             MTD_START=$(date -u +%Y-%m-01)
             MTD_END=$(date -u +%Y-%m-%d)
-            echo "Custom range: last month ${LAST_MONTH_START} .. ${LAST_MONTH_END}"
+            echo "Custom range (with MoM/YoY + flowYoY): last month ${LAST_MONTH_START} .. ${LAST_MONTH_END}"
             python sync_dashboard.py --start "${LAST_MONTH_START}" --end "${LAST_MONTH_END}"
             if [ "${MTD_START}" != "${LAST_MONTH_START}" ] || [ "${MTD_END}" != "${LAST_MONTH_END}" ]; then
-              echo "Custom range: month-to-date ${MTD_START} .. ${MTD_END}"
+              echo "Custom range (with MoM/YoY + flowYoY): month-to-date ${MTD_START} .. ${MTD_END}"
               python sync_dashboard.py --start "${MTD_START}" --end "${MTD_END}"
             fi
           }
 
           if [ -n "${{ inputs.start_date }}" ] && [ -n "${{ inputs.end_date }}" ]; then
+            echo "Custom dispatch: syncing with MoM/YoY comparisons + flowYoY"
             python sync_dashboard.py --start "${{ inputs.start_date }}" --end "${{ inputs.end_date }}"
           elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.days }}" != "all" ]; then
             python sync_dashboard.py --days "${{ inputs.days }}"

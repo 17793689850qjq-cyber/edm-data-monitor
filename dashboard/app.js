@@ -16,6 +16,8 @@ const TRIGGER_SYNC_URL = "/.netlify/functions/trigger-sync";
 let customPollTimer = null;
 let customPollStartedAt = 0;
 let customPollPeriod = null;
+let syncTriggeredKey = null;
+let comparisonResyncKey = null;
 let comparisonScope = "global";
 let comparisonSite = "US";
 let comparisonHandlersBound = false;
@@ -310,6 +312,8 @@ function startCustomSyncPolling(period, { autoTriggered = false, silent = false 
     }
     const data = await probeCustomData(period);
     if (data) {
+      const ready = !comparisonsMissingForPeriod(period, data);
+      if (!ready && elapsed < CUSTOM_POLL_MAX_MS) return;
       stopCustomPolling();
       if (silent) {
         await applyPeriod(period, { silent: true, replaceHistory: true });
@@ -319,7 +323,12 @@ function startCustomSyncPolling(period, { autoTriggered = false, silent = false 
         $("#loading").classList.add("hidden");
         refreshAllViews();
         showSection($("#section-select").value);
-        showPeriodNotice(`自定义范围 ${period.start} ~ ${period.end} 已同步并自动加载。`, false);
+        showPeriodNotice(
+          ready
+            ? `自定义范围 ${period.start} ~ ${period.end} 已同步并自动加载。`
+            : `自定义范围 ${period.start} ~ ${period.end} 已加载，同比/环比数据仍在同步中…`,
+          false
+        );
       }
     }
   };
@@ -410,6 +419,7 @@ function showCustomEmpty(period, { polling = false, autoTriggered = false, pendi
       autoBtn.addEventListener("click", () => {
         if (currentPeriod.preset !== "custom" || !currentPeriod.start || !currentPeriod.end) return;
         syncTriggeredKey = null;
+        comparisonResyncKey = null;
         beginCustomAutoSync(currentPeriod);
       });
     }
@@ -1047,6 +1057,34 @@ function renderDeltaCell(metric, block) {
   return `<td class="col-num ${cls}">${escapeHtml(label)}</td>`;
 }
 
+function hasComparisonBlock(comp) {
+  const block = normalizeComparisonBlock(getComparisonScopeBlock(comp));
+  return Boolean(block?.totals?.metrics?.length);
+}
+
+function comparisonsMissingForPeriod(period, data) {
+  return period.preset === "custom" && data && !hasComparisonBlock(data.comparisons);
+}
+
+function maybeTriggerComparisonResync(period) {
+  if (period.preset !== "custom" || !period.start || !period.end) return;
+  const key = `cmp_${period.start}_${period.end}`;
+  if (comparisonResyncKey === key || customPollTimer) return;
+  comparisonResyncKey = key;
+  beginCustomAutoSync(period, { silent: true });
+  showPeriodNotice(
+    `自定义区间 ${period.start} ~ ${period.end} 缺少同比/环比数据，正在后台重新同步（含 MoM/YoY）…`,
+    false
+  );
+}
+
+function comparisonEmptyMessage(period) {
+  if (period.preset === "custom" && period.start && period.end) {
+    return `自定义区间 ${period.start} ~ ${period.end} 暂无同比/环比数据。若为旧版同步文件，将自动在后台重新拉取；也可切换至近 30 天查看。`;
+  }
+  return "当前数据区间暂无同比环比数据，请等待同步或切换至近 30 天。";
+}
+
 function renderComparisonPeriodLabels(comp) {
   const el = $("#comparison-period-labels");
   if (!el || !comp?.meta) return;
@@ -1332,12 +1370,17 @@ function renderComparison() {
   const hasData = block?.totals?.metrics?.length;
 
   if (!hasData) {
-    emptyEl?.classList.remove("hidden");
+    if (emptyEl) {
+      emptyEl.textContent = comparisonEmptyMessage(currentPeriod);
+      emptyEl.classList.remove("hidden");
+    }
     tableWrap?.classList.add("hidden");
     chartsWrap?.classList.add("hidden");
     siteFilter?.classList.add("hidden");
     $("#comparison-period-labels").innerHTML = "";
     destroyComparisonCharts();
+    renderFlowYoYTable();
+    maybeTriggerComparisonResync(currentPeriod);
     return;
   }
 
@@ -1564,6 +1607,9 @@ async function applyPeriod(period, { silent = false, fallbackOnCustomMissing = f
     hideCustomEmpty();
     refreshAllViews();
     showSection($("#section-select").value);
+    if (comparisonsMissingForPeriod(period, data)) {
+      maybeTriggerComparisonResync(period);
+    }
   } catch (err) {
     $("#loading").classList.add("hidden");
     if (period.preset === "custom") {

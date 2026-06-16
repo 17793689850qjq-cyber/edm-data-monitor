@@ -1,5 +1,7 @@
-# Publishes dashboard/ to https://bluetti-edm-databoard.netlify.app/
-# Requires repo secrets: NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID (site name: bluetti-edm-databoard)
+# Publishes dashboard/ to https://bluetti-edm-dashboard.netlify.app/
+# Requires repo secrets:
+#   NETLIFY_AUTH_TOKEN — Netlify User settings → Applications → Personal access tokens
+#   NETLIFY_SITE_ID    — f64cc0c9-dcf5-4028-a1d8-fdc1de1d61d2 (bluetti-edm-dashboard)
 name: Deploy Dashboard to Netlify
 
 on:
@@ -7,7 +9,7 @@ on:
     branches: [main, master]
     paths:
       - "dashboard/**"
-      - "netlify-deploy/**"
+      - "netlify.toml"
       - ".github/workflows/deploy-netlify.yml"
   workflow_dispatch:
 

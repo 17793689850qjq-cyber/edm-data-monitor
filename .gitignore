@@ -6,3 +6,6 @@ netlify-deploy/
 netlify-deploy.zip
 chiang-mai-itinerary.html
 scripts/__pycache__/
+
+# Local Netlify folder
+.netlify

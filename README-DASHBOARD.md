@@ -2,11 +2,11 @@
 
 静态网页 + JSON 数据，覆盖 11 个 Klaviyo 站点：US、AU、CA、UK、FR、DE、IT、EU、ES、JP、CL。
 
-**在线看板**：<https://bluetti-edm-databoard.netlify.app/>
+**在线看板**：<https://bluetti-edm-dashboard.netlify.app/>
 
 分享或收藏时请带上统计周期参数，例如 `?period=30d` 或 `?start=2026-05-01&end=2026-05-31`。
 
-备用 GitHub Pages（含个人账号前缀，不推荐对外分享）：<https://17793689850qjq-cyber.github.io/bluetti-edm-databoard/>
+备用 GitHub Pages（含个人账号前缀，不推荐对外分享）：<https://17793689850qjq-cyber.github.io/bluetti-edm-dashboard/>
 
 > **勿用**：`https://edm.bluetti.com/`（DNS 未配置）、`https://17793689850qjq-cyber.github.io/bluetti-edm-flow-campaign-data/`（404）、旧 Netlify 地址 `bluetti-edm-campaign.netlify.app`
 
@@ -34,8 +34,38 @@ Klaviyo REST API  →  scripts/sync_dashboard.py  →  dashboard/data/dashboard-
 ```
 
 - **每日同步**：`.github/workflows/sync-dashboard.yml` 依次生成 7/30/60/90 天四套 JSON（`dashboard.json` 与 `dashboard-30d.json` 内容相同，默认 30 天）
-- **页面部署**：`.github/workflows/deploy-pages.yml`（`dashboard/` 目录变更时自动发布）
-- **页头区间选择**：预设切换加载对应 JSON；自定义范围需先通过 Actions 同步
+- **页面部署（Netlify，推荐）**：`.github/workflows/deploy-netlify.yml`（`dashboard/` 变更时自动发布到 <https://bluetti-edm-dashboard.netlify.app/>）
+- **页面部署（GitHub Pages 备用）**：`.github/workflows/deploy-pages.yml`
+- **页头区间选择**：预设（7/30/60/90 天）及上月、本月至今每日自动更新；自定义日期首次选择后看板自动触发后台同步，无需手动打开 GitHub Actions
+
+## Netlify 自动部署（GitHub Actions）
+
+在仓库 **Settings → Secrets and variables → Actions** 添加：
+
+| Secret | 值 |
+|--------|-----|
+| `NETLIFY_AUTH_TOKEN` | [Netlify User settings → Applications → Personal access tokens](https://app.netlify.com/user/applications#personal-access-tokens) 新建 token（Full access 或至少 Deploy） |
+| `NETLIFY_SITE_ID` | `f64cc0c9-dcf5-4028-a1d8-fdc1de1d61d2`（站点 `bluetti-edm-dashboard`） |
+
+在 Netlify 站点 **Site configuration → Environment variables** 添加（用于自定义日期自动同步）：
+
+| 变量 | 值 |
+|------|-----|
+| `GITHUB_PAT` | GitHub Personal Access Token（Classic），勾选 `repo` + `workflow`，用于调用 `workflow_dispatch` 触发 `sync-dashboard.yml` |
+| `GITHUB_REPO_OWNER` | 可选，默认 `17793689850qjq-cyber` |
+| `GITHUB_REPO_NAME` | 可选，默认 `bluetti-edm-dashboard` |
+
+一次性 CLI 设置（需已 `netlify login`）：
+
+```powershell
+netlify env:set GITHUB_PAT "ghp_xxxx" --context production --site bluetti-edm-dashboard
+```
+
+本地一键部署（需先 `netlify login` 或设置 `NETLIFY_AUTH_TOKEN`）：
+
+```powershell
+.\deploy-netlify.ps1
+```
 
 ## 本地预览（无需 API Key）
 
@@ -165,7 +195,7 @@ python sync_dashboard.py --start 2025-05-01 --end 2025-05-31
 
 ## 数据口径
 
-- 统计周期：页头可选近 7/30/60/90 天或自定义（需预同步 JSON）
+- 统计周期：页头可选近 7/30/60/90 天或自定义（自定义首次选择自动后台同步）
 - 转化 Metric：Placed Order
 - GMV：各站本位币，汇总按固定汇率折算 CNY
 - Campaign：已发送邮件
@@ -178,6 +208,16 @@ python sync_dashboard.py --start 2025-05-01 --end 2025-05-31
 3. **Flow 待关注** — Draft、Sunset 等待处理项
 4. **Playbook** — 成功/失败模式清单
 
-## 自定义区间限制（静态站点）
+## 自定义区间（自动同步）
 
-GitHub Pages 无法按需调用 Klaviyo API。自定义日期需先在 Actions 或本地运行 `sync_dashboard.py --start … --end …` 生成对应 JSON 后，看板才能加载该区间数据。
+预设区间（7 / 30 / 60 / 90 天）以及**上一个自然月**、**本月至今**由 GitHub Actions 每日 06:00 UTC 自动同步。
+
+选择页头自定义日期并点击「应用」时：
+
+1. 看板先尝试加载 `dashboard-custom-YYYY-MM-DD_YYYY-MM-DD.json`
+2. 若不存在，Netlify Function `trigger-sync` 自动调用 GitHub `workflow_dispatch` 拉取 Klaviyo 数据
+3. 页面显示「正在后台同步…」，每 30 秒轮询，数据就绪后自动展示（无需刷新）
+
+若自动触发失败，可点击「重试同步」；「GitHub 排查」仅供管理员查看 Actions 运行状态。
+
+本地手动同步（可选）：

@@ -8,13 +8,15 @@ let currentPeriod = { preset: "30d", start: null, end: null };
 
 const PERIOD_STORAGE_KEY = "bluetti-dashboard-period";
 const PRESET_DAYS = { "7d": 7, "30d": 30, "60d": 60, "90d": 90 };
-const GITHUB_REPO = "17793689850qjq-cyber/bluetti-edm-databoard";
+const GITHUB_REPO = "17793689850qjq-cyber/bluetti-edm-dashboard";
 const CUSTOM_POLL_INTERVAL_MS = 30000;
 const CUSTOM_POLL_MAX_MS = 600000;
+const TRIGGER_SYNC_URL = "/.netlify/functions/trigger-sync";
 
 let customPollTimer = null;
 let customPollStartedAt = 0;
 let customPollPeriod = null;
+let syncTriggeredKey = null;
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -189,10 +191,6 @@ function readUrlPeriod() {
   return null;
 }
 
-function openWorkflowDispatch(start, end) {
-  window.open(workflowDispatchUrl(start, end), "_blank", "noopener,noreferrer");
-}
-
 function syncPeriodUi(period) {
   document.querySelectorAll(".period-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.preset === period.preset);
@@ -225,14 +223,42 @@ function stopCustomPolling() {
   $("#custom-empty")?.classList.remove("syncing");
 }
 
-function updateCustomPollStatus(period, elapsedMs) {
+function updateCustomPollStatus(period, elapsedMs, { syncing = true } = {}) {
   const el = $("#custom-poll-status");
   if (!el) return;
   const mins = Math.floor(elapsedMs / 60000);
   const secs = Math.floor((elapsedMs % 60000) / 1000);
   const remainingMin = Math.max(0, Math.ceil((CUSTOM_POLL_MAX_MS - elapsedMs) / 60000));
-  el.textContent = `同步进行中 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 约 ${remainingMin} 分钟后超时`;
+  if (syncing) {
+    el.textContent = `正在后台同步 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 约 ${remainingMin} 分钟后超时 · 每 30 秒自动检测`;
+  } else {
+    el.textContent = `同步进行中 · ${period.start} ~ ${period.end} · 已等待 ${mins}:${String(secs).padStart(2, "0")} · 约 ${remainingMin} 分钟后超时`;
+  }
   el.classList.remove("hidden");
+}
+
+async function triggerRemoteSync(start, end) {
+  const url = `${TRIGGER_SYNC_URL}?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+  const res = await fetch(url, { method: "POST", cache: "no-store" });
+  let payload = {};
+  try {
+    payload = await res.json();
+  } catch (_) {
+    payload = {};
+  }
+  if (!res.ok || !payload.triggered) {
+    const msg = payload.error || payload.detail || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+  return payload;
+}
+
+async function ensureCustomSyncTriggered(period) {
+  const key = `${period.start}_${period.end}`;
+  if (syncTriggeredKey === key) return { triggered: true, already: true };
+  const result = await triggerRemoteSync(period.start, period.end);
+  syncTriggeredKey = key;
+  return result;
 }
 
 async function probeCustomData(period) {
@@ -246,37 +272,81 @@ async function probeCustomData(period) {
   return null;
 }
 
-function startCustomSyncPolling(period) {
+function startCustomSyncPolling(period, { autoTriggered = false, silent = false } = {}) {
   stopCustomPolling();
   customPollPeriod = { ...period };
   customPollStartedAt = Date.now();
-  showCustomEmpty(period, { polling: true });
+  if (!silent) {
+    showCustomEmpty(period, { polling: true, autoTriggered });
+  }
 
   const tick = async () => {
     const elapsed = Date.now() - customPollStartedAt;
-    updateCustomPollStatus(period, elapsed);
+    if (!silent) {
+      updateCustomPollStatus(period, elapsed, { syncing: autoTriggered });
+    }
     if (elapsed > CUSTOM_POLL_MAX_MS) {
       stopCustomPolling();
-      const el = $("#custom-poll-status");
-      if (el) {
-        el.textContent = "等待超时。可再次点击「自动同步」，或在 GitHub Actions 查看运行状态。";
+      if (!silent) {
+        const el = $("#custom-poll-status");
+        if (el) {
+          el.textContent =
+            "等待超时。数据可能仍在 GitHub Actions 中生成，请稍后再选同一日期范围，或使用下方「重试同步」。";
+        }
+        const retryBtn = $("#custom-auto-sync");
+        if (retryBtn) {
+          retryBtn.disabled = false;
+          retryBtn.textContent = "重试同步";
+        }
       }
       return;
     }
     const data = await probeCustomData(period);
     if (data) {
       stopCustomPolling();
-      DATA = data;
-      hideCustomEmpty();
-      $("#loading").classList.add("hidden");
-      refreshAllViews();
-      showSection($("#section-select").value);
-      showPeriodNotice(`自定义范围 ${period.start} ~ ${period.end} 已同步并自动加载。`, false);
+      if (silent) {
+        await applyPeriod(period, { silent: true, replaceHistory: true });
+      } else {
+        DATA = data;
+        hideCustomEmpty();
+        $("#loading").classList.add("hidden");
+        refreshAllViews();
+        showSection($("#section-select").value);
+        showPeriodNotice(`自定义范围 ${period.start} ~ ${period.end} 已同步并自动加载。`, false);
+      }
     }
   };
 
   tick();
   customPollTimer = setInterval(tick, CUSTOM_POLL_INTERVAL_MS);
+}
+
+async function beginCustomAutoSync(period, { silent = false } = {}) {
+  if (!silent) {
+    showCustomEmpty(period, { polling: true, autoTriggered: true, pending: true });
+    showPeriodNotice(`正在后台同步 ${period.start} ~ ${period.end}…`, false);
+  }
+  try {
+    await ensureCustomSyncTriggered(period);
+    startCustomSyncPolling(period, { autoTriggered: true, silent });
+    if (silent) {
+      showPeriodNotice(
+        `自定义范围 ${period.start} ~ ${period.end} 正在后台同步，就绪后将自动切换。`,
+        false
+      );
+    }
+  } catch (err) {
+    syncTriggeredKey = null;
+    if (silent) {
+      showPeriodNotice(`自定义范围同步未能启动：${err.message}`, true);
+    } else {
+      showCustomEmpty(period, { polling: false, syncError: err.message });
+      showPeriodNotice(
+        `无法自动触发同步：${err.message}。可点击「重试同步」，或稍后再试（上月 / 本月至今每日自动更新）。`,
+        true
+      );
+    }
+  }
 }
 
 function syncUrlPeriod(period, { replace = true } = {}) {
@@ -310,7 +380,7 @@ function hideCustomEmpty() {
   $("#custom-poll-status")?.classList.add("hidden");
 }
 
-function showCustomEmpty(period, { polling = false } = {}) {
+function showCustomEmpty(period, { polling = false, autoTriggered = false, pending = false, syncError = null } = {}) {
   hideAllViews();
   $("#error")?.classList.add("hidden");
   const el = $("#custom-empty");
@@ -320,15 +390,33 @@ function showCustomEmpty(period, { polling = false } = {}) {
   if (link) link.href = workflowDispatchUrl(period.start, period.end);
   const autoBtn = $("#custom-auto-sync");
   if (autoBtn) {
-    autoBtn.disabled = polling;
-    autoBtn.textContent = polling ? "同步中…" : "自动同步";
+    autoBtn.disabled = polling && !syncError;
+    if (pending) {
+      autoBtn.textContent = "正在触发同步…";
+    } else if (polling) {
+      autoBtn.textContent = "同步中…";
+    } else {
+      autoBtn.textContent = syncError ? "重试同步" : "重试同步";
+    }
     if (!autoBtn.dataset.bound) {
       autoBtn.dataset.bound = "1";
       autoBtn.addEventListener("click", () => {
         if (currentPeriod.preset !== "custom" || !currentPeriod.start || !currentPeriod.end) return;
-        openWorkflowDispatch(currentPeriod.start, currentPeriod.end);
-        startCustomSyncPolling(currentPeriod);
+        syncTriggeredKey = null;
+        beginCustomAutoSync(currentPeriod);
       });
+    }
+  }
+  const hint = $("#custom-empty-hint");
+  if (hint) {
+    if (syncError) {
+      hint.textContent = `自动同步失败：${syncError}。点击「重试同步」再试一次；GitHub 链接仅供排查。`;
+    } else if (polling || autoTriggered) {
+      hint.textContent =
+        "首次选择该日期范围时会自动在后台拉取 Klaviyo 数据，无需手动打开 GitHub。本页每 30 秒检测，就绪后自动展示。";
+    } else {
+      hint.textContent =
+        "选择自定义日期后会自动触发后台同步。预设区间（7 / 30 / 60 / 90 天）及上月、本月至今每日自动更新。";
     }
   }
   el.classList.toggle("syncing", polling);
@@ -339,8 +427,7 @@ function showCustomEmpty(period, { polling = false } = {}) {
 }
 
 function customMissingNotice(period) {
-  const wf = workflowDispatchUrl(period.start, period.end);
-  return `自定义范围 <strong>${period.start} ~ ${period.end}</strong> 尚未同步。<button type="button" class="link-btn" id="notice-auto-sync">一键自动同步</button> 或 <a href="${wf}" target="_blank" rel="noopener">在 GitHub Actions 手动运行</a>。`;
+  return `自定义范围 <strong>${period.start} ~ ${period.end}</strong> 尚未就绪，正在后台自动同步…`;
 }
 
 function showPeriodNotice(message, isError = false) {
@@ -970,9 +1057,8 @@ async function applyPeriod(period, { silent = false, fallbackOnCustomMissing = f
   } catch (err) {
     $("#loading").classList.add("hidden");
     if (period.preset === "custom") {
-      showCustomEmpty(period);
-      showPeriodNotice(customMissingNotice(period), true);
       if (fallbackOnCustomMissing) {
+        beginCustomAutoSync(period, { silent: true });
         try {
           const fallbackPeriod = { preset: "30d" };
           const { data } = await loadData(fallbackPeriod);
@@ -983,15 +1069,14 @@ async function applyPeriod(period, { silent = false, fallbackOnCustomMissing = f
           hideCustomEmpty();
           refreshAllViews();
           showSection($("#section-select").value);
-          showPeriodNotice(
-            `已加载近 30 天数据。${customMissingNotice(period)}`,
-            true
-          );
         } catch (fallbackErr) {
           const el = $("#error");
           el.textContent = fallbackErr.message;
           el.classList.remove("hidden");
         }
+      } else {
+        showPeriodNotice(customMissingNotice(period), false);
+        await beginCustomAutoSync(period);
       }
       return;
     }
@@ -1001,14 +1086,6 @@ async function applyPeriod(period, { silent = false, fallbackOnCustomMissing = f
   }
 }
 
-function bindNoticeAutoSync() {
-  $("#period-notice")?.addEventListener("click", (e) => {
-    if (e.target.id !== "notice-auto-sync") return;
-    if (currentPeriod.preset !== "custom" || !currentPeriod.start || !currentPeriod.end) return;
-    openWorkflowDispatch(currentPeriod.start, currentPeriod.end);
-    startCustomSyncPolling(currentPeriod);
-  });
-}
 
 function bindPeriodControls() {
   document.querySelectorAll(".period-btn").forEach((btn) => {
@@ -1052,7 +1129,6 @@ async function init() {
   try {
     showDomainHintIfNeeded();
     bindPeriodControls();
-    bindNoticeAutoSync();
     bindHistoryNavigation();
     bindFlowFilterHandlers();
     const urlPeriod = readUrlPeriod();

@@ -134,7 +134,39 @@
           <div class="chart-wrap"><canvas id="comparison-rates-chart" height="220"></canvas></div>
         </div>
       </div>
-      <div class="card">
+      <div id="comparison-engagement" class="comparison-engagement">
+        <h2 class="comparison-section-title">触达与互动指标</h2>
+        <p class="hint comparison-engagement-hint">发送量、打开率、点击率按 Campaign / Flow 分别统计；合计打开率/点击率为各自送达量加权。</p>
+        <div class="comparison-charts comparison-engagement-charts">
+          <div class="card comparison-chart-card">
+            <h3 class="comparison-chart-title">发送量对比</h3>
+            <div class="chart-wrap"><canvas id="comparison-delivered-chart" height="220"></canvas></div>
+          </div>
+          <div class="card comparison-chart-card">
+            <h3 class="comparison-chart-title">打开率 · 点击率</h3>
+            <div class="chart-wrap"><canvas id="comparison-engagement-rates-chart" height="220"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table id="comparison-engagement-table" class="data-table comparison-table">
+              <thead>
+                <tr>
+                  <th>指标</th>
+                  <th class="col-num">本期</th>
+                  <th class="col-num">环比期</th>
+                  <th class="col-num">环比变化</th>
+                  <th class="col-num">同比期</th>
+                  <th class="col-num">同比变化</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card comparison-gmv-card">
+        <h2 class="comparison-section-title">GMV 与转化率</h2>
         <div class="table-wrap">
           <table id="comparison-table" class="data-table comparison-table">
             <thead>

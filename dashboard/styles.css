@@ -946,6 +946,33 @@ body.drawer-open {
   padding-top: 0.35rem;
 }
 
+.comparison-section-title {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.comparison-engagement {
+  margin-bottom: 0.85rem;
+}
+
+.comparison-engagement-hint {
+  margin: -0.25rem 0 0.65rem;
+}
+
+.comparison-engagement-charts {
+  margin-bottom: 0.85rem;
+}
+
+.comparison-gmv-card .comparison-section-title {
+  padding: 0.85rem 1rem 0;
+}
+
+.comparison-gmv-card .table-wrap {
+  padding-top: 0.35rem;
+}
+
 @media (max-width: 900px) {
   .comparison-charts {
     grid-template-columns: 1fr;

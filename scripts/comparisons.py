@@ -31,6 +31,7 @@ def _aggregate_channel(rows: list[dict], channel: str) -> dict[str, Any]:
     conv = sum(r[channel]["conversions"] for r in rows)
     gmv_key = "campaignGmvCny" if channel == "campaign" else "flowGmvCny"
     return {
+        "delivered": delivered,
         "gmvCny": sum(r[gmv_key] for r in rows),
         "gmvLocal": sum(r[channel]["gmv"] for r in rows),
         "openRate": open_w / d,
@@ -39,25 +40,59 @@ def _aggregate_channel(rows: list[dict], channel: str) -> dict[str, Any]:
     }
 
 
-def _totals_snapshot(totals: dict) -> dict[str, Any]:
+def _engagement_totals_from_sites(rows: list[dict]) -> dict[str, Any]:
+    camp_d = sum(r["campaign"]["delivered"] for r in rows)
+    flow_d = sum(r["flow"]["delivered"] for r in rows)
+    total_d = camp_d + flow_d
+    d = total_d or 1
+    open_w = sum(
+        r["campaign"]["openRate"] * r["campaign"]["delivered"]
+        + r["flow"]["openRate"] * r["flow"]["delivered"]
+        for r in rows
+    )
+    click_w = sum(
+        r["campaign"]["clickRate"] * r["campaign"]["delivered"]
+        + r["flow"]["clickRate"] * r["flow"]["delivered"]
+        for r in rows
+    )
     return {
+        "delivered": total_d,
+        "campaignDelivered": camp_d,
+        "flowDelivered": flow_d,
+        "openRate": open_w / d,
+        "clickRate": click_w / d,
+    }
+
+
+def _totals_snapshot(totals: dict, sites: list[dict] | None = None) -> dict[str, Any]:
+    snap = {
         "gmvCny": totals.get("gmvCny", 0),
         "campaignCny": totals.get("campaignCny", 0),
         "flowCny": totals.get("flowCny", 0),
         "campaignShare": totals.get("campaignShare", 0),
         "flowShare": totals.get("flowShare", 0),
     }
+    if sites:
+        snap.update(_engagement_totals_from_sites(sites))
+    return snap
 
 
 def _site_totals_snapshot(row: dict) -> dict[str, Any]:
     total = row["totalGmvCny"] or 1
     c = row["campaign"]
     f = row["flow"]
+    delivered = c["delivered"] + f["delivered"]
+    d = delivered or 1
     return {
         "gmvLocal": c["gmv"] + f["gmv"],
         "gmvCny": row["totalGmvCny"],
         "campaignShare": row["campaignGmvCny"] / total,
         "flowShare": row["flowGmvCny"] / total,
+        "delivered": delivered,
+        "campaignDelivered": c["delivered"],
+        "flowDelivered": f["delivered"],
+        "openRate": (c["openRate"] * c["delivered"] + f["openRate"] * f["delivered"]) / d,
+        "clickRate": (c["clickRate"] * c["delivered"] + f["clickRate"] * f["delivered"]) / d,
     }
 
 
@@ -65,6 +100,7 @@ def _site_channel_snapshot(row: dict, channel: str) -> dict[str, Any]:
     block = row[channel]
     gmv_key = "campaignGmvCny" if channel == "campaign" else "flowGmvCny"
     return {
+        "delivered": block["delivered"],
         "gmvLocal": block["gmv"],
         "gmvCny": row[gmv_key],
         "openRate": block["openRate"],
@@ -114,11 +150,25 @@ GLOBAL_TOTALS_METRICS: list[tuple[str, str, str, bool]] = [
     ("flowShare", "Flow 占比", "rate", True),
 ]
 
+GLOBAL_TOTALS_ENGAGEMENT_METRICS: list[tuple[str, str, str, bool]] = [
+    ("delivered", "合计发送量", "count", True),
+    ("campaignDelivered", "Campaign 发送量", "count", True),
+    ("flowDelivered", "Flow 发送量", "count", True),
+    ("openRate", "合计打开率", "rate", True),
+    ("clickRate", "合计点击率", "rate", True),
+]
+
 GLOBAL_CHANNEL_METRICS: list[tuple[str, str, str, bool]] = [
     ("gmvCny", "GMV (CNY)", "cny", True),
     ("openRate", "打开率", "rate", True),
     ("clickRate", "点击率", "rate", True),
     ("convRate", "转化率", "rate", True),
+]
+
+GLOBAL_CHANNEL_ENGAGEMENT_METRICS: list[tuple[str, str, str, bool]] = [
+    ("delivered", "发送量", "count", True),
+    ("openRate", "打开率", "rate", True),
+    ("clickRate", "点击率", "rate", True),
 ]
 
 SITE_TOTALS_METRICS: list[tuple[str, str, str, bool]] = [
@@ -128,12 +178,26 @@ SITE_TOTALS_METRICS: list[tuple[str, str, str, bool]] = [
     ("flowShare", "Flow 占比", "rate", True),
 ]
 
+SITE_TOTALS_ENGAGEMENT_METRICS: list[tuple[str, str, str, bool]] = [
+    ("delivered", "合计发送量", "count", True),
+    ("campaignDelivered", "Campaign 发送量", "count", True),
+    ("flowDelivered", "Flow 发送量", "count", True),
+    ("openRate", "合计打开率", "rate", True),
+    ("clickRate", "合计点击率", "rate", True),
+]
+
 SITE_CHANNEL_METRICS: list[tuple[str, str, str, bool]] = [
     ("gmvLocal", "GMV (本位币)", "local", True),
     ("gmvCny", "GMV (CNY)", "cny", True),
     ("openRate", "打开率", "rate", True),
     ("clickRate", "点击率", "rate", True),
     ("convRate", "转化率", "rate", True),
+]
+
+SITE_CHANNEL_ENGAGEMENT_METRICS: list[tuple[str, str, str, bool]] = [
+    ("delivered", "发送量", "count", True),
+    ("openRate", "打开率", "rate", True),
+    ("clickRate", "点击率", "rate", True),
 ]
 
 
@@ -188,9 +252,13 @@ def build_comparisons(
     yoy_period: dict | None = None,
 ) -> dict[str, Any]:
     """Return comparisons block with global + per-site MoM/YoY metrics (Campaign / Flow split)."""
-    cur_totals = _totals_snapshot(current_totals)
-    mom_totals_snap = _totals_snapshot(mom_totals) if mom_totals else None
-    yoy_totals_snap = _totals_snapshot(yoy_totals) if yoy_totals else None
+    cur_totals = _totals_snapshot(current_totals, sites_current)
+    mom_totals_snap = (
+        _totals_snapshot(mom_totals, sites_mom) if mom_totals and sites_mom else None
+    )
+    yoy_totals_snap = (
+        _totals_snapshot(yoy_totals, sites_yoy) if yoy_totals and sites_yoy else None
+    )
 
     cur_camp = _aggregate_channel(sites_current, "campaign")
     cur_flow = _aggregate_channel(sites_current, "flow")
@@ -201,8 +269,12 @@ def build_comparisons(
 
     camp_defs = _prefix_labels(GLOBAL_CHANNEL_METRICS, "Campaign")
     flow_defs = _prefix_labels(GLOBAL_CHANNEL_METRICS, "Flow")
+    camp_eng_defs = _prefix_labels(GLOBAL_CHANNEL_ENGAGEMENT_METRICS, "Campaign")
+    flow_eng_defs = _prefix_labels(GLOBAL_CHANNEL_ENGAGEMENT_METRICS, "Flow")
     site_camp_defs = _prefix_labels(SITE_CHANNEL_METRICS, "Campaign")
     site_flow_defs = _prefix_labels(SITE_CHANNEL_METRICS, "Flow")
+    site_camp_eng_defs = _prefix_labels(SITE_CHANNEL_ENGAGEMENT_METRICS, "Campaign")
+    site_flow_eng_defs = _prefix_labels(SITE_CHANNEL_ENGAGEMENT_METRICS, "Flow")
 
     mom_by_site = {r["region"]: r for r in (sites_mom or [])}
     yoy_by_site = {r["region"]: r for r in (sites_yoy or [])}
@@ -220,6 +292,12 @@ def build_comparisons(
                 _site_totals_snapshot(yoy_row) if yoy_row else None,
                 SITE_TOTALS_METRICS,
             ),
+            "engagementTotals": _build_group(
+                _site_totals_snapshot(row),
+                _site_totals_snapshot(mom_row) if mom_row else None,
+                _site_totals_snapshot(yoy_row) if yoy_row else None,
+                SITE_TOTALS_ENGAGEMENT_METRICS,
+            ),
             "campaign": _build_group(
                 _site_channel_snapshot(row, "campaign"),
                 _site_channel_snapshot(mom_row, "campaign") if mom_row else None,
@@ -232,6 +310,18 @@ def build_comparisons(
                 _site_channel_snapshot(yoy_row, "flow") if yoy_row else None,
                 site_flow_defs,
             ),
+            "engagementCampaign": _build_group(
+                _site_channel_snapshot(row, "campaign"),
+                _site_channel_snapshot(mom_row, "campaign") if mom_row else None,
+                _site_channel_snapshot(yoy_row, "campaign") if yoy_row else None,
+                site_camp_eng_defs,
+            ),
+            "engagementFlow": _build_group(
+                _site_channel_snapshot(row, "flow"),
+                _site_channel_snapshot(mom_row, "flow") if mom_row else None,
+                _site_channel_snapshot(yoy_row, "flow") if yoy_row else None,
+                site_flow_eng_defs,
+            ),
         }
 
     return {
@@ -242,8 +332,13 @@ def build_comparisons(
         },
         "global": {
             "totals": _build_group(cur_totals, mom_totals_snap, yoy_totals_snap, GLOBAL_TOTALS_METRICS),
+            "engagementTotals": _build_group(
+                cur_totals, mom_totals_snap, yoy_totals_snap, GLOBAL_TOTALS_ENGAGEMENT_METRICS
+            ),
             "campaign": _build_group(cur_camp, mom_camp, yoy_camp, camp_defs),
             "flow": _build_group(cur_flow, mom_flow, yoy_flow, flow_defs),
+            "engagementCampaign": _build_group(cur_camp, mom_camp, yoy_camp, camp_eng_defs),
+            "engagementFlow": _build_group(cur_flow, mom_flow, yoy_flow, flow_eng_defs),
         },
         "sites": sites_out,
     }
@@ -279,6 +374,8 @@ def seed_comparison_snapshots(
         f = dict(row["flow"])
         c["gmv"] = round(c["gmv"] * factors.get("campaignGmv", factors["gmv"]), 2)
         f["gmv"] = round(f["gmv"] * factors.get("flowGmv", factors["gmv"]), 2)
+        c["delivered"] = max(0, int(c["delivered"] * factors.get("delivered", factors["gmv"])))
+        f["delivered"] = max(0, int(f["delivered"] * factors.get("delivered", factors["gmv"])))
         c["conversions"] = max(0, int(c["conversions"] * factors.get("convRate", 1)))
         f["conversions"] = max(0, int(f["conversions"] * factors.get("convRate", 1)))
         c["openRate"] = c["openRate"] * factors.get("openRate", 1)

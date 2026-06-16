@@ -23,6 +23,8 @@ let comparisonSite = "US";
 let comparisonHandlersBound = false;
 let comparisonGmvChart = null;
 let comparisonRatesChart = null;
+let comparisonDeliveredChart = null;
+let comparisonEngagementRatesChart = null;
 let flowYoYSite = "US";
 let flowYoYSort = { key: "curDelivered", asc: false };
 let flowYoYHandlersBound = false;
@@ -1020,8 +1022,47 @@ function renderPlaybook() {
   bindFlowInsightClicks($("#playbook-grid"));
 }
 
+const COMPARISON_CONV_KEYS = new Set(["gmvCny", "gmvLocal", "campaignCny", "flowCny", "campaignShare", "flowShare", "convRate"]);
+const COMPARISON_ENGAGEMENT_KEYS = new Set(["delivered", "campaignDelivered", "flowDelivered", "openRate", "clickRate"]);
+
+function filterComparisonMetrics(metrics, keys) {
+  return (metrics || []).filter((m) => keys.has(m.key));
+}
+
+function getEngagementBlock(block) {
+  if (!block) return null;
+  if (block.engagementTotals?.metrics?.length) {
+    return {
+      totals: block.engagementTotals,
+      campaign: block.engagementCampaign || block.campaign,
+      flow: block.engagementFlow || block.flow,
+    };
+  }
+  return {
+    totals: { metrics: filterComparisonMetrics(block.totals?.metrics, COMPARISON_ENGAGEMENT_KEYS) },
+    campaign: { metrics: filterComparisonMetrics(block.campaign?.metrics, COMPARISON_ENGAGEMENT_KEYS) },
+    flow: { metrics: filterComparisonMetrics(block.flow?.metrics, COMPARISON_ENGAGEMENT_KEYS) },
+  };
+}
+
+function getConvBlock(block) {
+  if (!block) return null;
+  return {
+    totals: { metrics: filterComparisonMetrics(block.totals?.metrics, COMPARISON_CONV_KEYS) },
+    campaign: { metrics: filterComparisonMetrics(block.campaign?.metrics, COMPARISON_CONV_KEYS) },
+    flow: { metrics: filterComparisonMetrics(block.flow?.metrics, COMPARISON_CONV_KEYS) },
+  };
+}
+
+function formatCount(n) {
+  if (n >= 1e6) return `${(n / 1e6).toFixed(2)}M`;
+  if (n >= 1e3) return `${Math.round(n / 1e3)}K`;
+  return (n ?? 0).toLocaleString();
+}
+
 function formatComparisonValue(metric, currency) {
   const v = metric.current;
+  if (metric.kind === "count") return formatCount(v);
   if (metric.kind === "rate") return pct(v, metric.key === "convRate" ? 2 : 1);
   if (metric.kind === "cny") return cny(v);
   if (metric.kind === "local") return localGmv(v, currency || "USD");
@@ -1032,6 +1073,7 @@ function formatComparisonValue(metric, currency) {
 
 function formatComparisonRef(value, metric, currency) {
   if (value == null) return "—";
+  if (metric.kind === "count") return formatCount(value);
   if (metric.kind === "rate") return pct(value, metric.key === "convRate" ? 2 : 1);
   if (metric.kind === "cny") return cny(value);
   if (metric.kind === "local") return localGmv(value, currency || "USD");
@@ -1139,6 +1181,14 @@ function destroyComparisonCharts() {
   if (comparisonRatesChart) {
     comparisonRatesChart.destroy();
     comparisonRatesChart = null;
+  }
+  if (comparisonDeliveredChart) {
+    comparisonDeliveredChart.destroy();
+    comparisonDeliveredChart = null;
+  }
+  if (comparisonEngagementRatesChart) {
+    comparisonEngagementRatesChart.destroy();
+    comparisonEngagementRatesChart = null;
   }
 }
 
@@ -1295,8 +1345,8 @@ function renderComparisonTable(metrics, currency) {
     .join("");
 }
 
-function renderComparisonTableSections(block, currency) {
-  const tbody = $("#comparison-table tbody");
+function renderComparisonTableSections(block, currency, tbodySel = "#comparison-table tbody") {
+  const tbody = $(tbodySel);
   if (!tbody) return;
   const totalsTitle = comparisonScope === "sites" ? "站点合计" : "全球合计";
   const sections = [
@@ -1320,6 +1370,167 @@ function renderComparisonTableSections(block, currency) {
     });
   });
   tbody.innerHTML = rows.join("");
+}
+
+function renderEngagementCharts(engBlock) {
+  const deliveredCtx = document.getElementById("comparison-delivered-chart");
+  const ratesCtx = document.getElementById("comparison-engagement-rates-chart");
+  if (!deliveredCtx || !ratesCtx || typeof Chart === "undefined") return;
+
+  if (comparisonDeliveredChart) {
+    comparisonDeliveredChart.destroy();
+    comparisonDeliveredChart = null;
+  }
+  if (comparisonEngagementRatesChart) {
+    comparisonEngagementRatesChart.destroy();
+    comparisonEngagementRatesChart = null;
+  }
+
+  const totals = engBlock.totals?.metrics || [];
+  const campaign = engBlock.campaign?.metrics || [];
+  const flow = engBlock.flow?.metrics || [];
+
+  const campD = metricByKey(totals, "campaignDelivered") || metricByKey(campaign, "delivered");
+  const flowD = metricByKey(totals, "flowDelivered") || metricByKey(flow, "delivered");
+  const totalD = metricByKey(totals, "delivered");
+
+  const campDel = periodValues(campD);
+  const flowDel = periodValues(flowD);
+  const totalDel = periodValues(totalD);
+
+  const chartFont = { family: "system-ui, sans-serif", size: 11 };
+  const gridColor = "rgba(128,128,128,0.15)";
+
+  comparisonDeliveredChart = new Chart(deliveredCtx, {
+    type: "bar",
+    data: {
+      labels: ["Campaign 发送量", "Flow 发送量", "合计发送量"],
+      datasets: [
+        {
+          label: "本期",
+          data: [campDel.current, flowDel.current, totalDel.current],
+          backgroundColor: "rgba(99, 102, 241, 0.75)",
+          borderRadius: 4,
+        },
+        {
+          label: "环比期",
+          data: [campDel.mom, flowDel.mom, totalDel.mom],
+          backgroundColor: "rgba(148, 163, 184, 0.7)",
+          borderRadius: 4,
+        },
+        {
+          label: "同比期",
+          data: [campDel.yoy, flowDel.yoy, totalDel.yoy],
+          backgroundColor: "rgba(100, 116, 139, 0.55)",
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "top", labels: { font: chartFont, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${formatCount(ctx.raw)}`,
+          },
+        },
+      },
+      scales: {
+        x: { ticks: { font: chartFont }, grid: { display: false } },
+        y: {
+          ticks: {
+            font: chartFont,
+            callback: (v) => formatCount(v),
+          },
+          grid: { color: gridColor },
+        },
+      },
+    },
+  });
+
+  const rateDefs = [
+    { key: "openRate", label: "Campaign 打开率", flow: false },
+    { key: "clickRate", label: "Campaign 点击率", flow: false },
+    { key: "openRate", label: "Flow 打开率", flow: true },
+    { key: "clickRate", label: "Flow 点击率", flow: true },
+  ];
+
+  const currentRates = rateDefs.map(({ key, flow: isFlow }) => {
+    const m = metricByKey(isFlow ? flow : campaign, key);
+    return (m?.current ?? 0) * 100;
+  });
+  const momRates = rateDefs.map(({ key, flow: isFlow }) => {
+    const m = metricByKey(isFlow ? flow : campaign, key);
+    return (m?.mom?.value ?? 0) * 100;
+  });
+  const yoyRates = rateDefs.map(({ key, flow: isFlow }) => {
+    const m = metricByKey(isFlow ? flow : campaign, key);
+    return (m?.yoy?.value ?? 0) * 100;
+  });
+
+  comparisonEngagementRatesChart = new Chart(ratesCtx, {
+    type: "bar",
+    data: {
+      labels: rateDefs.map((r) => r.label),
+      datasets: [
+        {
+          label: "本期",
+          data: currentRates,
+          backgroundColor: "rgba(14, 165, 233, 0.7)",
+          borderRadius: 3,
+        },
+        {
+          label: "环比期",
+          data: momRates,
+          backgroundColor: "rgba(148, 163, 184, 0.65)",
+          borderRadius: 3,
+        },
+        {
+          label: "同比期",
+          data: yoyRates,
+          backgroundColor: "rgba(100, 116, 139, 0.5)",
+          borderRadius: 3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "top", labels: { font: chartFont, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%`,
+          },
+        },
+      },
+      scales: {
+        x: { ticks: { font: chartFont, maxRotation: 45, minRotation: 0 }, grid: { display: false } },
+        y: {
+          ticks: { font: chartFont, callback: (v) => `${v}%` },
+          grid: { color: gridColor },
+        },
+      },
+    },
+  });
+}
+
+function renderEngagementComparison(block, currency) {
+  const engBlock = getEngagementBlock(block);
+  const section = $("#comparison-engagement");
+  const hasEngagement =
+    (engBlock.totals?.metrics?.length || 0) +
+      (engBlock.campaign?.metrics?.length || 0) +
+      (engBlock.flow?.metrics?.length || 0) >
+    0;
+
+  section?.classList.toggle("hidden", !hasEngagement);
+  if (!hasEngagement) return;
+
+  renderEngagementCharts(engBlock);
+  renderComparisonTableSections(engBlock, currency, "#comparison-engagement-table tbody");
 }
 
 function setupComparisonSiteSelect() {
@@ -1363,6 +1574,7 @@ function renderComparison() {
   const emptyEl = $("#comparison-empty");
   const tableWrap = $("#comparison-table")?.closest(".card");
   const chartsWrap = $("#comparison-charts");
+  const engagementWrap = $("#comparison-engagement");
   const siteFilter = $("#comparison-site-filter-wrap");
 
   const rawBlock = getComparisonScopeBlock(comp);
@@ -1376,6 +1588,7 @@ function renderComparison() {
     }
     tableWrap?.classList.add("hidden");
     chartsWrap?.classList.add("hidden");
+    engagementWrap?.classList.add("hidden");
     siteFilter?.classList.add("hidden");
     $("#comparison-period-labels").innerHTML = "";
     destroyComparisonCharts();
@@ -1399,7 +1612,8 @@ function renderComparison() {
   }
 
   renderComparisonCharts(block, currency);
-  renderComparisonTableSections(block, currency);
+  renderEngagementComparison(block, currency);
+  renderComparisonTableSections(getConvBlock(block), currency);
   renderFlowYoYTable();
 }
 

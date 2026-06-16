@@ -53,7 +53,7 @@ Klaviyo REST API  →  scripts/sync_dashboard.py  →  dashboard/data/dashboard-
 |------|-----|
 | `GITHUB_PAT` | GitHub Personal Access Token（Classic），勾选 `repo` + `workflow`，用于调用 `workflow_dispatch` 触发 `sync-dashboard.yml` |
 | `GITHUB_REPO_OWNER` | 可选，默认 `17793689850qjq-cyber` |
-| `GITHUB_REPO_NAME` | 可选，默认 `bluetti-edm-dashboard` |
+| `GITHUB_REPO_NAME` | 可选，默认 `bluetti-edm-databoard` |
 
 一次性 CLI 设置（需已 `netlify login`）：
 

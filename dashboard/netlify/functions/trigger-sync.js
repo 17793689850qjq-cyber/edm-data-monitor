@@ -1,5 +1,5 @@
 const DEFAULT_OWNER = "17793689850qjq-cyber";
-const DEFAULT_REPO = "bluetti-edm-dashboard";
+const DEFAULT_REPO = "bluetti-edm-databoard";
 const WORKFLOW_FILE = "sync-dashboard.yml";
 const DEFAULT_REF = "main";
 
@@ -33,6 +33,29 @@ function parseDates(event) {
 
 function isValidDate(s) {
   return typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+
+function customDataPath(start, end) {
+  return `/data/dashboard-custom-${start}_${end}.json`;
+}
+
+function hasComparisonData(data) {
+  const metrics = data?.comparisons?.global?.totals?.metrics;
+  return Array.isArray(metrics) && metrics.length > 0;
+}
+
+async function probeCustomDashboard(host, start, end) {
+  const proto = host?.includes("localhost") ? "http" : "https";
+  const base = host ? `${proto}://${host}` : "";
+  const url = `${base}${customDataPath(start, end)}`;
+  try {
+    const res = await fetch(url, { method: "GET", cache: "no-store" });
+    if (!res.ok) return { exists: false, complete: false, data: null };
+    const data = await res.json();
+    return { exists: true, complete: hasComparisonData(data), data };
+  } catch (_) {
+    return { exists: false, complete: false, data: null };
+  }
 }
 
 exports.handler = async (event) => {

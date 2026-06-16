@@ -107,10 +107,27 @@ jobs:
     if: needs.sync.outputs.data_changed == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Netlify deploy workflow
+      - name: Trigger Netlify production deploy
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$NETLIFY_BUILD_HOOK" ]; then
+            echo "Triggering Netlify via build hook…"
+            curl -fsS -X POST -d {} "$NETLIFY_BUILD_HOOK"
+            exit 0
+          fi
+          echo "NETLIFY_BUILD_HOOK not set; will dispatch deploy-netlify.yml"
+
+      - name: Trigger deploy-netlify workflow (when no build hook)
         uses: actions/github-script@v7
+        env:
+          HAS_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK != '' }}
         with:
           script: |
+            if (process.env.HAS_BUILD_HOOK === "true") {
+              core.info("Skipped workflow dispatch; build hook was used");
+              return;
+            }
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,

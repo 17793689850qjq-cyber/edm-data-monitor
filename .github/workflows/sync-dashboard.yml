@@ -65,14 +65,31 @@ jobs:
           sync_custom_ranges() {
             LAST_MONTH_START=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m-%d)
             LAST_MONTH_END=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m-%d)
-            MTD_START=$(date -u +%Y-%m-01)
+            MTD_START=$(date -u +%Y-%m-%d | sed 's/-[0-9][0-9]$/-01/')
             MTD_END=$(date -u +%Y-%m-%d)
-            echo "Custom range (with MoM/YoY + flowYoY): last month ${LAST_MONTH_START} .. ${LAST_MONTH_END}"
-            python sync_dashboard.py --start "${LAST_MONTH_START}" --end "${LAST_MONTH_END}"
+            echo "Custom range (MoM/YoY, skip flowYoY for speed): last month ${LAST_MONTH_START} .. ${LAST_MONTH_END}"
+            python sync_dashboard.py --start "${LAST_MONTH_START}" --end "${LAST_MONTH_END}" --skip-flow-yoy
             if [ "${MTD_START}" != "${LAST_MONTH_START}" ] || [ "${MTD_END}" != "${LAST_MONTH_END}" ]; then
-              echo "Custom range (with MoM/YoY + flowYoY): month-to-date ${MTD_START} .. ${MTD_END}"
-              python sync_dashboard.py --start "${MTD_START}" --end "${MTD_END}"
+              echo "Custom range (MoM/YoY, skip flowYoY): month-to-date ${MTD_START} .. ${MTD_END}"
+              python sync_dashboard.py --start "${MTD_START}" --end "${MTD_END}" --skip-flow-yoy
             fi
+          }
+
+          sync_ytd_calendar_months() {
+            YEAR=$(date -u +%Y)
+            CUR_MONTH=$(date -u +%m)
+            CUR_MONTH=$((10#$CUR_MONTH))
+            TODAY=$(date -u +%Y-%m-%d)
+            for m in $(seq 1 $CUR_MONTH); do
+              START=$(date -u -d "${YEAR}-$(printf '%02d' $m)-01" +%Y-%m-%d)
+              if [ "$m" -eq "$CUR_MONTH" ]; then
+                END="$TODAY"
+              else
+                END=$(date -u -d "${START} +1 month -1 day" +%Y-%m-%d)
+              fi
+              echo "YTD calendar month ${START} .. ${END} (skip flowYoY)"
+              python sync_dashboard.py --start "${START}" --end "${END}" --skip-flow-yoy
+            done
           }
 
           if [ -n "${{ inputs.start_date }}" ] && [ -n "${{ inputs.end_date }}" ]; then
@@ -85,6 +102,7 @@ jobs:
               python sync_dashboard.py --days "$d"
             done
             sync_custom_ranges
+            sync_ytd_calendar_months
           fi
 
       - name: Commit updated dashboard JSON

@@ -44,6 +44,14 @@ function hasComparisonData(data) {
   return Array.isArray(metrics) && metrics.length > 0;
 }
 
+function dataIsFreshEnough(data) {
+  const raw = data?.meta?.updatedAt;
+  if (!raw) return false;
+  const ts = Date.parse(raw);
+  if (!Number.isFinite(ts)) return false;
+  return Date.now() - ts < 24 * 60 * 60 * 1000;
+}
+
 async function probeCustomDashboard(host, start, end) {
   const proto = host?.includes("localhost") ? "http" : "https";
   const base = host ? `${proto}://${host}` : "";
@@ -76,6 +84,17 @@ exports.handler = async (event) => {
 
   const host = event.headers?.host || event.headers?.["x-forwarded-host"];
   const probe = await probeCustomDashboard(host, start, end);
+  if (probe.complete && dataIsFreshEnough(probe.data)) {
+    return json(200, {
+      triggered: false,
+      alreadyExists: true,
+      complete: true,
+      fresh: true,
+      start,
+      end,
+      message: "该日期范围数据已在站点上且未过期，无需触发同步。",
+    });
+  }
   if (probe.complete) {
     return json(200, {
       triggered: false,

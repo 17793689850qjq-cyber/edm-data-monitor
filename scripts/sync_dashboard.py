@@ -5,12 +5,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import sys
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Klaviyo Reporting API: stay under burst limits; 3 parallel sites is safe in practice.
+SITE_WORKERS = max(1, int(os.environ.get("KLAVIYO_SITE_WORKERS", "3")))
+API_THROTTLE_SEC = float(os.environ.get("KLAVIYO_API_THROTTLE_SEC", "0.5"))
 
 from klaviyo_config import (
     API_REVISION,
@@ -63,7 +70,7 @@ class KlaviyoClient:
         self.api_key = api_key
         self.timeframe = timeframe
 
-    def _request(self, method: str, path: str, body: dict | None = None) -> dict:
+    def _request(self, method: str, path: str, body: dict | None = None, *, retries: int = 6) -> dict:
         url = f"{self.BASE}{path}"
         data = json.dumps(body).encode("utf-8") if body is not None else None
         req = urllib.request.Request(
@@ -82,6 +89,14 @@ class KlaviyoClient:
                 return json.loads(resp.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
             detail = e.read().decode("utf-8", errors="replace")
+            if e.code == 429 and retries > 0:
+                wait = 12
+                m = re.search(r"Expected available in (\d+)", detail)
+                if m:
+                    wait = int(m.group(1)) + 1
+                print(f"Throttle 429 on {path}; retry in {wait}s ({retries} left)", file=sys.stderr)
+                time.sleep(wait)
+                return self._request(method, path, body, retries=retries - 1)
             raise RuntimeError(f"HTTP {e.code} {path}: {detail[:500]}") from e
 
     def resolve_placed_order_metric(self) -> str:
@@ -250,10 +265,10 @@ def load_seed_why() -> dict:
 def sync_region(region: RegionConfig, seed_why: dict, client: KlaviyoClient, period_label: str) -> dict:
     cache = EntityCache(client)
     metric_id = region.metric_id or client.resolve_placed_order_metric()
-    time.sleep(1)
+    time.sleep(API_THROTTLE_SEC)
 
     camp_rows = client.campaign_report(metric_id)
-    time.sleep(1)
+    time.sleep(API_THROTTLE_SEC)
     flow_rows = client.flow_report(metric_id)
 
     campaigns: list[tuple] = []
@@ -316,9 +331,9 @@ def sync_region(region: RegionConfig, seed_why: dict, client: KlaviyoClient, per
 def sync_region_totals(region: RegionConfig, client: KlaviyoClient) -> dict:
     """Lightweight region sync for comparison periods (aggregates only)."""
     metric_id = region.metric_id or client.resolve_placed_order_metric()
-    time.sleep(1)
+    time.sleep(API_THROTTLE_SEC)
     camp_rows = client.campaign_report(metric_id)
-    time.sleep(1)
+    time.sleep(API_THROTTLE_SEC)
     flow_rows = client.flow_report(metric_id)
     camp_agg = agg_metrics(camp_rows) if camp_rows else _empty_metrics()
     flow_agg = agg_metrics(flow_rows) if flow_rows else _empty_metrics()
@@ -338,19 +353,27 @@ def sync_region_totals(region: RegionConfig, client: KlaviyoClient) -> dict:
 def fetch_comparison_rows(timeframe: dict, label: str) -> tuple[list[dict], list[str]]:
     rows: list[dict] = []
     errors: list[str] = []
-    for region in REGIONS:
-        key = api_key_for(region)
-        if not key:
-            continue
+    regions = [r for r in REGIONS if api_key_for(r)]
+
+    def _one(region: RegionConfig) -> tuple[dict | None, str | None]:
         try:
-            client = KlaviyoClient(key, timeframe)
+            client = KlaviyoClient(api_key_for(region), timeframe)
             data = sync_region_totals(region, client)
-            rows.append(data)
             print(f"OK {region.code} ({label})", file=sys.stderr)
+            return data, None
         except Exception as e:
             msg = f"{region.code} [{label}]: {e}"
-            errors.append(msg)
             print(f"SKIP {msg}", file=sys.stderr)
+            return None, msg
+
+    with ThreadPoolExecutor(max_workers=SITE_WORKERS) as pool:
+        futures = {pool.submit(_one, r): r for r in regions}
+        for fut in as_completed(futures):
+            data, err = fut.result()
+            if data:
+                rows.append(data)
+            if err:
+                errors.append(err)
     rows.sort(key=lambda r: SITE_ORDER.index(r["region"]) if r["region"] in SITE_ORDER else 99)
     return rows, errors
 
@@ -391,6 +414,13 @@ def totals_from_rows(rows: list[dict]) -> dict:
 FLOW_YOY_TOP_N = 50
 FLOW_YOY_PRESETS = {"30d", "custom"}
 
+# Per custom range with comparisons (11 sites, metric_id preset — no /metrics/ resolve):
+#   main  11×(campaign+flow) = 22
+#   MoM   11×(campaign+flow) = 22
+#   YoY   11×(campaign+flow) = 22
+#   flowYoY 11×(flow×2)      = 22  → 88 report POSTs + entity-cache GETs (campaign names/subjects)
+API_CALLS_PER_SITE_FULL = 8  # campaign+flow main + MoM×2 + YoY×2 + flowYoY×2
+
 
 def fetch_region_flow_buckets(region: RegionConfig, timeframe: dict, label: str) -> dict[str, dict] | None:
     key = api_key_for(region)
@@ -400,7 +430,7 @@ def fetch_region_flow_buckets(region: RegionConfig, timeframe: dict, label: str)
         client = KlaviyoClient(key, timeframe)
         cache = EntityCache(client)
         metric_id = region.metric_id or client.resolve_placed_order_metric()
-        time.sleep(1)
+        time.sleep(API_THROTTLE_SEC)
         flow_rows = client.flow_report(metric_id)
         buckets = aggregate_by_flow_id(flow_rows, cache)
         print(f"OK {region.code} flow YoY [{label}] ({len(buckets)} flows)", file=sys.stderr)
@@ -417,8 +447,11 @@ def attach_flow_yoy(
     *,
     min_delivered: int = MIN_DELIVERED,
     top_n: int = FLOW_YOY_TOP_N,
+    enabled: bool = True,
 ) -> dict:
     """Fetch per-flow current vs YoY rows for 30d preset and custom date ranges."""
+    if not enabled:
+        return comparisons
     preset = period.get("preset")
     if preset not in FLOW_YOY_PRESETS:
         return comparisons
@@ -427,17 +460,14 @@ def attach_flow_yoy(
     yoy_tf = klaviyo_timeframe(start=ranges["yoy"]["start"], end=ranges["yoy"]["end"])
     sites_out: dict[str, list[dict]] = {}
     errors: list[str] = []
+    regions = [r for r in REGIONS if api_key_for(r)]
 
-    for region in REGIONS:
-        key = api_key_for(region)
-        if not key:
-            continue
+    def _one(region: RegionConfig) -> tuple[str, list[dict] | None, str | None]:
         cur_buckets = fetch_region_flow_buckets(region, current_timeframe, "current")
-        time.sleep(1)
+        time.sleep(API_THROTTLE_SEC)
         yoy_buckets = fetch_region_flow_buckets(region, yoy_tf, "yoy")
         if cur_buckets is None and yoy_buckets is None:
-            errors.append(f"{region.code}: flow YoY fetch failed")
-            continue
+            return region.code, None, f"{region.code}: flow YoY fetch failed"
         rows = compare_flows_dashboard(
             cur_buckets or {},
             yoy_buckets or {},
@@ -445,8 +475,16 @@ def attach_flow_yoy(
             min_delivered=min_delivered,
             top_n=top_n,
         )
-        if rows:
-            sites_out[region.code] = rows
+        return region.code, rows or None, None
+
+    with ThreadPoolExecutor(max_workers=SITE_WORKERS) as pool:
+        futures = {pool.submit(_one, r): r for r in regions}
+        for fut in as_completed(futures):
+            code, rows, err = fut.result()
+            if rows:
+                sites_out[code] = rows
+            if err:
+                errors.append(err)
 
     if sites_out:
         comparisons["flowYoY"] = {
@@ -462,7 +500,13 @@ def attach_flow_yoy(
     return comparisons
 
 
-def attach_comparisons(dashboard: dict, period: dict, *, enabled: bool = True) -> dict:
+def attach_comparisons(
+    dashboard: dict,
+    period: dict,
+    *,
+    enabled: bool = True,
+    skip_flow_yoy: bool = False,
+) -> dict:
     if not enabled:
         return dashboard
     ranges = comparison_periods(period)
@@ -487,8 +531,9 @@ def attach_comparisons(dashboard: dict, period: dict, *, enabled: bool = True) -
         yoy_period=ranges["yoy"],
     )
     current_tf = dashboard.get("meta", {}).get("timeframe") or klaviyo_timeframe(days=period.get("days"))
-    print("Fetching per-flow YoY comparison data…", file=sys.stderr)
-    attach_flow_yoy(comparisons, period, current_tf)
+    if not skip_flow_yoy:
+        print("Fetching per-flow YoY comparison data…", file=sys.stderr)
+    attach_flow_yoy(comparisons, period, current_tf, enabled=not skip_flow_yoy)
     dashboard["comparisons"] = comparisons
     if mom_errors or yoy_errors:
         dashboard["meta"].setdefault("errors", [])
@@ -507,27 +552,37 @@ def build_dashboard(timeframe: dict, period: dict) -> dict:
     seed_why = load_seed_why()
     period_label = period["label"]
 
-    for region in REGIONS:
-        key = api_key_for(region)
-        if not key:
-            errors.append(f"{region.code}: missing API key env {region.api_key_env}")
-            continue
+    regions = [r for r in REGIONS if api_key_for(r)]
+    missing = [r for r in REGIONS if not api_key_for(r)]
+    for region in missing:
+        errors.append(f"{region.code}: missing API key env {region.api_key_env}")
+
+    def _sync_one(region: RegionConfig) -> tuple[dict | None, str | None]:
         try:
-            client = KlaviyoClient(key, timeframe)
+            client = KlaviyoClient(api_key_for(region), timeframe)
             data = sync_region(region, seed_why, client, period_label)
             data["totalGmvCny"] = data["campaignGmvCny"] + data["flowGmvCny"]
+            print(f"OK {region.code}", file=sys.stderr)
+            return data, None
+        except Exception as e:
+            msg = f"{region.code}: {e}"
+            print(f"SKIP {msg}", file=sys.stderr)
+            return None, msg
+
+    with ThreadPoolExecutor(max_workers=SITE_WORKERS) as pool:
+        futures = {pool.submit(_sync_one, r): r for r in regions}
+        for fut in as_completed(futures):
+            data, err = fut.result()
+            if err:
+                errors.append(err)
+                continue
             rows.append({k: data[k] for k in ("region", "currency", "campaign", "flow", "campaignGmvCny", "flowGmvCny", "totalGmvCny")})
-            site_why[region.code] = data["siteWhy"]
-            site_playbook[region.code] = data["sitePlaybook"]
+            site_why[data["region"]] = data["siteWhy"]
+            site_playbook[data["region"]] = data["sitePlaybook"]
             flow_alerts.extend(data["flowAlerts"])
             for item in data["flowInsights"]:
                 flow_insights[item["id"]] = item
                 flow_index.append(item)
-            print(f"OK {region.code}", file=sys.stderr)
-        except Exception as e:
-            msg = f"{region.code}: {e}"
-            errors.append(msg)
-            print(f"SKIP {msg}", file=sys.stderr)
 
     rows.sort(key=lambda r: SITE_ORDER.index(r["region"]) if r["region"] in SITE_ORDER else 99)
 
@@ -585,6 +640,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--end", help="Custom range end YYYY-MM-DD")
     p.add_argument("--out", help="Output path (default: dashboard/data/<period>.json)")
     p.add_argument("--skip-comparisons", action="store_true", help="Skip MoM/YoY API fetches")
+    p.add_argument(
+        "--skip-flow-yoy",
+        action="store_true",
+        help="Skip per-flow YoY table (saves ~22 API calls + ~2 min; MoM/YoY totals still included)",
+    )
     return p.parse_args(argv)
 
 
@@ -622,8 +682,14 @@ def main(argv: list[str] | None = None) -> int:
 
     with_comparisons = not args.skip_comparisons
     if with_comparisons:
-        print("Fetching MoM / YoY comparison data…", file=sys.stderr)
-        attach_comparisons(dashboard, period, enabled=True)
+        site_n = dashboard["meta"]["siteCount"]
+        est_calls = site_n * API_CALLS_PER_SITE_FULL
+        print(
+            f"Fetching MoM / YoY comparison data (~{est_calls} report calls, "
+            f"{SITE_WORKERS} parallel sites)…",
+            file=sys.stderr,
+        )
+        attach_comparisons(dashboard, period, enabled=True, skip_flow_yoy=args.skip_flow_yoy)
 
     payload = json.dumps(dashboard, ensure_ascii=False, indent=2)
     targets = [out_path] if args.out else [DATA_DIR / n for n in dashboard_filenames(period)]

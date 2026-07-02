@@ -55,6 +55,15 @@ function Get-CustomRanges {
             Label = "month to date"
         }
     }
+    for ($m = 1; $m -le $today.Month; $m++) {
+        $start = [DateTime]::new($today.Year, $m, 1)
+        $end = if ($m -eq $today.Month) { $today } else { $start.AddMonths(1).AddDays(-1) }
+        $ranges += @{
+            Start = $start.ToString("yyyy-MM-dd")
+            End = $end.ToString("yyyy-MM-dd")
+            Label = "YTD month $m"
+        }
+    }
     return $ranges
 }
 
@@ -62,7 +71,7 @@ Push-Location (Join-Path $Root "scripts")
 try {
     foreach ($range in Get-CustomRanges) {
         Write-Host "Syncing $($range.Label): $($range.Start) .. $($range.End)"
-        python sync_dashboard.py --start $range.Start --end $range.End
+        python sync_dashboard.py --start $range.Start --end $range.End --skip-flow-yoy
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     }
 } finally {
